@@ -1,3 +1,4 @@
+import ScaleOnExit from '@/effects/ScaleOnExit';
 import ScrambleText from '@/effects/ScrambleText';
 import Section from '@/layout/Section';
 import dynamic from 'next/dynamic';
@@ -9,10 +10,12 @@ const Scene = dynamic(() => import("@/3D/Scene"), {
 });
 function Landing() {
   return (
-    <div className='h-svh w-full relative  bg-emerald-100 fle items-center justify-center'>
+    <div className='h-screen w-full relative  bg-emerald-100 fle items-center justify-center'>
+      <ScaleOnExit className={"h-full w-full"}>
+
         <img src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' />
         <Image fill src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' />
-<Scene image="/images/red1.jpg" className='absolute top-0 left-0 w-full h-full' />
+{/* <Scene image="/images/red1.jpg" className='absolute top-0 left-0 w-full h-full' /> */}
       <Section className={"relative h-full w-full"}>
 
 <div className='absolute inset-0 flex items-end pb-6'>
@@ -33,6 +36,7 @@ function Landing() {
         </h1>
 </div>
       </Section>
+      </ScaleOnExit>
     </div>
   )
 }

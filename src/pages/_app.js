@@ -16,6 +16,7 @@ import Head from 'next/head';
 import SmoothScroll from '@/providers/Lenis';
 import Header from '../components/Header/index';
 import { customEase1 } from '../../data';
+import PageTransition from '@/effects/PageTransition';
 
 const Sans = DM_Sans({
   subsets: ["latin"],
@@ -75,83 +76,7 @@ const [pageName,setPageName]= useState(router.pathname)
     }
     // setPageName(router.pathname.replace('/',''))
   }, [router.events]);
-   const svgRef=useRef(null)
-    const inView= useInView(svgRef,{once:false})
-      const columns={
-      initial:{}
-  ,
-       enter:{
-        transition: {
-          // duration:1.2,
-          // delayChildren:2, // 👈 wait before starting
-          staggerChildren:.035,  
-              // 👈 delay between items
-        },
-      },
-      exit:{
-         transition: {
-          staggerDirection:-1,
-          // delayChildren:0.7, // 👈 wait before starting
-          staggerChildren:.035,  
-          // staggerChildren:0.1,  
-        },
-      },
-    }
-    const scaleParentDiv={
-     initial:{
-      scale:1.2,
-         opacity:0.4,
-     },
-       enter:{
-         scale:1,
-         opacity:1,
-         transition: {
-           duration:.8,
-           ease:"easeInOut",
-        },
-      },
-      exit:{
-         scale:1.2,
-         opacity:0.4,
-         transition: {
-          delay:.3,
-           duration:.5,
-           ease:"easeInOut",
-          //  ease:customEase1,
-           scale:{
-            delay:0,
-            duration:.8 ,
-          ease:"easeInOut",
-          // ease:customEase1,
-         }
-        },
-      },
-    }
-    const oneColumn={
-      initial:(i)=>({
-        scaleX: 1,
-        transformOrigin:'right',
-  
-      }),
-       enter:(i)=>({
-        // y:0,
-        // opacity:1,
-        // clipPath:'inset(0 0 0 0)',
-            scaleX: 0,
-            transformOrigin:'right',
-            transition:{
-              duration:.6
-            }
-      }),
-      exit:(i)=>({
-             scaleX: 1,
-             transformOrigin:'right',
-             transition:{
-              duration:.4
-            }
-      }),
-    }
-    const as=[1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9]
+   
   return (
     <SmoothScroll>
     <AnimatePresence
@@ -163,30 +88,11 @@ const [pageName,setPageName]= useState(router.pathname)
         className={`overflow-hidden ${Sans.variable} ${custom.variable} ${custom2.variable}`}
 
       >
-                   <div className='fixed top left-0 w-full h-full bg-purple600 z-preloader pointer-events-none'>
-       <motion.div className='flex gap-0 w-full h-full' ref={svgRef}
-        variants={columns} initial='initial' exit='exit' animate={'enter'}>
-   {as.map((_, index) => {
-    return (
-      <motion.div key={index} className='w-[10%] bg-white h-full origin-righ ' variants={oneColumn}>
-        {/* dd */}
-      </motion.div>
-    )
-   })}
-</motion.div>
-     </div>
+     <PageTransition/>
 
-         <motion.div
-         className='overflow-hidden'
-         variants={scaleParentDiv} 
-         initial='initial'
-          exit='exit' 
-          animate={'enter'}
-          >
-             <Header preLoaderOut={true}/>
+        <Header preLoaderOut={true}/>
         <Component {...pageProps} />     
         {/* <Footer /> */}
-          </motion.div>
 
 
       </div>
