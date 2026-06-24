@@ -1,7 +1,7 @@
-import FeaturedProducts from "./components/FeaturedProducts";
-import InfiniteCanvasDemo from "./components/InfiniteCanvas";
-import Landing from "./components/Landing";
-import ProductCard from "./components/TestStore";
+import FeaturedProducts from "../components/FeaturedProducts";
+import InfiniteCanvasDemo from "../components/InfiniteCanvas";
+import Landing from "../components/Landing";
+import ProductCard from "../components/TestStore";
 
 export default function Home() {
   return (

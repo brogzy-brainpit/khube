@@ -14,7 +14,7 @@ import Script from "next/script";
 import Head from 'next/head';
 // import Header from './components/Header';
 import SmoothScroll from '@/providers/Lenis';
-import Header from './components/Header/index';
+import Header from '../components/Header/index';
 import { customEase1 } from '../../data';
 
 const Sans = DM_Sans({
