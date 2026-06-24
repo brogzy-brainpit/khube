@@ -2,6 +2,7 @@ import styles from './style.module.scss';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { slide, scale } from '../../animation';
+import ScrambleText from '@/effects/ScrambleText';
 
 export default function Index({data, isActive,isActiv,setIsActive, setSelectedIndicator}) {
   
@@ -21,12 +22,14 @@ export default function Index({data, isActive,isActiv,setIsActive, setSelectedIn
         <motion.div 
           variants={scale} 
           animate={isActive ? "open" : "closed"}
-          className={'w-[10px] h-[10px] bg-brand-text rounded-[50%] absolute left-[-30px]'}>
+          className={'w-[10px] h-[10px] bg-brand-white rounded-[50%] absolute left-[-30px]'}>
+           
         </motion.div>
         <Link onClick={()=>{setIsActive(!isActiv)}}
-         className='font-custom-condensed text-footer leading-[1.1]  text-brand-text dartext-brand-text-dark duration-500 transition-colors'
+         className='font-custom text-footer leading-[1.1]  text-brand-white'
           href={href}>
-            {title}</Link>
+            <ScrambleText duration={.6} hoverEffect delay={.3} text={title} />
+            </Link>
       </motion.div>
     )
 }

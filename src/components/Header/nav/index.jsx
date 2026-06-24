@@ -28,13 +28,13 @@ export default function Index({setIsActive,isActive}) {
       animate="enter" 
       exit="exit" 
 
-      className={`${styles.menu} w-full max-w-full z-[3] h-[100vh] fixed right-0 top-0 text-brand-text dark:text-brand-text-dark duration-500 transition-colors bg-brand-secondary/80 backdrop-blur-md`}
+      className={`${styles.menu} w-full max-w-full z-[3] h-[100vh] fixed right-0 top-0 text-brand-white dark:text-brand-white-dark duration-500 transition-colors bg-brand-secondary/80 backdrop-blur-md`}
       >
        <div className={`${styles.body} py-[60px] px-4 container mx-auto`}>
             <div onMouseLeave={() => {setSelectedIndicator(pathname)}} className={styles.nav}>
                
-                    <div className=' flex justify-between items-center uppercase text-[13px] font-custom-condensed mb-[30px] pb-[10px]  border-b-[1px] border-b-brand-text  text-brand-text dark:text-brand-text-dark duration-500 transition-colors'>
-                        <p className='text-brand-text'>Navigation</p>
+                    <div className=' flex justify-between items-center uppercase text-[13px] font-custom-condensed mb-[30px] pb-[10px]  border-b-[1px] border-b-brand-text  text-brand-white dark:text-brand-white-dark duration-500 transition-colors'>
+                        <p className='text-brand-white font-custom2'>Navigation</p>
                             <Magnetic>
                             <div>
                             {/* <DarkModeToggle/> */}
@@ -46,9 +46,10 @@ export default function Index({setIsActive,isActive}) {
                       navItems.map( (data, index) => {
                         return <Link setIsActive={setIsActive} isActiv={isActive}
                         key={index} 
+                        
                         data={{...data, index}} 
                         isActive={selectedIndicator == data.href} 
-                        setSelectedIndicator={setSelectedIndicator}>
+                        setSelectedIndicator={setSelectedIndicator}>fff
                         </Link>
                       })
                     }
