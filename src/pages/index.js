@@ -11,8 +11,8 @@ export default function Home() {
       <Landing/>
       <FeaturedProducts/>
       <InfiniteCanvasDemo/>
-      <div className="min-h-[700vh] w-full bg-red-200">
-
+      <div className="h-[100vh] flex items-center justify-center w-full bg-red-200">
+nxt
       </div>
       {/* <ProductCard/> */}
     </main>

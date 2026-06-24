@@ -237,7 +237,7 @@ export default function InfiniteCanvasDemo() {
   const newX= useTransform(x,x=>x-50)
   const newY= useTransform(y,x=>x-50)
   return (
-    <div onMouseEnter={()=>{setScale(true)}} onMouseLeave={()=>{setScale(false)}} className="relative h-sv h-[300px] w-full">
+    <div onMouseEnter={()=>{setScale(true)}} onMouseLeave={()=>{setScale(false)}} className="relative md:h-svh lg:h-svh h-[86svh]  w-full">
 <motion.div  animate={{scale:scale?1:0}} style={{x:newX,y:newY,scale:0}} className='z-preloader font-body pointer-events-none  text-brand-black font-medium capitalize mixblend-difference fixed flex flex-col gap-4 items-center justify-center top-0 left-0 h-[120px] w-[120px] '>
 
 <div className=" bg-brand-white rounded-2xl top-0 left-0 w-full h-[20px] flex items-center justify-center">
@@ -252,7 +252,7 @@ export default function InfiniteCanvasDemo() {
       cardWidth={170}
       cardHeight={220}
       spacing={40}
-      className="md:h-svh lg:h-svh h-[86svh] -svh bg-white w-full"
+      className="h-full bg-white w-full"
     > 
     
       <Card className="bg-emerald-400 p-2 overflow-hidden shadow">
