@@ -11,10 +11,10 @@ export default function Home() {
       <Landing/>
       <FeaturedProducts/>
       <InfiniteCanvasDemo/>
-      {/* <ProductCard/> */}
-      {/* <div className="h-[700vh] w-full bg-red-200">
+      <div className="min-h-[700vh] w-full bg-red-200">
 
-      </div> */}
+      </div>
+      {/* <ProductCard/> */}
     </main>
   );
 }

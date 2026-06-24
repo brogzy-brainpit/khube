@@ -252,7 +252,7 @@ export default function InfiniteCanvasDemo() {
       cardWidth={170}
       cardHeight={220}
       spacing={40}
-      className="md:h-svh lg:h-svh h-[500px] -svh bg-white w-full"
+      className="md:h-svh lg:h-svh h-[86svh] -svh bg-white w-full"
     > 
     
       <Card className="bg-emerald-400 p-2 overflow-hidden shadow">
