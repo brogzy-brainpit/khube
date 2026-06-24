@@ -19,7 +19,7 @@ function FeaturedProducts() {
                hoverEffect={false}
               once={false}
               text='Featured Products'
-         letters='▚ ▜ ▞ ▛ ▟ ▘▅ ▖▙ ▞ ▚ ▆ ▜ '
+         lettrs='▚ ▜ ▞ ▛ ▟ ▘▅ ▖▙ ▞ ▚ ▆ ▜ '
         letter='♫ ♟ ♚ ♠ ♬ ♛ ♪ ♜ ♠ ♫ ♝ ♪ ♞ ♫ ♟ ♠ ♞ ♛ ♠ ♡ ♚ ♣ ♤ ♥ ♦ ♫ ♬ ♪ ♩'
        l='☯ ☠ ☢ ☣'
         className={'text-neutral-800 tracking-tighter  font-custom'}/>          
@@ -32,7 +32,7 @@ function FeaturedProducts() {
               <ScrambleTextPara
               duration={1.4}
               text="Premium Hausa caps, rooted in culture, blending elegance and modern style, crafted from rich local fabrics with refined craftsmanship, offering a comfortable fit, timeless design, and subtle luxury, finished with clean detailing and a bold classy presence that speaks confidence and irresistible appeal."
-         letters='▚ ▜ ▞ ▃ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜' 
+         letter='▚ ▜ ▞ ▃ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜' 
         className={'text-neutral-800 tracking-tighter  font-custom'}/>          
       
             {/* Featured Products */}

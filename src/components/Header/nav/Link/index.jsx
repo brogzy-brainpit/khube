@@ -22,7 +22,7 @@ export default function Index({data, isActive,isActiv,setIsActive, setSelectedIn
         <motion.div 
           variants={scale} 
           animate={isActive ? "open" : "closed"}
-          className={'w-[10px] h-[10px] bg-brand-white rounded-[50%] absolute left-[-30px]'}>
+          className={'w-[.25em] h-[.25em] bg-brand-white rounded-[50%] absolute left-[-30px]'}>
            
         </motion.div>
         <Link onClick={()=>{setIsActive(!isActiv)}}

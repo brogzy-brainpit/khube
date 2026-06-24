@@ -25,13 +25,13 @@ function Landing() {
               addWidth={false}
               delay={2}
               text='LESS NOISE'
-         letters='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
+         letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
         className={' text-green-50  font-custom2 tracking-[.012em]'}/> 
          <ScrambleText
               addWidth={false}
               delay={2}
               text='MORE STYLE'
-         letters='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
+         letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
         className={' text-green-50  font-custom2 tracking-[.012em]'}/> 
         </h1>
 </div>
