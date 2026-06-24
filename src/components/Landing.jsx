@@ -20,19 +20,21 @@ function Landing() {
 
 <div className='absolute inset-0 flex items-end pb-6'>
 
- <h1 className='text-display flex flex-col leading-[1] relative text-left uppercase'>
+ <h1 className=' flex flex-col leading-[1] relative text-left uppercase'>
               <ScrambleText
               addWidth={false}
               delay={2}
-              text='LESS NOISE'
+              tet='LESS NOISE'
+               text='be Worn'
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
-        className={' text-green-50  font-custom2 tracking-[.012em]'}/> 
+        className={' text-green-50 text-heading2  font-custom2 tracking-[.012em]'}/> 
          <ScrambleText
               addWidth={false}
               delay={2}
-              text='MORE STYLE'
+              tex='MORE STYLE'
+              text='Be Represented '
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
-        className={' text-green-50  font-custom2 tracking-[.012em]'}/> 
+        className={' text-green-50 text-display  font-custom2 tracking-[.012em]'}/> 
         </h1>
 </div>
       </Section>

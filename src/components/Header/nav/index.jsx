@@ -23,8 +23,8 @@ export default function Index({setIsActive,isActive}) {
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
 const animateLine = {
   initial: {width: 0},
-  enter: {width: "100%", transition: {delay:.4,duration: .4, ease: "easeInOut"}},
-  exit: {width: 0, transition: {duration: .4, ease: "easeInOut"}}
+  enter: {width: "100%", transition: {delay:.6,duration: .8, ease: "easeInOut"}},
+  exit: {width: 0, transition: {duration: .5, ease: "easeInOut"}}
 }
   return (
     <motion.div 
