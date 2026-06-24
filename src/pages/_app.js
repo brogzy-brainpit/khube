@@ -166,9 +166,9 @@ const [pageName,setPageName]= useState(router.pathname)
                    <div className='fixed top left-0 w-full h-full bg-purple600 z-preloader pointer-events-none'>
        <motion.div className='flex gap-0 w-full h-full' ref={svgRef}
         variants={columns} initial='initial' exit='exit' animate={'enter'}>
-   {as.map(()=>{
+   {as.map((item, index) => {
     return (
-      <motion.div className='w-[10%] bg-white h-full origin-righ ' variants={oneColumn}>
+      <motion.div key={index} className='w-[10%] bg-white h-full origin-righ ' variants={oneColumn}>
         {/* dd */}
       </motion.div>
     )
