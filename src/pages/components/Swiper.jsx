@@ -139,8 +139,8 @@ drag
       </motion.div>
         <div ref={wrapperRef} className="cursor[url('https://cdn.prod.website-files.com/683703490bc01e1b8c052e06/68384fb014875f192dfcef4b_cursor-drag.svg'),_grab] flex h-full items-center will-change-transform">
           {slidesData.map((slide, index) => {
-            return  <div key={index} className={` bg-brand-white w-[40vw] md:w-[20em] lg:w-[20em] shrink-0 pointer-events-none overflow-hidden   rounded-[.2vw] flex flex-col justify-between ${index < slidesData.length -1 ? 'mr-[1vw]' : ''}`}>
-                <div className=' h-[30vh]  md:h-[20em] w-full  lg:h-[28em]  rounded-sm'>
+            return  <div key={index} className={` bg-brand-white w-[54vw] md:w-[20em] lg:w-[20em] shrink-0 pointer-events-none overflow-hidden   rounded-[.2vw] flex flex-col justify-between ${index < slidesData.length -1 ? 'mr-[1vw]' : ''}`}>
+                <div className=' h-[40vh]  md:h-[20em] w-full  lg:h-[28em]  rounded-sm'>
                 <Image height={800} width={800} className='object-cover h-full w-full' src={slide.url}/>
                 </div>
                  <div className="flex justify-between items-center mt-4">

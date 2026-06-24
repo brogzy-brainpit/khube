@@ -17,7 +17,7 @@ function Landing() {
 
 <div className='absolute inset-0 flex items-end pb-6'>
 
- <h1 className='text-display leading-[1] relative text-left uppercase'>
+ <h1 className='text-display flex flex-col leading-[1] relative text-left uppercase'>
               <ScrambleText
               addWidth={false}
               delay={2}

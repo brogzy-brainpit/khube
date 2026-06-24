@@ -1,0 +1,25 @@
+.menu{
+    
+    .body{
+        box-sizing: border-box;
+        height: 100%;
+        // padding: 60px;
+        display: flex;
+        flex-direction: column;
+        // justify-content: space-between;
+        gap: 60px;
+
+        .nav{
+            display: flex;
+            flex-direction: column;
+            font-size: 56px;
+            // gap: 12px;
+            margin-top: 40px;
+
+           
+
+           
+            
+        }
+    }
+}

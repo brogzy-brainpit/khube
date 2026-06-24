@@ -74,7 +74,6 @@ const ScrambleText = ({
         ${className}
         ${hoverEffect ? hoverClass : ""}
         [word-spacing:3px]
-        cursor-pointer
         text-left
         whitespace-nowrap
         inline-block

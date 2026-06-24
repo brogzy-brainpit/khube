@@ -6,6 +6,7 @@ import CartIcon from '@/icons/CartIcon'
 import SearchIcon from '@/icons/SearchIcon'
 import UserIcon from '@/icons/UserIcon'
 import ScrambleText from '@/effects/ScrambleText'
+import ScrambleTextPara from '@/effects/ScrambleTextPara'
 
 
 function Header({preLoaderOut}) {
@@ -16,9 +17,9 @@ function Header({preLoaderOut}) {
 
     
   const Links = [
-    { title: "All Products", url: "Products" },
-    { title: "Featured", url: "Featured" },
-    { title: "new Arrivals", url: "new Arrivals" },
+    { title: "All Products", url: "products" },
+    { title: "Featured", url: "featured" },
+    { title: "New Arrivals", url: "new-arrivals" },
   ];
 
     useEffect(()=>{
@@ -75,8 +76,9 @@ function Header({preLoaderOut}) {
     }
   }}
 >
-    {Links.map(({ title, url }) => (
+    {Links.map(({ title, url },i) => (
               <motion.div
+              key={title}
   variants={{
     initial: { y: 30, opacity: 0 },
     exit: { y: 30, opacity: 0 },
@@ -85,7 +87,6 @@ function Header({preLoaderOut}) {
 >
   <Link
     scroll={false}
-    key={title}
     href={`/${url}`}
     className="mix-blend-difference cursor-pointer text-heading1 text-stroke font-custom text-links capitalize"
   >
@@ -108,21 +109,21 @@ function Header({preLoaderOut}) {
  {/* <div className='w-[10em'>
  </div> */}
  <ul className= " hidden flex-1 bg-blue800 md:flex md:flex-row md:gap-6 mx-aut">
-            {Links.map(({ title, url }) => (
+            {Links.map(({ title, url }, i) => (
               <Link scroll={false}
-                key={title}
+                key={i}
                 className="cursor-pointer font-body text-brand-white text-links capitalize"
-                href={`/${url}`}
+                href={`${url}`}
               >
             
-               <ScrambleText hoverEffect
+               <ScrambleTextPara hoverEffect
                           text={title}
                         
                           duration={.4}
                      letters='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
                     lette='♫ ♚ ♠ ♬ ♛ ♪ ♜ ♠ ♫ ♝ ♪ ♞ ♫ ♟ ♠ ♞ ♛ ♠ ♡ ♚ ♣ ♤ ♥ ♦ ♫ ♬ ♪ ♩'
                    lett="♚ ♛ ♜ ∱ ∬ ∯ ♝ ♞ ♟ ♠ ♡ ♣ ♤ ♥ ♦ ♫ ♬ ♪ ♩ ☯ ☠ ☢ ☣"
-                    className={' tracking-tighter  font-custom'}/>  
+                    className={' tracking-tight text-left w-[10em] font-custom'}/>  
               </Link>
 
             ))}

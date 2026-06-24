@@ -5,6 +5,7 @@ const ScrambleText = ({
   className,
   hoverClass,
   hoverEffect = false,
+  addWidth=false,
   once = true,
   delay = 0,
   duration = 1,
@@ -85,13 +86,13 @@ const ScrambleText = ({
     <span className="relative inline-block">
       
       {/* 🔒 LOCK LAYOUT (ghost text reserves space) */}
-      <span className="visible tracking-tighter whitespace-pre-wrap break-words">
+      <span className="invisible font-custom  text-orange-400 tracking-tighter whitespace-pre-wrap break-words">
         {text}
       </span>
 
       {/* 🎬 ANIMATED LAYER */}
       <motion.span
-      style={{ width: addWidth?`${text.length * 1.2}ch`:`${text.length}ch` }}
+      // style={{ width: addWidth?`${text.length * 1.2}ch`:`${text.length}` }}
         ref={ref}
         className={`
           absolute top-0 left-0

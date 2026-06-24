@@ -48,20 +48,12 @@ export function InfiniteCanvas({
 
   const canvasRef = useRef(null);
 
-  // MOTION VALUES
+  // motion values
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // SPRING
-  const springX = useSpring(x, {
-    stiffness: 100,
-    damping: 25,
-  });
-
-  const springY = useSpring(y, {
-    stiffness: 100,
-    damping: 25,
-  });
+  const springX = useSpring(x, { stiffness: 100, damping: 25 });
+  const springY = useSpring(y, { stiffness: 100, damping: 25 });
 
   const cellWidth = cardWidth + spacing;
   const cellHeight = cardHeight + spacing;
@@ -111,12 +103,7 @@ export function InfiniteCanvas({
   useEffect(() => {
     const update = () => {
       setVisibleCards(
-        getVisibleCards(
-          x.get(),
-          y.get(),
-          zoom,
-          canvasRef.current
-        )
+        getVisibleCards(x.get(), y.get(), zoom, canvasRef.current)
       );
     };
 
@@ -131,7 +118,8 @@ export function InfiniteCanvas({
     };
   }, [zoom, getVisibleCards]);
 
-  const handleMouseDown = (e) => {
+  // ✅ POINTER EVENTS (MOBILE FIX)
+  const handlePointerDown = (e) => {
     if (!isActive) return;
 
     setIsDragging(true);
@@ -140,16 +128,18 @@ export function InfiniteCanvas({
       x: e.clientX - x.get(),
       y: e.clientY - y.get(),
     });
+
+    e.currentTarget.setPointerCapture?.(e.pointerId);
   };
 
-  const handleMouseMove = (e) => {
+  const handlePointerMove = (e) => {
     if (!isDragging || !isActive) return;
 
     x.set(e.clientX - dragStart.x);
     y.set(e.clientY - dragStart.y);
   };
 
-  const handleMouseUp = () => {
+  const handlePointerUp = () => {
     setIsDragging(false);
   };
 
@@ -159,31 +149,26 @@ export function InfiniteCanvas({
     e.preventDefault();
 
     setZoom((prev) =>
-      Math.max(
-        0.5,
-        Math.min(100, prev - e.deltaY * 0.0008)
-      )
+      Math.max(0.5, Math.min(100, prev - e.deltaY * 0.0008))
     );
   };
 
   return (
     <div
       ref={canvasRef}
-      className={cn(
-        "relative overflow-hidden select-none",
-        className
-      )}
+      className={cn("relative overflow-hidden select-none", className)}
       style={{
         cursor: isActive
           ? isDragging
             ? "grabbing"
             : "grab"
           : "default",
+        touchAction: "none", // ✅ CRITICAL FOR MOBILE DRAG
       }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
       onWheel={handleWheel}
     >
       {/* WORLD */}
@@ -246,7 +231,6 @@ export function InfiniteCanvas({
     </div>
   );
 }
-
 export default function InfiniteCanvasDemo() {
    const [scale,setScale]=useState(false)
    const {x,y}=useMouse({start:{x:480,y:300},stiffness:140,damping:18,mass:0.1})
@@ -268,8 +252,9 @@ export default function InfiniteCanvasDemo() {
       cardWidth={170}
       cardHeight={220}
       spacing={40}
-      className="h-[500px] -svh bg-white w-full"
+      className="md:h-svh lg:h-svh h-[500px] -svh bg-white w-full"
     > 
+    
       <Card className="bg-emerald-400 p-2 overflow-hidden shadow">
         <Link draggable={false} href="/">
           <img

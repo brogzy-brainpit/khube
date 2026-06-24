@@ -1,10 +1,11 @@
 import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 
-const ScrambleText = ({
+const ScrambleTextPara = ({
   className,
   hoverClass,
   hoverEffect = false,
+  addWidth=false,
   once = true,
   delay = 0,
   duration = 1,
@@ -82,37 +83,43 @@ const ScrambleText = ({
   }, [isInView, delay, duration, text]);
 
   return (
-    <span className="relative inline-block">
+ <span className="relative inline-block">
       
       {/* 🔒 LOCK LAYOUT (ghost text reserves space) */}
-      <span className="visible tracking-tighter whitespace-pre-wrap break-words">
+      <span className="invisible font-custom  text-orange-400 tracking-tight whitespace-pre-wrap break-words">
         {text}
       </span>
 
-      {/* 🎬 ANIMATED LAYER */}
-      <motion.span
-      style={{ width: addWidth?`${text.length * 1.2}ch`:`${text.length}ch` }}
-        ref={ref}
-        className={`
+    <motion.span
+      ref={ref}
+      className={`
           absolute top-0 left-0
-          ${className}
-          ${hoverEffect ? hoverClass : ""}
-          whitespace-pre-wrap
-          break-words
-          tracking-tighter
-          scramble-text
-        `}
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.2, delay, ease: "linear" }}
-        onMouseEnter={
-          hoverEffect ? runScramble : undefined
-        }
-      >
-        {displayText}
-      </motion.span>
-    </span>
+        ${className}
+        ${hoverEffect ? hoverClass : ""}
+        scramble-text
+        text-left
+        whitespace-pre-wrap
+        inline-block
+        tracking-tight
+        break-words
+        overflow-hidden
+      `}
+      initial={{ opacity: 0, y: 0 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.2,delay, ease: "linear" }}
+      onMouseEnter={
+        hoverEffect
+          ? () => {
+              runScramble();
+            }
+          : undefined
+      }
+    >
+      {displayText}
+    </motion.span>
+      </span>
+
   );
 };
 
-export default ScrambleText;
+export default ScrambleTextPara;

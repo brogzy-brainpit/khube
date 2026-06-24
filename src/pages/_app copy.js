@@ -84,7 +84,7 @@ const [pageName,setPageName]= useState(router.pathname)
         transition: {
           // duration:1.2,
           // delayChildren:2, // 👈 wait before starting
-          staggerChildren:.035,  
+          staggerChildren:.05,  
               // 👈 delay between items
         },
       },
@@ -92,22 +92,21 @@ const [pageName,setPageName]= useState(router.pathname)
          transition: {
           staggerDirection:-1,
           // delayChildren:0.7, // 👈 wait before starting
-          staggerChildren:.035,  
+          staggerChildren:.05,  
           // staggerChildren:0.1,  
         },
       },
     }
     const scaleParentDiv={
      initial:{
-      scale:1.2,
-         opacity:0.4,
+      scale:.9,
+      opacity:1
      },
        enter:{
          scale:1,
          opacity:1,
-         transition: {
-           duration:.8,
-           ease:"easeInOut",
+        transition: {
+          duration:.4
         },
       },
       exit:{
@@ -115,12 +114,12 @@ const [pageName,setPageName]= useState(router.pathname)
          opacity:0.4,
          transition: {
           delay:.3,
-           duration:.5,
+           duration:.3,
            ease:"easeInOut",
           //  ease:customEase1,
            scale:{
             delay:0,
-            duration:.8 ,
+            duration:.6 ,
           ease:"easeInOut",
           // ease:customEase1,
          }
@@ -147,7 +146,7 @@ const [pageName,setPageName]= useState(router.pathname)
              scaleX: 1,
              transformOrigin:'right',
              transition:{
-              duration:.4
+              duration:.6
             }
       }),
     }
