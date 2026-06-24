@@ -10,7 +10,7 @@ const Scene = dynamic(() => import("@/3D/Scene"), {
 });
 function Landing() {
   return (
-    <div className='h-screen w-full relative  bg-emerald-100 fle items-center justify-center'>
+    <div className='h-svh w-full relative  bg-emerald-100 fle items-center justify-center'>
       <ScaleOnExit className={"h-full w-full"}>
 
         <img src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' />
