@@ -3,10 +3,11 @@ import styles from './style.module.scss';
 import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { menuSlide } from '../animation';
-import Link from './Link';
+import CustomLink from './CustomLink';
 import Curve from './Curve';
 import Footer from './Footer';
 import Magnetic from '@/effects/Magnetic';
+import Link from 'next/link';
 // import DarkModeToggle from '../../DarkModeToggle';
 
 const navItems = [
@@ -23,7 +24,7 @@ export default function Index({setIsActive,isActive}) {
 const animateLine = {
   initial: {width: 0},
   enter: {width: "100%", transition: {delay:.4,duration: .4, ease: "easeInOut"}},
-  exit: {width: 0, transition: {delay:.2,duration: .6, ease: "easeInOut"}}
+  exit: {width: 0, transition: {duration: .4, ease: "easeInOut"}}
 }
   return (
     <motion.div 
@@ -38,24 +39,23 @@ const animateLine = {
             <div onMouseLeave={() => {setSelectedIndicator(pathname)}} className={styles.nav}>
                
                     <div className='relative flex justify-between items-center uppercase text-[13px] font-custom-condensed mb-[30px] pb-[10px]  text-brand-white dark:text-brand-white-dark duration-500 transition-colors'>
-                        <p className='text-brand-white font-custom2'>Navigation</p>
+                        <h3 className='text-brand-white text-para leading-[.9] font-custom2'>Navigation</h3>
                             <Magnetic>
-                            <div>
-                            {/* <DarkModeToggle/> */}
-                            darkmode
-                            </div>  
+                              <div>
+                          <Link href={"/cart"} className='text-brand-white text-para leading-[.9] font-custom2'>cart(0)</Link>
+                              </div>
                             </Magnetic>
-                            <motion.div variants={animateLine} initial="initial" animate="enter" exit="initial" className='absolute -translate-y-1/2 -bottom-[0%] w-full bg-brand-white h-[.1em]'/>
+                            <motion.div variants={animateLine} initial="initial" animate="enter" exit="exit" className='absolute -translate-y-1/2 -bottom-[0%] w-full bg-brand-white h-[.1em]'/>
                     </div>
                     {
                       navItems.map( (data, index) => {
-                        return <Link setIsActive={setIsActive} isActiv={isActive}
+                        return <CustomLink setIsActive={setIsActive} isActiv={isActive}
                         key={index} 
                         
                         data={{...data, index}} 
                         isActive={selectedIndicator == data.href} 
                         setSelectedIndicator={setSelectedIndicator}>fff
-                        </Link>
+                        </CustomLink>
                       })
                     }
             </div>

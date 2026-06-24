@@ -12,7 +12,7 @@ export default function Home() {
       <FeaturedProducts/>
       <InfiniteCanvasDemo/>
       <div className="h-[100vh] flex items-center justify-center w-full bg-red-200">
-nxt
+        <h1>Home Page</h1>
       </div>
       {/* <ProductCard/> */}
     </main>

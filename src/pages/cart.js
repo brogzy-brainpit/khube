@@ -1,15 +1,15 @@
 import ScaleOnExit from '@/effects/ScaleOnExit'
 import React from 'react'
 
-function products() {
+function cart() {
   return (
 
     <div className='text-display min-h-svh flex items-center justify-center bg-brand-accent text-brand-black'>
        <ScaleOnExit className={"h-full w-full flex items-center justify-center"}>
-        <h1>products page</h1>
+        <h1>cart page</h1>
        </ScaleOnExit>
       </div>
   )
 }
 
-export default products
+export default cart
