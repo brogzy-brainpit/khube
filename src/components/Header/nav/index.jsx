@@ -20,7 +20,11 @@ export default function Index({setIsActive,isActive}) {
 
   const pathname = usePathname();
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
-
+const animateLine = {
+  initial: {width: 0},
+  enter: {width: "100%", transition: {delay:.4,duration: .4, ease: "easeInOut"}},
+  exit: {width: 0, transition: {delay:.2,duration: .6, ease: "easeInOut"}}
+}
   return (
     <motion.div 
       variants={menuSlide} 
@@ -41,7 +45,7 @@ export default function Index({setIsActive,isActive}) {
                             darkmode
                             </div>  
                             </Magnetic>
-                            <div className='absolute -translate-y-1/2 -bottom-[0%] w-full bg-brand-white h-[.1em]'/>
+                            <motion.div variants={animateLine} initial="initial" animate="enter" exit="initial" className='absolute -translate-y-1/2 -bottom-[0%] w-full bg-brand-white h-[.1em]'/>
                     </div>
                     {
                       navItems.map( (data, index) => {
