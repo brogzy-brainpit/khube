@@ -8,10 +8,10 @@ import React from 'react'
 const Scene = dynamic(() => import("@/3D/Scene"), {
   ssr: false,
 });
-function Landing() {
+function Landing({preLoaderOut}) {
   return (
     <div className='h-svh w-full relative  bg-emerald-100 fle items-center justify-center'>
-      <ScaleOnExit className={"h-full w-full"}>
+      <ScaleOnExit preLoaderOut={preLoaderOut} className={"h-full w-full"}>
 
         <img src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' />
         <Image fill src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' />
@@ -24,6 +24,7 @@ function Landing() {
               <ScrambleText
               addWidth={false}
               delay={2}
+
               tet='LESS NOISE'
                text='be Worn'
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 

@@ -2,7 +2,7 @@ import React from 'react'
 import {motion} from 'framer-motion'
 import clsx from 'clsx'
 
-function ScaleOnExit({children,className}) {
+function ScaleOnExit({children,className,preLoaderOut=false}) {
      const scaleParentDiv={
          initial:{
           scale:1.30,
@@ -12,6 +12,7 @@ function ScaleOnExit({children,className}) {
              scale:1,
              opacity:1,
              transition: {
+              delay:.85,
                duration:.8,
                ease:"easeInOut",
             },
@@ -39,7 +40,7 @@ function ScaleOnExit({children,className}) {
              variants={scaleParentDiv} 
              initial='initial'
               exit='exit' 
-              animate={'enter'}
+              animate={preLoaderOut?'enter':'initial'}
               >
                 {children}
               </motion.div>

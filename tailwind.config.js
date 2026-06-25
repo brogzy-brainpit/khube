@@ -34,7 +34,8 @@ module.exports = {
         'footer': 'clamp(40px, 9vw, 80px)',
       },
         zIndex:{
-        'preloader': '9999',
+        'preloader-top': '999999',
+         'preloader': '9999',
         'header': '999',
         
       },
