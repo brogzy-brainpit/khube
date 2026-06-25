@@ -148,7 +148,7 @@ console.log(letters)
 {text.map(({id,letter},i)=>{
   return (
     
-              <span className={` ${i === 4 ? "mr-[2rem]" : ""} overflow-hidden flex bgred-600 uppercas`}>
+              <span key={i} className={` ${i === 4 ? "mr-[2rem]" : ""} overflow-hidden flex bgred-600 uppercas`}>
              <span
               className="letter uppercas leading[1.2] bgred-600 "
               

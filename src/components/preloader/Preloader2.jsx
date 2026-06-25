@@ -114,9 +114,9 @@ const imgs=[
   exit="exit"
   animate="enter"
       className=" absolute top-[45%] left-[50%] -translate-y-1/2 -translate-x-1/2 bg-red600 w-[24em] h-[25em]">
-       {imgs.map((url)=>{
+       {imgs.map((url, i)=>{
         return (
-           <motion.div variants={Img} className='absolute w-full h-full'>
+           <motion.div key={i} variants={Img} className='absolute w-full h-full'>
           <motion.img 
             src={url}
             className=" w-full object-cover h-full absolute"
