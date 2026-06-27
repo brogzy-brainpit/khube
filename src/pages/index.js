@@ -7,6 +7,7 @@ import Preloader2 from "@/components/preloader/Preloader2";
 import Preloader from "@/components/preloader/Preloader";
 import { useEffect, useState } from "react";
 import HeadBlend from "@/components/preloader/HeadBlend";
+import Cta from "@/components/Cta";
 
 export default function Home() {
   const [isLoading,setIsLoading]=useState(true)
@@ -29,7 +30,7 @@ export default function Home() {
   },[])
   return (
     <main
-      className={`h-full w-full text-black `}
+      className={`h-full w-full text-black bg-brand-white `}
     >
        {/* <AnimatePresence  mode="wait" onExitComplete={()=>{setPreLoaderOut(true)}}> */}
        <AnimatePresence  mode="wait" >
@@ -46,10 +47,11 @@ export default function Home() {
 
       <Landing preLoaderOut={preLoaderOut}/>
       <FeaturedProducts/>
-      <InfiniteCanvasDemo/>
-      <div className="h-[100vh] flex items-center justify-center w-full bg-red-200">
-        <h1>Home Page</h1>
-      </div>
+      {/* <InfiniteCanvasDemo/> */}
+     <Cta/>
+     <div className="h-[100vh] relative flex items-center justify-center w-full bg-red-200">
+
+     </div>
       {/* <ProductCard/> */}
     </main>
   );
