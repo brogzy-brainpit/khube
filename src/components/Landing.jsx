@@ -19,7 +19,7 @@ function Landing({preLoaderOut}) {
 {/* <Scene image="/images/red1.jpg" className='absolute top-0 left-0 w-full h-full' /> */}
       <Section className={"relative h-full w-full"}>
 
-<div className='absolute inset-0 flex items-end pb-[8em] lg:pb-[4em]'>
+<div className='h-full flex items-end pb-[12em] lg:pb-[4em]'>
 
  <h1 className=' flex flex-col leading-[1] relative text-left uppercase'>
               <ScrambleText
@@ -29,8 +29,8 @@ function Landing({preLoaderOut}) {
               tet='No NOISE'
                text='No NOISE'
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
-        className={' text-green-50 text-heading3  font-custom tracking-[.012em]'}/> 
-         <ScrambleText
+        className={' text-green-50 text-heading3 mb-6  font-custom tracking-[.012em]'}/> 
+         <ScrambleTextPara
               addWidth={false}
               delay={2}
               tex='MORE STYLE'
