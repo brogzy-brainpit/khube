@@ -18,7 +18,7 @@ const [MenuAktiv,setMenuAktiv]=useState(false)
   <Magnetic>
  <Link href={'/'} className="flex" >
  <motion.span 
-              className="text-[2.4rem] uppercas leading-[1.6] font-custom2 text-white font-bold "
+              className="text-[2.4rem] uppercas leading-[1.6] font-custom text-white font-bold "
                layoutId="d"
   transition={{
     duration:1,
@@ -27,12 +27,12 @@ const [MenuAktiv,setMenuAktiv]=useState(false)
       ease,
     },
   }}>
-                c
+                B
               </motion.span>
 
 
  <motion.span 
-              className="text-[2.4rem] uppercas leading-[1.6] font-custom2 text-white font-bold "
+              className="text-[2.4rem] uppercas leading-[1.6] font-custom text-white font-bold "
                layoutId="a-4"
   transition={{
     duration:1,
@@ -41,7 +41,7 @@ const [MenuAktiv,setMenuAktiv]=useState(false)
       ease,
     },
   }}>
-                d
+                M
               </motion.span>
 </Link>
   </Magnetic>

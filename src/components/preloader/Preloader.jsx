@@ -4,20 +4,13 @@ import { useAnimate,motion} from "framer-motion";
 function Preloader() {
   // const text = "david alaba";
   const text = [
-  { letter: "c", id: "d" },
-  { letter: "o", id: "a" },
-  { letter: "a", id: "v" },
-  { letter: "c", id: "i" },
-  { letter: "h", id: "d-2" },
-
-  // 👇 SPACE OBJECT
-  { letter: " ", id: "space" },
-
-  { letter: "d", id: "a-2" },
-  { letter: "a", id: "l" },
-  { letter: "v", id: "a-3" },
-  { letter: "i", id: "b" },
-  { letter: "d", id: "a-4" },
+  { letter: "b", id: "d" },
+  { letter: "y", id: "a" },
+  { letter: "m", id: "a-2" },
+  { letter: "e", id: "l" },
+  { letter: "m", id: "a-3" },
+  { letter: "e", id: "b" },
+  { letter: "t", id: "a-4" },
 ];
 
   const [scope, animate] = useAnimate();
@@ -158,7 +151,7 @@ console.log(letters)
               // initial={{y:-150}} 
               // exit={{y:-1}} 
               
-              className="lg:text-[6rem] text-[3.8em] uppercas leading-[1.2] font-custom2 text-white font-bold "
+              className="lg:text-display text-[3.8em] uppercas leading-[1.2] font-custom text-white font-bold "
                layoutId={id}
   transition={{
     duration:.2,
