@@ -156,7 +156,7 @@ function Header({preLoaderOut}) {
 
 const Menu=({isOpen,setIsOpen})=>{
   return (
-<div onClick={()=>{setIsOpen(!isOpen)}} className='lg:hidden cursor-pointer bg-brand-background p- rounded-full h-[4em] w-[4em] flex justify-center items-center'>
+<div onClick={()=>{setIsOpen(!isOpen)}} className='lg:hidden cursor-pointer bg-brand-accent p- rounded-full h-[4em] w-[4em] flex justify-center items-center'>
   <div className={`flex pointer-events-none justify-center items-center flex-col burger w-full ${isOpen?'activeBurger':''}`}>
 
   </div>

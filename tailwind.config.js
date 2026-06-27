@@ -44,7 +44,7 @@ module.exports = {
         'brand-black':"#0B0B0A",
         'brand-white':"#F3EFE7",
         'brand-text-dark':"#f7f0bc",
-        'brand-accent':"#614d70", //accent for links, hover state 
+        'brand-accent':"#FDD101", //accent for links, hover state 
         'brand-secondary':"#171717", //blue best
        
       },
