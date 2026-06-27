@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import {motion} from 'framer-motion'
 import Magnetic from '@/effects/Magnetic'
+import Logo from '../Logo'
 
 
 
@@ -17,32 +18,7 @@ const [MenuAktiv,setMenuAktiv]=useState(false)
 <div layout className='bg-red600 h-ful self-start pt-2 pointer-events-auto cursor-pointer' >
   <Magnetic>
  <Link href={'/'} className="flex" >
- <motion.span 
-              className="text-[2.4rem] uppercas leading-[1.6] font-custom text-white font-bold "
-               layoutId="d"
-  transition={{
-    duration:1,
-    layout: {
-      duration: 1,
-      ease,
-    },
-  }}>
-                B
-              </motion.span>
-
-
- <motion.span 
-              className="text-[2.4rem] uppercas leading-[1.6] font-custom text-white font-bold "
-               layoutId="a-4"
-  transition={{
-    duration:1,
-    layout: {
-      duration: 1,
-      ease,
-    },
-  }}>
-                M
-              </motion.span>
+<Logo />
 </Link>
   </Magnetic>
 

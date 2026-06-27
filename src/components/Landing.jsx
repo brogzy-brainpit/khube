@@ -1,5 +1,6 @@
 import ScaleOnExit from '@/effects/ScaleOnExit';
 import ScrambleText from '@/effects/ScrambleText';
+import ScrambleTextPara from '@/effects/ScrambleTextPara';
 import Section from '@/layout/Section';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -18,24 +19,24 @@ function Landing({preLoaderOut}) {
 {/* <Scene image="/images/red1.jpg" className='absolute top-0 left-0 w-full h-full' /> */}
       <Section className={"relative h-full w-full"}>
 
-<div className='absolute inset-0 flex items-end pb-6'>
+<div className='absolute inset-0 flex items-end pb-[8em] lg:pb-[4em]'>
 
  <h1 className=' flex flex-col leading-[1] relative text-left uppercase'>
               <ScrambleText
               addWidth={false}
               delay={2}
 
-              tet='LESS NOISE'
-               text='be Worn'
+              tet='No NOISE'
+               text='No NOISE'
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
-        className={' text-green-50 text-heading2  font-custom2 tracking-[.012em]'}/> 
+        className={' text-green-50 text-heading3  font-custom tracking-[.012em]'}/> 
          <ScrambleText
               addWidth={false}
               delay={2}
               tex='MORE STYLE'
-              text='Be Represented '
+              text='just vibes'
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
-        className={' text-green-50 text-display  font-custom2 tracking-[.012em]'}/> 
+        className={' text-green-50 text-display  font-custom tracking-[.012em]'}/> 
         </h1>
 </div>
       </Section>
