@@ -47,12 +47,10 @@ export default function Home() {
 
       <Landing preLoaderOut={preLoaderOut}/>
       <FeaturedProducts/>
-      {/* <InfiniteCanvasDemo/> */}
-     <Cta/>
-     <div className="h-[100vh] relative flex items-center justify-center w-full bg-red-200">
-
-     </div>
+      <InfiniteCanvasDemo/>
       {/* <ProductCard/> */}
+     <Cta/>
+     {/* <div className="h-[100vh] relative flex items-center justify-center w-full bg-red-200"/> */}
     </main>
   );
 }
