@@ -11,6 +11,7 @@ import Link from 'next/link';
 // import DarkModeToggle from '../../DarkModeToggle';
 
 const navItems = [
+    { title: "All collections", href: "collections" },
     { title: "All Products", href: "products" },
     { title: "Featured", href: "featured" },
     { title: "New Arrivals", href: "new-arrivals" },
