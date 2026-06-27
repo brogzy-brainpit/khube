@@ -36,7 +36,7 @@ const animateLine = {
 
       className={`${styles.menu} w-full max-w-full z-[3] h-[100vh] fixed right-0 top-0 text-brand-white dark:text-brand-white-dark duration-500 transition-colors bg-brand-secondary/80 backdrop-blur-md`}
       >
-       <div className={`${styles.body} py-[60px] px-4 container mx-auto`}>
+       <div className={`${styles.body} py-[50px] px-4 container mx-auto`}>
             <div onMouseLeave={() => {setSelectedIndicator(pathname)}} className={styles.nav}>
                
                     <div className='relative flex justify-between items-center uppercase text-[13px] font-custom-condensed mb-[30px] pb-[10px]  text-brand-white dark:text-brand-white-dark duration-500 transition-colors'>

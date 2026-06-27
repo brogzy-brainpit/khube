@@ -17,6 +17,7 @@ import SmoothScroll from '@/providers/Lenis';
 import Header from '../components/Header/index';
 import { customEase1 } from '../../data';
 import PageTransition from '@/effects/PageTransition';
+import Footer from '@/components/Footer';
 
 const Sans = DM_Sans({
   subsets: ["latin"],
@@ -27,7 +28,7 @@ const Sans = DM_Sans({
 
 // import local fonts froom ./fontdirectory
 const custom = localFont({
-  src: "./fonts/HelveticaNeueMedium.otf",
+  src: "./fonts/neuehaasgrottextmd.otf",
   variable: "--font-custom",
   weight: "100 200 300 400 500 600 700 800 900",
 });
@@ -92,7 +93,7 @@ const [pageName,setPageName]= useState(router.pathname)
 
         <Header preLoaderOut={true}/>
         <Component {...pageProps} />     
-        {/* <Footer /> */}
+        <Footer />
 
 
       </div>

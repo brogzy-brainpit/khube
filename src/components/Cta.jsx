@@ -9,7 +9,7 @@ function Cta() {
   return (
   <div className="h-svh lg:h-[120svh] relative  flex items-center justify-center w-full ">
         <div className='w-full h-full absolute top-0 left-0 pb-[66.66% rounded-t-[1.5em] lg:rounded-t-[2em] shadow-xl shadow-black/30 overflow-clip'>
-           <ParallaxImage initialScale={1.25} targetScale={1.1} className={"aspect-[4/6] object-[50%_100%]"} 
+           <ParallaxImage initialScale={1.5} targetScale={1.15} className={"aspect-[4/6] object-[50%_100%]"} 
             src={'/images/shoe.png'} />
            <div className='w-full bg-black/45 h-full absolute top-0 left-0'/>
            </div>

@@ -26,7 +26,7 @@ export default function Index({data, isActive,isActiv,setIsActive, setSelectedIn
            
         </motion.div>
         <Link onClick={()=>{setIsActive(!isActiv)}}
-         className='font-custom text-footer leading-[1.1]  text-brand-white'
+         className='font-custom text-footer leading-[.9] capitalize  text-brand-white'
           href={href}>
             <ScrambleText duration={.4} hoverEffect delay={0.4 + (index * 0.2)} text={title} />
             </Link>
