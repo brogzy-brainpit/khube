@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import LogoIntro from "../LogoIntro";
 
 function Preloader2() {
   // [0.76, 0, 0.24, 1]
@@ -89,6 +90,21 @@ function Preloader2() {
       }
     },
   }
+  const clipLogo={
+    initial:{
+       clipPath: 'inset(0 100% 0 0)',
+    },
+    exit:{},
+    enter:{
+        clipPath: 'inset(0 0% 0 0)',
+      // scale:2,
+       transition:{
+        delay:1,
+        duration:4.8,
+        ease,
+      }
+    },
+  }
   const [out,setOut]=React.useState(false)
 // const imgs=["/images/service01.png",
 //   "/images/service02.png",
@@ -105,10 +121,10 @@ const imgs=[
 ]
   return (
     <motion.div variants={wrapper} initial='initial' animate='enter' exit='exit' className=" fixed  top-0 left-0 w-full h-full bg-neutral-800 z-preloader flex flex-col items-center justify-center">
-     <motion.div initial={{scaleX:0,transformOrigin:'right'}} animate={{scaleX:out?0:1,transformOrigin:out?'right':'left'}} onAnimationComplete={()=>{setOut(true)}} transition={{duration:3,delay:.2,ease:'easeOut'}} className='bg-white h-[.5em] w-full absolute top-0 left-0'>
-
-     </motion.div>
-      <motion.div 
+     {/* top line scaling */}
+     <motion.div initial={{scaleX:0,transformOrigin:'right'}} animate={{scaleX:out?0:1,transformOrigin:out?'right':'left'}} onAnimationComplete={()=>{setOut(true)}} transition={{duration:3,delay:.2,ease:'easeOut'}} className='bg-white h-[.5em] w-full absolute top-0 left-0'/>
+     
+      {/* <motion.div 
       variants={ParentImg}
   initial="initial"
   exit="exit"
@@ -124,9 +140,25 @@ const imgs=[
         </motion.div>
         )
        })}
+      </motion.div> */}
+      {/* shadow */}
+         <motion.div 
+      className="w-full opacity-10 h-full bgred-500 flex items-center justify-center absolute left-0 top-0">
+      <LogoIntro width={300} height={60}/>
       </motion.div>
 
-      <motion.div
+
+         <div 
+      className="w-full h-full flex items-center justify-center absolute left-0 top-0">
+       <motion.div initial="initial"
+  exit="exit"
+  animate="enter"
+  variants={clipLogo} className=" bgred-500">
+      <LogoIntro width={300} height={60}/>
+     </motion.div>
+      </div>
+
+      {/* <motion.div
   variants={slideUpParent}
   initial="initial"
   exit="exit"
@@ -145,7 +177,7 @@ const imgs=[
       </span>
     ))
   }
-</motion.div>
+</motion.div> */}
 
     </motion.div>
   );

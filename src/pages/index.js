@@ -37,13 +37,13 @@ export default function Home() {
     {isLoading &&  <Preloader2 key={'preloader'}/>}
      {/* <Preloader key={'preloader'}/> */}
     </AnimatePresence>
-    <AnimatePresence mode="wait">
+    {/* <AnimatePresence mode="wait">
   {isLoading2 ? (
     <Preloader key="pre" />
   ) : (
     <HeadBlend key="head" preLoaderOut={preLoaderOut} />
   )}
-</AnimatePresence>
+</AnimatePresence> */}
 
       <Landing preLoaderOut={preLoaderOut}/>
       <FeaturedProducts/>
