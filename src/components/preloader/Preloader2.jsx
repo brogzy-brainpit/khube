@@ -99,8 +99,8 @@ function Preloader2() {
         clipPath: 'inset(0 0% 0 0)',
       // scale:2,
        transition:{
-        delay:1,
-        duration:4.8,
+        delay:.6,
+        duration:5.2,
         ease,
       }
     },
@@ -143,7 +143,7 @@ const imgs=[
       </motion.div> */}
       {/* shadow */}
          <motion.div 
-      className="w-full opacity-10 h-full bgred-500 flex items-center justify-center absolute left-0 top-0">
+      className="w-full opacity-20 h-full bgred-500 flex items-center justify-center absolute left-0 top-0">
       <LogoIntro width={300} height={60}/>
       </motion.div>
 

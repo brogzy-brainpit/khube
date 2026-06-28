@@ -6,8 +6,8 @@ function LogoIntro({width=117,height=26}) {
     initial: {},
     enter: {
       transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.4,
+        staggerChildren: 0.08,
+        // delayChildren: 0.4,
 
       },
     },
