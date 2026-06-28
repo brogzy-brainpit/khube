@@ -1,3 +1,4 @@
+import ParallaxImage from '@/effects/ParallaxImage';
 import ScaleOnExit from '@/effects/ScaleOnExit';
 import ScrambleText from '@/effects/ScrambleText';
 import ScrambleTextPara from '@/effects/ScrambleTextPara';
@@ -12,10 +13,15 @@ const Scene = dynamic(() => import("@/3D/Scene"), {
 function Landing({preLoaderOut}) {
   return (
     <div className='h-svh w-full relative  bg-emerald-100 fle items-center justify-center'>
-      <ScaleOnExit preLoaderOut={preLoaderOut} className={"h-full w-full"}>
+      <ScaleOnExit preLoaderOut={preLoaderOut} className={"relative h-full w-full"}>
 
-        <img src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' />
-        <Image fill src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' />
+        {/* <img src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' /> */}
+        {/* <Image fill src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' /> */}
+        <div  className='h-full w-full absolute top-0 object-cover object-[center_18%]'>
+          <ParallaxImage initialScale={1.5} targetScale={1.15} className={"bject-[50%_100%]"} 
+                      src={'/images/red1.jpg'} />
+</div>
+         
 {/* <Scene image="/images/red1.jpg" className='absolute top-0 left-0 w-full h-full' /> */}
       <Section className={"relative h-full w-full"}>
 

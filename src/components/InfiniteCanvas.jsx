@@ -18,6 +18,7 @@ import React, {
   useMemo,
 } from "react";
 import useMouse from "@/hooks/useMouse";
+import Image from "next/image";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 
@@ -145,12 +146,12 @@ export function InfiniteCanvas({
 
   const handleWheel = (e) => {
     if (!isActive) return;
+return;
+    // e.preventDefault();
 
-    e.preventDefault();
-
-    setZoom((prev) =>
-      Math.max(0.5, Math.min(100, prev - e.deltaY * 0.0008))
-    );
+    // setZoom((prev) =>
+    //   Math.max(0.5, Math.min(100, prev - e.deltaY * 0.0008))
+    // );
   };
 
   return (
@@ -238,50 +239,58 @@ export default function InfiniteCanvasDemo() {
   const newY= useTransform(y,x=>x-50)
   return (
     <div onMouseEnter={()=>{setScale(true)}} onMouseLeave={()=>{setScale(false)}} className="relative md:h-svh lg:h-svh h-[86svh]  w-full">
-<motion.div  animate={{scale:scale?1:0}} style={{x:newX,y:newY,scale:0}} className='z-preloader font-body pointer-events-none  text-brand-black font-medium capitalize mixblend-difference fixed flex flex-col gap-4 items-center justify-center top-0 left-0 h-[120px] w-[120px] '>
 
-<div className=" bg-brand-white rounded-2xl top-0 left-0 w-full h-[20px] flex items-center justify-center">
-  drag
-</div>
-<div className=" bg-brand-accent font-body text-para text-brand-white flex items-center justify-center text-center rounded-full top-0 left-0 size-[90px]">
-  view product
-</div>
-
-          </motion.div>
     <InfiniteCanvas
       cardWidth={170}
       cardHeight={220}
       spacing={40}
       className="h-full bg-white w-full"
+      showControls={false}
+      showZoom={false}
+      showInstructions={false}
+      showStatus
     > 
     
-      <Card className="bg-emerald-400 p-2 overflow-hidden shadow">
-        <Link draggable={false} href="/">
+     
+ <Card className="bg-emerald400 p-2 overflow-hidden shadow">
+        <Link draggable={false} href="/products">
           <img
             draggable={false}
-            src="/images/red6.jpg"
-            className="w-full h-full"
+            src="/images/prod-bag.jpg"
+            className="w-full h-full aspect-[5/7] object-cover"
             alt=""
           />
         </Link>
       </Card>
-
-      <Card className="bg-emerald-400 p-2 overflow-hidden shadow">
-        <img
-          draggable={false}
-          src="/images/red2.jpg"
-          className="w-full h-full"
-          alt=""
-        />
+       <Card className="bg-emerald400 p-2 overflow-hidden shadow">
+        <Link draggable={false} href="/products">
+          <img
+            draggable={false}
+            src="/images/prod-t-shirt.jpg"
+            className="w-full h-full aspect-[5/7] object-cover"
+            alt=""
+          />
+        </Link>
       </Card>
-
-      <Card className="bg-emerald-400 p-2 overflow-hidden shadow">
-        <img
-          draggable={false}
-          src="/images/red3.jpg"
-          className="w-full h-full"
-          alt=""
-        />
+       <Card className="bg-emerald400 p-2 overflow-hidden shadow">
+        <Link draggable={false} href="/products">
+          <img
+            draggable={false}
+            src="/images/prod-cap.jpg"
+            className="w-full h-full aspect-[5/7] object-cover"
+            alt=""
+          />
+        </Link>
+      </Card>
+       <Card className="bg-emerald400 p-2 overflow-hidden shadow">
+        <Link draggable={false} href="/products">
+          <Image width={400} height={400}
+            draggable={false}
+            src="/images/prod-hat.jpg"
+            className="w-full h-full aspect-[5/7] object-cover"
+            alt=""
+          />
+        </Link>
       </Card>
     </InfiniteCanvas>
     </div>
