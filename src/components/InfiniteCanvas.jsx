@@ -160,7 +160,10 @@ export function InfiniteCanvas({
   const handlePointerMove = (e) => {
   if (!dragStart || !isActive) return;
 
-  const speed = 1.8; // try 1.4 → 2.5
+  const speed =
+    e.pointerType === "touch"
+      ? 1.8
+      : 1;
 
   const dx =
     (e.clientX - dragStart.startX) *
