@@ -8,6 +8,8 @@ import Preloader from "@/components/preloader/Preloader";
 import { useEffect, useState } from "react";
 import HeadBlend from "@/components/preloader/HeadBlend";
 import Cta from "@/components/Cta";
+import PaintRevealCanvas from "@/components/PaintRevealCanvas";
+import PaintReveal from "@/components/PaintReveal";
 
 export default function Home() {
   const [isLoading,setIsLoading]=useState(true)
@@ -47,6 +49,7 @@ export default function Home() {
 
       <Landing preLoaderOut={preLoaderOut}/>
       <FeaturedProducts/>
+        <PaintReveal/>
       <InfiniteCanvasDemo/>
       {/* <ProductCard/> */}
      <Cta/>
