@@ -64,9 +64,9 @@ const [pageName,setPageName]= useState(router.pathname)
   useEffect(() => {
     setPreLoaderOut(true)
 
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
+    // if ("scrollRestoration" in window.history) {
+    //   window.history.scrollRestoration = "manual";
+    // }
     const handleRouteChange=(url)=>{
       setPageName(url)
     }

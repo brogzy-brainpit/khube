@@ -107,8 +107,15 @@ export function InfiniteCanvas({
     [childCount, cellWidth, cellHeight, spacing]
   );
 
-  useEffect(() => {
-    const update = () => {
+ useEffect(() => {
+  let frame = null;
+
+  const update = () => {
+    if (frame) return;
+
+    frame = requestAnimationFrame(() => {
+      frame = null;
+
       setVisibleCards(
         getVisibleCards(
           x.get(),
@@ -117,19 +124,23 @@ export function InfiniteCanvas({
           canvasRef.current
         )
       );
-    };
+    });
+  };
 
-    update();
+  update();
 
-    const unsubX = x.on("change", update);
-    const unsubY = y.on("change", update);
+  const unsubX = x.on("change", update);
+  const unsubY = y.on("change", update);
 
-    return () => {
-      unsubX();
-      unsubY();
-    };
-  }, [zoom, getVisibleCards, x, y]);
+  return () => {
+    unsubX();
+    unsubY();
 
+    if (frame) {
+      cancelAnimationFrame(frame);
+    }
+  };
+}, [zoom, getVisibleCards]);
   // ---------- FIXED DRAG ----------
 
   const handlePointerDown = (e) => {
@@ -298,7 +309,7 @@ export default function InfiniteCanvasDemo() {
         </Link>
       </Card>
        <Card className="bg-emerald400 p-2 overflow-hidden shadow">
-        <Link draggable={false} href="/products">
+        <Link  draggable={false} href="/products">
           <Image width={400} height={400}
             draggable={false}
             src="/images/prod-hat.jpg"

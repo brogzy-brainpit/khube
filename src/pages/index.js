@@ -19,7 +19,7 @@ export default function Home() {
    const timer=  setTimeout(() => {
     setIsLoading(false)
     document.body.style.cursor="default"
-    window.scrollTo({top:0})
+    // window.scrollTo({top:0})
     setPreLoaderOut(true)
     // setTimeout(() => {
     //   setIsLoading2(false)
