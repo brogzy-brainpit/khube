@@ -84,8 +84,8 @@ function Preloader2() {
         clipPath: 'inset(0 0 100% 0)',
       // scale:2,
        transition:{
-        delay:0.5,
-        duration:1.8,
+        delay:0.2,
+        duration:1,
         ease,
       }
     },
@@ -100,7 +100,7 @@ function Preloader2() {
       // scale:2,
        transition:{
         delay:.6,
-        duration:5.2,
+        duration:2.4,
         ease,
       }
     },
@@ -122,7 +122,7 @@ const imgs=[
   return (
     <motion.div variants={wrapper} initial='initial' animate='enter' exit='exit' className=" fixed  top-0 left-0 w-full h-full bg-neutral-800 z-preloader flex flex-col items-center justify-center">
      {/* top line scaling */}
-     <motion.div initial={{scaleX:0,transformOrigin:'right'}} animate={{scaleX:out?0:1,transformOrigin:out?'right':'left'}} onAnimationComplete={()=>{setOut(true)}} transition={{duration:3,delay:.2,ease:'easeOut'}} className='bg-white h-[.5em] w-full absolute top-0 left-0'/>
+     <motion.div initial={{scaleX:0,transformOrigin:'right'}} animate={{scaleX:out?0:1,transformOrigin:out?'right':'left'}} onAnimationComplete={()=>{setOut(true)}} transition={{duration:1.4,delay:.2,ease:'easeOut'}} className='bg-white h-[.5em] w-full absolute top-0 left-0'/>
      
       {/* <motion.div 
       variants={ParentImg}

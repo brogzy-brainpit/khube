@@ -1,12 +1,4 @@
- "use client";
-
-import Link from "next/link";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+"use client";
 
 import React, {
   useState,
@@ -17,7 +9,9 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import useMouse from "@/hooks/useMouse";
+import Link from "next/link";
 import Image from "next/image";
 
 const cn = (...classes) => classes.filter(Boolean).join(" ");
@@ -38,60 +32,72 @@ export function InfiniteCanvas({
   spacing = 30,
   showControls = true,
   showZoom = true,
-  showStatus = true,
   showInstructions = true,
 }) {
-  const [zoom, setZoom] = useState(1);
+  const [zoom] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [dragStart, setDragStart] = useState(null);
   const [isActive, setIsActive] = useState(true);
   const [visibleCards, setVisibleCards] = useState([]);
 
   const canvasRef = useRef(null);
 
-  // motion values
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const springX = useSpring(x, { stiffness: 100, damping: 25 });
-  const springY = useSpring(y, { stiffness: 100, damping: 25 });
+  const springX = useSpring(x, {
+    stiffness: 100,
+    damping: 25,
+  });
+
+  const springY = useSpring(y, {
+    stiffness: 100,
+    damping: 25,
+  });
 
   const cellWidth = cardWidth + spacing;
   const cellHeight = cardHeight + spacing;
 
-  const childArray = useMemo(() => Children.toArray(children), [children]);
+  const childArray = useMemo(
+    () => Children.toArray(children),
+    [children]
+  );
+
   const childCount = childArray.length;
 
   const getVisibleCards = useCallback(
     (posX, posY, zoomLevel, canvas) => {
-      const vw = canvas ? canvas.offsetWidth : window.innerWidth;
-      const vh = canvas ? canvas.offsetHeight : window.innerHeight;
+      const vw = canvas?.offsetWidth || window.innerWidth;
+      const vh = canvas?.offsetHeight || window.innerHeight;
 
       const buffer = Math.ceil(3 / zoomLevel);
 
       const startCol =
-        Math.floor((-posX / zoomLevel - vw / 2) / cellWidth) - buffer;
+        Math.floor((-posX / zoomLevel - vw / 2) / cellWidth) -
+        buffer;
 
       const endCol =
-        Math.ceil((-posX / zoomLevel + vw / 2) / cellWidth) + buffer;
+        Math.ceil((-posX / zoomLevel + vw / 2) / cellWidth) +
+        buffer;
 
       const startRow =
-        Math.floor((-posY / zoomLevel - vh / 2) / cellHeight) - buffer;
+        Math.floor((-posY / zoomLevel - vh / 2) / cellHeight) -
+        buffer;
 
       const endRow =
-        Math.ceil((-posY / zoomLevel + vh / 2) / cellHeight) + buffer;
+        Math.ceil((-posY / zoomLevel + vh / 2) / cellHeight) +
+        buffer;
 
       const cards = [];
 
       for (let row = startRow; row <= endRow; row++) {
         for (let col = startCol; col <= endCol; col++) {
-          const index = Math.abs(col * 7 + row * 13) % childCount;
-
           cards.push({
             id: `${col}-${row}`,
             x: col * cellWidth + spacing / 2,
             y: row * cellHeight + spacing / 2,
-            childIndex: index,
+            childIndex:
+              Math.abs(col * 7 + row * 13) % childCount,
           });
         }
       }
@@ -104,7 +110,12 @@ export function InfiniteCanvas({
   useEffect(() => {
     const update = () => {
       setVisibleCards(
-        getVisibleCards(x.get(), y.get(), zoom, canvasRef.current)
+        getVisibleCards(
+          x.get(),
+          y.get(),
+          zoom,
+          canvasRef.current
+        )
       );
     };
 
@@ -117,62 +128,66 @@ export function InfiniteCanvas({
       unsubX();
       unsubY();
     };
-  }, [zoom, getVisibleCards]);
+  }, [zoom, getVisibleCards, x, y]);
 
-  // ✅ POINTER EVENTS (MOBILE FIX)
+  // ---------- FIXED DRAG ----------
+
   const handlePointerDown = (e) => {
     if (!isActive) return;
 
-    setIsDragging(true);
-
     setDragStart({
-      x: e.clientX - x.get(),
-      y: e.clientY - y.get(),
+      startX: e.clientX,
+      startY: e.clientY,
+      offsetX: x.get(),
+      offsetY: y.get(),
+      pointerId: e.pointerId,
     });
 
-    e.currentTarget.setPointerCapture?.(e.pointerId);
-  };
-
-  const handlePointerMove = (e) => {
-    if (!isDragging || !isActive) return;
-
-    x.set(e.clientX - dragStart.x);
-    y.set(e.clientY - dragStart.y);
-  };
-
-  const handlePointerUp = () => {
     setIsDragging(false);
   };
 
-  const handleWheel = (e) => {
-    if (!isActive) return;
-return;
-    // e.preventDefault();
+  const handlePointerMove = (e) => {
+    if (!dragStart || !isActive) return;
 
-    // setZoom((prev) =>
-    //   Math.max(0.5, Math.min(100, prev - e.deltaY * 0.0008))
-    // );
+    const dx = e.clientX - dragStart.startX;
+    const dy = e.clientY - dragStart.startY;
+
+    // activate drag only after threshold
+    if (!isDragging) {
+      if (Math.hypot(dx, dy) < 8) return;
+
+      setIsDragging(true);
+
+      e.currentTarget.setPointerCapture?.(
+        dragStart.pointerId
+      );
+    }
+
+    x.set(dragStart.offsetX + dx);
+    y.set(dragStart.offsetY + dy);
+  };
+
+  const handlePointerUp = () => {
+    setDragStart(null);
+    setIsDragging(false);
   };
 
   return (
     <div
       ref={canvasRef}
-      className={cn("relative overflow-hidden select-none", className)}
+      className={cn(
+        "relative overflow-hidden select-none",
+        className
+      )}
       style={{
-        cursor: isActive
-          ? isDragging
-            ? "grabbing"
-            : "grab"
-          : "default",
-        touchAction: "none", // ✅ CRITICAL FOR MOBILE DRAG
+        cursor: isDragging ? "grabbing" : "grab",
+        touchAction: "pan-x pan-y",
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
-      onWheel={handleWheel}
     >
-      {/* WORLD */}
       <motion.div
         style={{
           x: springX,
@@ -223,8 +238,8 @@ return;
 
       {showControls && (
         <button
-          className="absolute top-4 left-1/2 -translate-x-1/2 px-3 py-1 text-xs bg-black/40 text-white rounded-full"
           onClick={() => setIsActive((v) => !v)}
+          className="absolute top-4 left-1/2 -translate-x-1/2 px-3 py-1 text-xs bg-black/40 text-white rounded-full"
         >
           {isActive ? "Disable" : "Enable"}
         </button>

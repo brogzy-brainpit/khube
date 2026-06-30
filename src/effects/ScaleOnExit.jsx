@@ -1,20 +1,22 @@
 import React from 'react'
 import {motion} from 'framer-motion'
 import clsx from 'clsx'
+import { customEase1 } from '../../data'
 
 function ScaleOnExit({children,className,preLoaderOut=false}) {
      const scaleParentDiv={
          initial:{
           scale:1.30,
-             opacity:0.4,
+             opacity:0.5,
          },
            enter:{
              scale:1,
              opacity:1,
              transition: {
-              delay:.85,
-               duration:.8,
-               ease:"easeInOut",
+              // delay:0.45,
+               duration:2,
+              //  ease:"easeOut",
+                   ease:customEase1,
             },
           },
           exit:{

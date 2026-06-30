@@ -21,11 +21,11 @@ export default function Home() {
     document.body.style.cursor="default"
     window.scrollTo({top:0})
     setPreLoaderOut(true)
-    setTimeout(() => {
-      setIsLoading2(false)
-    }, 1000);
+    // setTimeout(() => {
+    //   setIsLoading2(false)
+    // }, 1000);
 
-    }, 6000);
+    }, 3000);
     return ()=>clearTimeout(timer)
   },[])
   return (
