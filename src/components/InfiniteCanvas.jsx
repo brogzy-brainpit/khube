@@ -158,25 +158,31 @@ export function InfiniteCanvas({
   };
 
   const handlePointerMove = (e) => {
-    if (!dragStart || !isActive) return;
+  if (!dragStart || !isActive) return;
 
-    const dx = e.clientX - dragStart.startX;
-    const dy = e.clientY - dragStart.startY;
+  const speed = 1.8; // try 1.4 → 2.5
 
-    // activate drag only after threshold
-    if (!isDragging) {
-      if (Math.hypot(dx, dy) < 8) return;
+  const dx =
+    (e.clientX - dragStart.startX) *
+    speed;
 
-      setIsDragging(true);
+  const dy =
+    (e.clientY - dragStart.startY) *
+    speed;
 
-      e.currentTarget.setPointerCapture?.(
-        dragStart.pointerId
-      );
-    }
+  if (!isDragging) {
+    if (Math.hypot(dx, dy) < 8) return;
 
-    x.set(dragStart.offsetX + dx);
-    y.set(dragStart.offsetY + dy);
-  };
+    setIsDragging(true);
+
+    e.currentTarget.setPointerCapture?.(
+      dragStart.pointerId
+    );
+  }
+
+  x.set(dragStart.offsetX + dx);
+  y.set(dragStart.offsetY + dy);
+};
 
   const handlePointerUp = () => {
     setDragStart(null);
@@ -258,6 +264,8 @@ export function InfiniteCanvas({
     </div>
   );
 }
+
+
 export default function InfiniteCanvasDemo() {
    const [scale,setScale]=useState(false)
    const {x,y}=useMouse({start:{x:480,y:300},stiffness:140,damping:18,mass:0.1})
