@@ -29,8 +29,8 @@ export default function products({products}) {
         <Image
           src={image.transformedSrc}
           alt={image.altText || node.title}
-          width={300}
-          height={300}
+          width={350}
+          height={350}
         />
       )}
     </div>
