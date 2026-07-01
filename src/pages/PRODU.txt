@@ -1,0 +1,40 @@
+import ScaleOnExit from '@/effects/ScaleOnExit'
+import GridColumn from '@/layout/GridColumn'
+import Section from '@/layout/Section'
+import Image from 'next/image'
+import React from 'react'
+
+function products() {
+  return (
+
+    <div className='bg-brand-accent text-brand-black'>
+       <ScaleOnExit preLoaderOut className={"h-full w-full flex items-center justify-center"}>
+          <Section>
+            <GridColumn>
+              <div className='col-span-5 bg-red-400'>
+                <div className='h-full w-full aspect-[5/6] relative pb-[66px]'>
+                <Image className='object-cover h-full w-full'  src={"/images/red1.jpg"} fill  />
+                </div>
+              </div>
+              <div className='col-span-1 bg-purple-400'>
+                <div className='w-full h-full flex flex-col  items-start justify-center'>
+                  {Array(3).fill().map(()=>{
+                    return (
+                      <div className='relative h-full w-full'>
+                        <Image className='object-cover h-full w-full ' fill src={"/images/red2.jpg"}/>
+                        </div>
+                    )
+                  })}
+
+                </div>
+              </div>
+              <div className='col-span-6 bg-purple-400'>B</div>
+            </GridColumn>
+
+          </Section>
+       </ScaleOnExit>
+      </div>
+  )
+}
+
+export default products

@@ -51,7 +51,7 @@ function Footer() {
           <h2 className='font-body text-para capitalize text-brand-black p-2'>site by <Link className='underline capitalize' target='_blank' href={'https://www.instagram.com/memet_lab'}>memet</Link></h2>
         </div>
        </GridColumn>
-<Logo fill='#000000' width={"100%"} className={'w-full'}/>
+<Logo fill='#353331' width={"100%"} className={'w-full'}/>
       </Section>
 
 
