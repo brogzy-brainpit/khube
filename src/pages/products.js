@@ -17,22 +17,21 @@ export default function products({products}) {
   const image = node.images.edges[0]?.node;
 
   return (
-    <div key={node.handle}>
-      <h2>{node.title}</h2>
-
-      <p>
-        {node.priceRange.minVariantPrice.amount}{" "}
-        {node.priceRange.minVariantPrice.currencyCode}
-      </p>
-
+    <div className='col-span-3 md:col-span-4 lg:col-span-3' key={node.handle}>
       {image && (
-        <Image
+        <Image className='aspect-[5/7]'
           src={image.transformedSrc}
           alt={image.altText || node.title}
           width={350}
           height={350}
         />
       )}
+      <h2 className='text-heading2 font-custom font-bold'>{node.title}</h2>
+      <p className='text-para font-body font-bold'>
+        {node.priceRange.minVariantPrice.amount}{" "}
+        {node.priceRange.minVariantPrice.currencyCode}
+      </p>
+
     </div>
   );
 })}  
@@ -69,7 +68,7 @@ export async function getStaticProps() {
  const gql = String.raw
  const productsQuery = gql`
     query Products {
-  products(first: 2) {
+  products(first: 20) {
     edges {
       node {
         title
