@@ -30,6 +30,7 @@ module.exports = {
         'heading1': 'clamp(3em, 5vw + 0.5em, 5.5em)',
         'heading2': 'clamp(2.4em, 4.5vw + 0.5em, 4.5em)',
         'heading3': 'clamp(2em, 3vw + 0.2em, 2.8em)',
+        'heading4': 'clamp(1.5em, 2vw + 0.2em, 2em)',
         'display': 'clamp(6em, 8vw + 1vw, 12em)',
         'footer': 'clamp(40px, 9vw, 80px)',
       },
