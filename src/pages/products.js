@@ -26,7 +26,7 @@ export default function products({products}) {
           height={350}
         />
       )}
-      <h2 className='text-heading4 leading-[1] my-[.8em] font-custom font-bold'>{node.title}</h2>
+      <h2 className='text-heading4 leading-[1] mt-[.8em] mb-[.5em] font-custom font-bold'>{node.title}</h2>
       <p className='text-para font-body font-bold'>
         {node.priceRange.minVariantPrice.amount}{" "}
         {node.priceRange.minVariantPrice.currencyCode}
