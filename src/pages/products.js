@@ -52,7 +52,7 @@ function ProductCard({ node }) {
             initial="initial"
             variants={revealVariants}
             className="
-absolute inset-0
+absolute inset-0 isa
 transition-all duration-700
 brightness-[4]
 contrast-150
