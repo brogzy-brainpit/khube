@@ -5,26 +5,50 @@ import { storefront } from "@/utils/queries";
 import Image from "next/image";
 import { motion, useAnimationControls } from "framer-motion";
 
-const revealVariants = {
+function ProductCard({ node }) {
+    const revealImage1Variants = {
+  initial: {
+    y: 0,
+    filter: "brightness(1) contrast(1) saturate(1) blur(0px)",
+     transition: {
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+  hover: {
+    clipPath: "inset(0% 0% 0% 0%)",
+    y: -100,
+    filter: "brightness(4) contrast(1.5) saturate(0.6) blur(2px)",
+    transition: {
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+      // ease: [0.76, 0, 0.24, 1]
+    },
+  },
+}
+  const revealImage2Variants = {
   initial: {
     clipPath: "inset(100% 0% 0% 0%)",
     scale: 1.3,
-    transition: {
+    filter: "brightness(4) contrast(1.5) saturate(0.6) blur(2px)",
+     transition: {
       duration: 1,
-      ease: [0.76, 0, 0.24, 1],
+      ease: [0.22, 1, 0.36, 1],
     },
   },
   hover: {
     clipPath: "inset(0% 0% 0% 0%)",
     scale: 1,
+    filter: "brightness(1) contrast(1) saturate(1) blur(0px)",
     transition: {
-      duration: 0.7,
-      ease: [0.76, 0, 0.24, 1],
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+      // ease: [0.76, 0, 0.24, 1]
     },
   },
 };
 
-function ProductCard({ node }) {
+
   const controls = useAnimationControls();
 
   const image = node.images.edges[0]?.node;
@@ -38,27 +62,26 @@ function ProductCard({ node }) {
     >
       <div className="relative group w-full aspect-[5/7] overflow-hidden">
         {image && (
-          <Image
-            src={image.url}
-            alt={image.altText || node.title}
-            fill
-            className="object-cover"
-          />
+          <motion.div
+          animate={controls}
+           initial="initial1"
+            variants={revealImage1Variants}
+             className="relative w-full h-full">
+              <Image
+                src={image.url}
+                alt={image.altText || node.title}
+                fill
+                className="object-cover"
+              />
+            </motion.div>
         )}
 
         {image2 && (
           <motion.div
             animate={controls}
             initial="initial"
-            variants={revealVariants}
-            className="
-absolute inset-0 isa
-transition-all duration-700
-brightness-[4]
-contrast-150
-group-hover:brightness-100
-group-hover:contrast-100
-"
+            variants={revealImage2Variants}
+            className="absolute inset-0"
           >
             <Image
               src={image2.url}
@@ -70,9 +93,9 @@ group-hover:contrast-100
         )}
       </div>
 
-      <h2 className="text-heading4 leading-[1] mt-[.8em] mb-[.5em] font-custom font-medium">
+      <p className="text-para leading-[1] mt-[.8em] mb-[.5em] font-custom">
         {node.title}
-      </h2>
+      </p>
 
       <p className="text-para font-body">
         {node.priceRange.minVariantPrice.amount}{" "}
@@ -84,7 +107,7 @@ group-hover:contrast-100
 
 export default function Products({ products }) {
   return (
-    <div className="bg-brand-accent text-brand-black">
+    <div className="bg-brand-accen text-brand-black">
       <ScaleOnExit
         preLoaderOut
         className="h-full w-full flex items-center justify-center"
