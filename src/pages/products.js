@@ -16,7 +16,7 @@ filter: "brightness(1) contrast(1) saturate(1)",
 },
 hover: {
 y: "30%",
-filter: "brightness(5) contrast(4) saturate(4)",
+filter: "brightness(2.8) contrast(2.2) saturate(1.8)",
 transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
@@ -27,8 +27,8 @@ transition: {
 const revealImage2Variants = {
 initial: {
 clipPath: "inset(100% 0% 0% 0%)",
-scale: 1.3,
-filter: "brightness(4) contrast(1.5) saturate(0.6)",
+scale: 1.12,
+filter: "brightness(5) contrast(4) saturate(4)",
  transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
@@ -39,7 +39,8 @@ clipPath: "inset(0% 0% 0% 0%)",
 scale: 1,
 filter: "brightness(1) contrast(1) saturate(1)",
 transition: {
-  duration: 1,
+  delay: .08,
+  duration: .9,
   ease: [0.22, 1, 0.36, 1],
   // ease: [0.76, 0, 0.24, 1]
 },
@@ -83,7 +84,7 @@ function ProductCard({ node }) {
             initial="initial"
             variants={revealImage2Variants}
             className="absolute inset-0"
-             style={{ willChange: "transform, filter" }}
+             style={{ willChange: "transform, filter, clipPath",originX: 0.5, originY: 0.5 }}
           >
             <Image
               src={image2.url}
