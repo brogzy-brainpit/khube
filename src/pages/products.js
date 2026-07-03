@@ -5,48 +5,47 @@ import { storefront } from "@/utils/queries";
 import Image from "next/image";
 import { motion, useAnimationControls } from "framer-motion";
 
-function ProductCard({ node }) {
-    const revealImage1Variants = {
-  initial: {
-    y: 0,
-    filter: "brightness(1) contrast(1) saturate(1) blur(0px)",
-     transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-  hover: {
-    clipPath: "inset(0% 0% 0% 0%)",
-    y: -100,
-    filter: "brightness(4) contrast(1.5) saturate(0.6) blur(2px)",
-    transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
-      // ease: [0.76, 0, 0.24, 1]
-    },
-  },
+const revealImage1Variants = {
+initial: {
+y: "0%",
+filter: "brightness(1) contrast(1) saturate(1)",
+ transition: {
+  duration: 1,
+  ease: [0.22, 1, 0.36, 1],
+},
+},
+hover: {
+y: "30%",
+filter: "brightness(5) contrast(4) saturate(4)",
+transition: {
+  duration: 1,
+  ease: [0.22, 1, 0.36, 1],
+  // ease: [0.76, 0, 0.24, 1]
+},
+},
 }
-  const revealImage2Variants = {
-  initial: {
-    clipPath: "inset(100% 0% 0% 0%)",
-    scale: 1.3,
-    filter: "brightness(4) contrast(1.5) saturate(0.6) blur(2px)",
-     transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-  hover: {
-    clipPath: "inset(0% 0% 0% 0%)",
-    scale: 1,
-    filter: "brightness(1) contrast(1) saturate(1) blur(0px)",
-    transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
-      // ease: [0.76, 0, 0.24, 1]
-    },
-  },
+const revealImage2Variants = {
+initial: {
+clipPath: "inset(100% 0% 0% 0%)",
+scale: 1.3,
+filter: "brightness(4) contrast(1.5) saturate(0.6)",
+ transition: {
+  duration: 1,
+  ease: [0.22, 1, 0.36, 1],
+},
+},
+hover: {
+clipPath: "inset(0% 0% 0% 0%)",
+scale: 1,
+filter: "brightness(1) contrast(1) saturate(1)",
+transition: {
+  duration: 1,
+  ease: [0.22, 1, 0.36, 1],
+  // ease: [0.76, 0, 0.24, 1]
+},
+},
 };
+function ProductCard({ node }) {
 
 
   const controls = useAnimationControls();
@@ -64,9 +63,11 @@ function ProductCard({ node }) {
         {image && (
           <motion.div
           animate={controls}
-           initial="initial1"
+           initial="initial"
             variants={revealImage1Variants}
-             className="relative w-full h-full">
+             className="relative w-full h-full"
+              style={{ willChange: "transform, filter",originX: 0.5, originY: 0.5 }}
+             >
               <Image
                 src={image.url}
                 alt={image.altText || node.title}
@@ -82,6 +83,7 @@ function ProductCard({ node }) {
             initial="initial"
             variants={revealImage2Variants}
             className="absolute inset-0"
+             style={{ willChange: "transform, filter" }}
           >
             <Image
               src={image2.url}
