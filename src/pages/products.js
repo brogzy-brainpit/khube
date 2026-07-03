@@ -27,7 +27,7 @@ transition: {
 const revealImage2Variants = {
 initial: {
 clipPath: "inset(100% 0% 0% 0%)",
-scale: 1.12,
+scale: 1.2,
 filter: "brightness(5) contrast(4) saturate(4)",
  transition: {
   duration: 1,
