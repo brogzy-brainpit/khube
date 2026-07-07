@@ -4,19 +4,20 @@ import Section from "@/layout/Section";
 import { storefront } from "@/utils/queries";
 import Image from "next/image";
 import { motion, useAnimationControls } from "framer-motion";
+import Link from "next/link";
 
 const revealImage1Variants = {
 initial: {
-y: "0%",
-filter: "brightness(1) contrast(1) saturate(1)",
+y: 0,
+// filter: "brightness(1) contrast(1) saturate(1)",
  transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
 },
 },
 hover: {
-y: "30%",
-filter: "brightness(2.8) contrast(2.2) saturate(1.8)",
+y: -100,
+// filter: "brightness(2.8) contrast(2.2) saturate(1.8)",
 transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
@@ -28,7 +29,7 @@ const revealImage2Variants = {
 initial: {
 clipPath: "inset(100% 0% 0% 0%)",
 scale: 1.2,
-filter: "brightness(5) contrast(4) saturate(4)",
+// filter: "brightness(5) contrast(4) saturate(4)",
  transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
@@ -37,7 +38,7 @@ filter: "brightness(5) contrast(4) saturate(4)",
 hover: {
 clipPath: "inset(0% 0% 0% 0%)",
 scale: 1,
-filter: "brightness(1) contrast(1) saturate(1)",
+// filter: "brightness(1) contrast(1) saturate(1)",
 transition: {
   delay: .08,
   duration: .9,
@@ -60,6 +61,7 @@ function ProductCard({ node }) {
       onHoverStart={() => controls.start("hover")}
       onHoverEnd={() => controls.start("initial")}
     >
+      <Link href={`/products/${node.handle}`}>
       <div className="relative group w-full aspect-[5/7] overflow-hidden">
         {image && (
           <motion.div
@@ -90,6 +92,7 @@ function ProductCard({ node }) {
               src={image2.url}
               alt={image2.altText || node.title}
               fill
+              sizes=""
               className="object-cover"
             />
           </motion.div>
@@ -104,6 +107,7 @@ function ProductCard({ node }) {
         {node.priceRange.minVariantPrice.amount}{" "}
         {node.priceRange.minVariantPrice.currencyCode}
       </p>
+      </Link>
     </motion.div>
   );
 }
