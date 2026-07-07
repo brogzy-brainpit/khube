@@ -21,12 +21,12 @@ const image = product.images.edges[0]?.node;
        <ScaleOnExit preLoaderOut className={"h-full w-full flex items-center justify-center"}>
           <Section>
             <GridColumn>
-              <div className='col-span-5 bg-red400'>
+              <div className='lg:col-span-5 col-span-4 bg-red400'>
                 <div className='h-full w-full aspect-[5/6] relative pb-[66px]'>
                 <Image alt={image.altText || title} className='object-cover h-full w-full'  src={image.url} fill  />
                 </div>
               </div>
-              <div className='col-span-1 bg-purple400'>
+              <div className='lg:col-span-1 col-span-2 bg-purple400'>
                 <div className='w-full h-full flex flex-col  items-start justify-start gap-4'>
                   {product.images.edges.map(({node})=>{
                     return (
@@ -43,10 +43,10 @@ const image = product.images.edges[0]?.node;
 
                 </div>
               </div>
-              
+
               <div className='col-span-6 bg-purple400'>
-<h2 className="font-custom text-heading2 mb-6 font-medium">
-    <ScrambleText delay={1.2} text={title}/>
+<h2 className="font-custom text-heading1 md:text-heading2 lg:text-heading2 mt-6 mb-0 lg:mb-6 font-medium">
+    <ScrambleText className={"leading-[1]"} delay={1.2} text={title}/>
 </h2>
 <p className="font-body text-para mb-6 font-normal">
     <ScrambleTextPara delay={1.8} duration={1.4} text={description}/>
