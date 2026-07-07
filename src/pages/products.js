@@ -9,7 +9,7 @@ import Link from "next/link";
 const revealImage1Variants = {
 initial: {
 y: 0,
-// filter: "brightness(1) contrast(1) saturate(1)",
+filter: "brightness(1) contrast(1) saturate(1)",
  transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
@@ -17,7 +17,7 @@ y: 0,
 },
 hover: {
 y: -100,
-// filter: "brightness(2.8) contrast(2.2) saturate(1.8)",
+filter: "brightness(1.8) contrast(1.2) saturate(1.2)",
 transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
@@ -29,7 +29,7 @@ const revealImage2Variants = {
 initial: {
 clipPath: "inset(100% 0% 0% 0%)",
 scale: 1.2,
-// filter: "brightness(5) contrast(4) saturate(4)",
+filter: "brightness(4) contrast(2.4) saturate(1.8)",
  transition: {
   duration: 1,
   ease: [0.22, 1, 0.36, 1],
@@ -38,7 +38,7 @@ scale: 1.2,
 hover: {
 clipPath: "inset(0% 0% 0% 0%)",
 scale: 1,
-// filter: "brightness(1) contrast(1) saturate(1)",
+filter: "brightness(1) contrast(1) saturate(1)",
 transition: {
   delay: .08,
   duration: .9,
@@ -47,29 +47,9 @@ transition: {
 },
 },
 };
-const shimmer = (w, h) => `
-<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="g">
-      <stop stop-color="#f6f7f8" offset="20%" />
-      <stop stop-color="#edeef1" offset="50%" />
-      <stop stop-color="#f6f7f8" offset="70%" />
-    </linearGradient>
-  </defs>
-  <rect width="${w}" height="${h}" fill="#f6f7f8"/>
-  <rect id="r" width="${w}" height="${h}" fill="url(#g)"/>
-  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"/>
-</svg>
-`;
 
-const toBase64 = (str) =>
-  typeof window === "undefined"
-    ? Buffer.from(str).toString("base64")
-    : window.btoa(str);
 function ProductCard({ node,priority }) {
   const controls = useAnimationControls();
-
-
 
   const image = node.images.edges[0]?.node;
   const image2 = node.images.edges[1]?.node;
@@ -96,12 +76,10 @@ function ProductCard({ node,priority }) {
                 fill
                 priority={priority}
                 decoding="async"
-                placeholder="blur"
-                blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700,900))}`}
-                sizes="(max-width:768px) 100vw,
+               sizes="(max-width:768px) 100vw,
        (max-width:1024px) 50vw,
        25vw"
-      quality={70}
+      quality={100}
                 className="object-cover"
               />
             </motion.div>
