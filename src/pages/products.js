@@ -106,8 +106,7 @@ function ProductCard({ node,priority }) {
        25vw"
       quality={70}
       decoding="async"
-      placeholder="blur"
-      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700,900))}`}
+      
       className="object-cover"
     />
   </motion.div>
