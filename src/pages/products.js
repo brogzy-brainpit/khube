@@ -96,7 +96,7 @@ function ProductCard({ node }) {
                 fill
                 sizes="(max-width:768px)100vw,50vw"
       quality={70}
-                className="object-cover"
+                className="object-cover d"
               />
             </motion.div>
         )}
