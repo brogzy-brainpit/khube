@@ -66,7 +66,7 @@ const toBase64 = (str) =>
   typeof window === "undefined"
     ? Buffer.from(str).toString("base64")
     : window.btoa(str);
-function ProductCard({ node }) {
+function ProductCard({ node,priority }) {
   const controls = useAnimationControls();
 
 
@@ -94,9 +94,15 @@ function ProductCard({ node }) {
                 src={image.url}
                 alt={image.altText || node.title}
                 fill
-                sizes="(max-width:768px)100vw,50vw"
+                priority={priority}
+                decoding="async"
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700,900))}`}
+                sizes="(max-width:768px) 100vw,
+       (max-width:1024px) 50vw,
+       25vw"
       quality={70}
-                className="object-cover d"
+                className="object-cover"
               />
             </motion.div>
         )}
@@ -117,7 +123,9 @@ function ProductCard({ node }) {
       src={image2.url}
       alt={image2.altText || node.title}
       fill
-      sizes="(max-width:768px)100vw,50vw"
+      sizes="(max-width:768px) 100vw,
+       (max-width:1024px) 50vw,
+       25vw"
       quality={70}
       decoding="async"
       placeholder="blur"
@@ -150,8 +158,8 @@ export default function Products({ products }) {
       >
         <Section>
           <GridColumn>
-            {products.edges.map(({ node }) => (
-              <ProductCard key={node.handle} node={node} />
+            {products.edges.map(({ node }, index) => (
+              <ProductCard key={node.handle} node={node} priority={index < 4} />
             ))}
           </GridColumn>
         </Section>
