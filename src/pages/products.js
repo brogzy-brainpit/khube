@@ -47,10 +47,29 @@ transition: {
 },
 },
 };
+const shimmer = (w, h) => `
+<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#f6f7f8" offset="20%" />
+      <stop stop-color="#edeef1" offset="50%" />
+      <stop stop-color="#f6f7f8" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#f6f7f8"/>
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)"/>
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"/>
+</svg>
+`;
+
+const toBase64 = (str) =>
+  typeof window === "undefined"
+    ? Buffer.from(str).toString("base64")
+    : window.btoa(str);
 function ProductCard({ node }) {
-
-
   const controls = useAnimationControls();
+
+
 
   const image = node.images.edges[0]?.node;
   const image2 = node.images.edges[1]?.node;
@@ -75,28 +94,38 @@ function ProductCard({ node }) {
                 src={image.url}
                 alt={image.altText || node.title}
                 fill
+                sizes="(max-width:768px)100vw,50vw"
+      quality={70}
                 className="object-cover"
               />
             </motion.div>
         )}
 
-        {image2 && (
-          <motion.div
-            animate={controls}
-            initial="initial"
-            variants={revealImage2Variants}
-            className="absolute inset-0"
-             style={{ willChange: "transform, filter, clipPath",originX: 0.5, originY: 0.5 }}
-          >
-            <Image
-              src={image2.url}
-              alt={image2.altText || node.title}
-              fill
-              sizes=""
-              className="object-cover"
-            />
-          </motion.div>
-        )}
+       {image2 && (
+  <motion.div
+    initial="initial"
+    animate={controls}
+    variants={revealImage2Variants}
+    className="absolute inset-0"
+    style={{
+      willChange: "transform, clip-path",
+      originX: 0.5,
+      originY: 0.5,
+    }}
+  >
+    <Image
+      src={image2.url}
+      alt={image2.altText || node.title}
+      fill
+      sizes="(max-width:768px)100vw,50vw"
+      quality={70}
+      decoding="async"
+      placeholder="blur"
+      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700,900))}`}
+      className="object-cover"
+    />
+  </motion.div>
+)}
       </div>
 
       <p className="text-para leading-[1] mt-[.8em] mb-[.5em] font-custom">
