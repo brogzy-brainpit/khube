@@ -9,7 +9,8 @@ export default function Collections({ collections }) {
   return (
    <PaginatedResourceSection resourcesClassName={"flex gap-6"} connection={collections}>
   {({ node: collection }) => (
-    <div key={collection.id} className="relative h-[200px] w-[200px]">
+    <div key={collection.id} >
+        <div className="relative h-[200px] w-[200px]">
          {collection.image && ( <Image
                         src={collection.image.url}
                         alt={collection.image.altText || collection.title}
@@ -21,7 +22,8 @@ export default function Collections({ collections }) {
               quality={100}
                         className="object-cover"
                       />)}
-      <h2>{collection.title}</h2>
+        </div>
+      <h2 className='font-custom text-heading2'>{collection.title}</h2>
     </div>
   )}
 </PaginatedResourceSection>
