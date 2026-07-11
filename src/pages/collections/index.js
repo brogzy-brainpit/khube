@@ -1,14 +1,26 @@
 import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
 import { storefront } from '@/utils/queries';
 import { getPaginationVariables } from '@shopify/hydrogen';
+import Image from 'next/image';
 import React from 'react'
 
 export default function Collections({ collections }) {
-    // console.log(collections)
+    console.log(collections)
   return (
-   <PaginatedResourceSection connection={collections}>
+   <PaginatedResourceSection resourcesClassName={"flex gap-6"} connection={collections}>
   {({ node: collection }) => (
-    <div key={collection.id}>
+    <div key={collection.id} className="relative h-[200px] w-[200px]">
+         {collection.image && ( <Image
+                        src={collection.image.url}
+                        alt={collection.image.altText || collection.title}
+                        fill
+                        decoding="async"
+                       sizes="(max-width:768px) 100vw,
+               (max-width:1024px) 50vw,
+               25vw"
+              quality={100}
+                        className="object-cover"
+                      />)}
       <h2>{collection.title}</h2>
     </div>
   )}
@@ -24,9 +36,9 @@ export async function getServerSideProps(context) {
   );
 
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 2,
+    pageBy: 3,
   });
-
+// console.log(paginationVariables)
   const { data } = await storefront(COLLECTIONS_QUERY, {
     country: "US",
     ...paginationVariables,
