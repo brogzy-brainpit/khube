@@ -65,7 +65,7 @@ const gql = String.raw;
 export async function getStaticPaths() {
   const { data } = await storefront(gql`
 {
-  products(first: 6) {
+  products(first: 10) {
     edges {
       node {
         handle
