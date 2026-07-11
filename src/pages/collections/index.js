@@ -36,7 +36,7 @@ export async function getServerSideProps(context) {
   );
 
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 3,
+    pageBy: 4,
   });
 // console.log(paginationVariables)
   const { data } = await storefront(COLLECTIONS_QUERY, {
