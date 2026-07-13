@@ -124,12 +124,12 @@ export function PaginatedResourceSection({
         };
       });
 
-      const url = new URL(window.location.href);
+      // const url = new URL(window.location.href);
 
-      url.searchParams.set("cursor", cursor);
-      url.searchParams.set("direction", dir);
+      // url.searchParams.set("cursor", cursor);
+      // url.searchParams.set("direction", dir);
 
-      window.history.replaceState({}, "", url.toString());
+      // window.history.replaceState({}, "", url.toString());
       // clear animation ids after animation finishes
       // setTimeout(() => {
       //   setAnimatedIds(new Set());
@@ -140,23 +140,7 @@ export function PaginatedResourceSection({
       setLoading(false);
     }
   }
-  useEffect(() => {
-  const handlePopState = (event) => {
-    if (!event.state) return;
- const url = new URL(window.location.href);
 
-    const cursor = url.searchParams.get("cursor");
-    const direction = url.searchParams.get("direction");
-    setNodes(event.state.nodes);
-    setPageInfo(event.state.pageInfo);
-    setAnimatedIds(new Set(event.state.animatedIds));
-  };
-
-  window.addEventListener("popstate", handlePopState);
-
-  return () =>
-    window.removeEventListener("popstate", handlePopState);
-}, []);
 
   return (
     <div>
