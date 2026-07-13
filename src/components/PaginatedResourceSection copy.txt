@@ -1,0 +1,75 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+/**
+ * Next.js version of Hydrogen's PaginatedResourceSection
+ */
+export function PaginatedResourceSection({
+  connection,
+  children,
+  ariaLabel,
+  resourcesClassName,
+}) {
+  const router = useRouter();
+
+  const { nodes, pageInfo } = connection;
+
+  const previousQuery = {
+    ...router.query,
+    direction: "previous",
+    cursor: pageInfo.startCursor,
+  };
+
+  const nextQuery = {
+    ...router.query,
+    direction: "next",
+    cursor: pageInfo.endCursor,
+  };
+
+  const resourcesMarkup = nodes.map((node, index) =>
+    children({ node, index })
+  );
+
+  return (
+    <div>
+      {pageInfo.hasPreviousPage && (
+        <Link
+          href={{
+            pathname: router.pathname,
+            query: previousQuery,
+          }}
+        >
+          <span>
+            <span aria-hidden="true">↑</span> Load previous
+          </span>
+        </Link>
+      )}
+      {pageInfo.hasNextPage && (
+        <Link
+          href={{
+            pathname: router.pathname,
+            query: nextQuery,
+          }}
+        >
+          <span>
+            Load more <span aria-hidden="true">↓</span>
+          </span>
+        </Link>
+      )}
+
+      {resourcesClassName ? (
+        <div
+          aria-label={ariaLabel}
+          className={resourcesClassName}
+          role={ariaLabel ? "region" : undefined}
+        >
+          {resourcesMarkup}
+        </div>
+      ) : (
+        resourcesMarkup
+      )}
+
+      
+    </div>
+  );
+}

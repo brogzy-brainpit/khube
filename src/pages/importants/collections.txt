@@ -19,7 +19,7 @@ export default function Collections({ collections }) {
         pageBy={2}
         resourcesClassName="grid grid-cols-12 gap-8"
       >
-        {({ node: collection, isNew, direction,index }) => (
+        {({ node: collection, isNew, direction }) => (
           <motion.div
             key={collection.id}
             layout
@@ -54,7 +54,6 @@ export default function Collections({ collections }) {
                   src={collection.image.url}
                   alt={collection.image.altText || collection.title}
                   fill
-                  loading={index < 3 ? 'eager' : undefined}
                   decoding="async"
                   quality={100}
                   sizes="

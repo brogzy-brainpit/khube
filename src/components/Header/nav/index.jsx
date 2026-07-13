@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 const navItems = [
     { title: "All collections", href: "collections" },
-    { title: "All Products", href: "products" },
+    { title: "All Products", href: "all" },
     { title: "Featured", href: "featured" },
     { title: "New Arrivals", href: "new-arrivals" },
   ];
