@@ -13,7 +13,7 @@ import Script from "next/script";
 // import Header from '@/components/Header';
 import Head from 'next/head';
 // import Header from './components/Header';
-import SmoothScroll from '@/providers/Lenis';
+import SmoothScroll, { lenis } from '@/providers/Lenis';
 import Header from '../components/Header/index';
 import { customEase1 } from '../../data';
 import PageTransition from '@/effects/PageTransition';
@@ -64,9 +64,9 @@ const [pageName,setPageName]= useState(router.pathname)
   useEffect(() => {
     setPreLoaderOut(true)
 
-    // if ("scrollRestoration" in window.history) {
-    //   window.history.scrollRestoration = "manual";
-    // }
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
     const handleRouteChange=(url)=>{
       setPageName(url)
     }
@@ -81,6 +81,11 @@ const [pageName,setPageName]= useState(router.pathname)
   return (
     <SmoothScroll>
     <AnimatePresence
+     onExitComplete={() => {
+    lenis?.scrollTo(0, {
+      immediate: true,
+    });
+  }}
       mode="wait"
       // onExitComplete={() =>setPreLoaderOut(true)}
     >

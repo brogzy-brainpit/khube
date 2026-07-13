@@ -61,7 +61,7 @@ function ProductCard({ node, priority }) {
       onHoverEnd={() => controls.start("initial")}
       className="col-span-1"
     >
-      <Link href={`/products/${node.handle}`}>
+      <Link scroll={false} href={`/products/${node.handle}`}>
         <div className="relative group w-full aspect-[5/7] overflow-hidden">
           {image && (
             <motion.div

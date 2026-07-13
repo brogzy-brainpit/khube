@@ -1,25 +1,26 @@
-"use client";
 import React, { useEffect } from "react";
 import Lenis from "lenis";
 
+export let lenis = null;
 
 function SmoothScroll({ children }) {
   useEffect(() => {
-    
-    const lenis = new Lenis();
+    lenis = new Lenis();
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
+
     requestAnimationFrame(raf);
 
     return () => {
       lenis.destroy();
-   
+      lenis = null;
     };
   }, []);
 
-  return <div className="scroll-container">{children}</div>;
+  return <>{children}</>;
 }
 
 export default SmoothScroll;
