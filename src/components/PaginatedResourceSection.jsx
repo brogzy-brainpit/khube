@@ -125,11 +125,10 @@ export function PaginatedResourceSection({
       });
 
       // const url = new URL(window.location.href);
-
       // url.searchParams.set("cursor", cursor);
       // url.searchParams.set("direction", dir);
-
       // window.history.replaceState({}, "", url.toString());
+
       // clear animation ids after animation finishes
       // setTimeout(() => {
       //   setAnimatedIds(new Set());
