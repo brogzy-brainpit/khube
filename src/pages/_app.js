@@ -94,7 +94,7 @@ const [pageName,setPageName]= useState(router.pathname)
         className={`overflow-hidden ${Sans.variable} ${custom.variable} ${custom2.variable}`}
 
       >
-     <PageTransition/>
+     {/* <PageTransition/> */}
 
         <Header preLoaderOut={true}/>
         <Component {...pageProps} />     

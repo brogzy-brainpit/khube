@@ -11,10 +11,10 @@ import Link from 'next/link';
 // import DarkModeToggle from '../../DarkModeToggle';
 
 const navItems = [
-    { title: "All collections", href: "collections" },
-    { title: "All Products", href: "all" },
-    { title: "Featured", href: "featured" },
-    { title: "New Arrivals", href: "new-arrivals" },
+    { title: "All collections", href: "/collections" },
+    { title: "All Products", href: "/all" },
+    { title: "Featured", href: "/featured" },
+    { title: "New Arrivals", href: "/new-arrivals" },
   ];
 
 
@@ -55,7 +55,7 @@ const animateLine = {
                         
                         data={{...data, index}} 
                         isActive={selectedIndicator == data.href} 
-                        setSelectedIndicator={setSelectedIndicator}>fff
+                        setSelectedIndicator={setSelectedIndicator}>
                         </CustomLink>
                       })
                     }

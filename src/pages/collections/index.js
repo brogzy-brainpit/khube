@@ -5,10 +5,24 @@ import Image from "next/image";
 import { LayoutGroup, motion } from "framer-motion";
 import React from "react";
 import ScrambleText from "@/effects/ScrambleText";
+import Link from "next/link";
+import IsEmpty from "@/components/IsEmpty";
+import { COLLECTION_CARD_FRAGMENT } from "@/utils/fragments";
+import Section from "@/layout/Section";
+import { SingleCollection } from "@/components/SingleCollection";
 
 export default function Collections({ collections }) {
+      if (collections.nodes.length === 0) {
+  return (
+    <IsEmpty
+      backto=""
+      title="products"
+    />
+  );
+}
   return (
     <LayoutGroup>
+        <Section>
       <PaginatedResourceSection
         connection={collections}
         connectionKey="collections"
@@ -17,63 +31,13 @@ export default function Collections({ collections }) {
           country: "US",
         }}
         pageBy={2}
-        resourcesClassName="grid grid-cols-12 gap-8"
+        resourcesClassName="grid grid-cols-6 lg:grid-cols-12 gap-[1.25em] lg:gap-[1.5em]"
       >
         {({ node: collection, isNew, direction,index }) => (
-          <motion.div
-            key={collection.id}
-            layout
-            initial={
-              isNew
-                ? {
-                    opacity: 0,
-                    y: direction === "next" ? 70 : -70,
-                    scale: 0.96,
-                    filter: "blur(10px)",
-                  }
-                : false
-            }
-            animate={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              filter: "blur(0px)",
-            }}
-            transition={{
-              duration: 0.7,
-              ease: [0.22, 1, 0.36, 1],
-              layout: {
-                duration: 0.6,
-              },
-            }}
-            className="relative col-span-4"
-          >
-            <div className="relative w-full h-[200px] overflow-hidden">
-              {collection.image && (
-                <Image
-                  src={collection.image.url}
-                  alt={collection.image.altText || collection.title}
-                  fill
-                  loading={index < 3 ? 'eager' : undefined}
-                  decoding="async"
-                  quality={100}
-                  sizes="
-                    (max-width:768px) 100vw,
-                    (max-width:1024px) 50vw,
-                    25vw
-                  "
-                  className="object-cover"
-                />
-              )}
-            </div>
-
-            <h2 className="font-custom text-heading2 mt-3">
-              {/* {collection.title} */}
-              <ScrambleText text={collection.title}/>
-            </h2>
-          </motion.div>
+            <SingleCollection direction={direction} index={index} collection={collection} key={collection.id}  isNew={isNew}/>
         )}
       </PaginatedResourceSection>
+        </Section>
     </LayoutGroup>
   );
 }
@@ -106,18 +70,7 @@ export async function getServerSideProps(context) {
 }
 
 const COLLECTIONS_QUERY = `#graphql
-fragment Collection on Collection {
-  id
-  title
-  handle
-  image {
-    id
-    url
-    altText
-    width
-    height
-  }
-}
+${COLLECTION_CARD_FRAGMENT}
 
 query StoreCollections(
   $country: CountryCode

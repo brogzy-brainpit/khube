@@ -76,8 +76,10 @@ export function PaginatedResourceSection({
 
       const data = await response.json();
 
-      const nextConnection = data[connectionKey];
-
+      // const nextConnection = data[connectionKey];
+const nextConnection = connectionKey
+  .split(".")
+  .reduce((obj, key) => obj?.[key], data);
       if (!nextConnection) return;
 
       // find only the truly new ids
