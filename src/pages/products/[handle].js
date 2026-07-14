@@ -22,19 +22,32 @@ const image = product.images.edges[0]?.node;
           <Section>
             <GridColumn>
               <div className='lg:col-span-5 col-span-4 bg-red400'>
-                <div className='h-full w-full aspect-[5/6] relative pb-[66px]'>
-                <Image alt={image.altText || title} className='object-cover h-full w-full'  src={image.url} fill  />
+                <div className='h-full w-full aspect-[5/6] relative'>
+                <Image alt={image.altText || title}
+                priority
+                 className='object-cover'
+                   src={image.url}
+                    fill 
+                     quality={90}
+                sizes="
+                  (max-width:768px) 100vw,
+                  (max-width:1024px) 50vw,
+                  45vw
+                " />
                 </div>
               </div>
               <div className='lg:col-span-1 col-span-2 bg-purple400'>
                 <div className='w-full h-full flex flex-col  items-start justify-start gap-4'>
-                  {product.images.edges.map(({node})=>{
+                  {product.images.edges.map(({node},index)=>{
                     return (
                        <div key={node.url} className="relative w-full aspect-square">
     <Image
       src={node.url}
       alt={node.altText || ""}
-      fill
+      width={200}
+      height={200}
+      priority={index < 2}
+      quality={80}
       className="object-cover"
     />
   </div>

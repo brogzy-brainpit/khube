@@ -34,6 +34,14 @@ function Collection({ collection }) {
                     alt={collection.image.altText || collection.title}
                     fill
                     className="object-cover"
+                priority={true}
+                decoding="async"
+                quality={90}
+                sizes="
+                  (max-width:768px) 100vw,
+                  (max-width:1024px) 50vw,
+                  25vw
+                "
                   />
                 </div>
               )}
