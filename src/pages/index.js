@@ -13,7 +13,7 @@ import PaintReveal from "@/components/PaintReveal";
 import { storefront } from "@/utils/queries";
 import { PRODUCT_CARD_FRAGMENT } from "@/utils/fragments";
 
-export default function Home({ featuredCollection }) {
+export default function Home({ SingleCollection }) {
   const [isLoading,setIsLoading]=useState(true)
    const [isLoading2,setIsLoading2]=useState(true)
    const [preLoaderOut,setPreLoaderOut]=useState(false)
@@ -49,7 +49,9 @@ export default function Home({ featuredCollection }) {
 </AnimatePresence> */}
 
       <Landing preLoaderOut={preLoaderOut}/>
-      <FeaturedProducts collection={featuredCollection}/>
+      {SingleCollection && (
+  <FeaturedProducts collection={SingleCollection} />
+)}
         <PaintReveal/>
       <InfiniteCanvasDemo/>
       {/* <ProductCard/> */}
@@ -62,11 +64,12 @@ export default function Home({ featuredCollection }) {
 export async function getStaticProps() {
   const response = await storefront(HOME_QUERY);
 
-  console.log(JSON.stringify(response, null, 2));
+  // console.log(JSON.stringify(response, null, 2));
 
   return {
     props: {
-      featuredCollection: response.data.featured,
+      SingleCollection: response.data?.featured?? null,
+      
     },
     revalidate: 60,
   };
