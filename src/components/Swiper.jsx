@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { motion, useTransform } from 'framer-motion'
 import useMouse from '@/hooks/useMouse'
 import GridColumn from '@/layout/GridColumn'
+import { ProductCard } from './ProductCard'
 
 const Swiper = ({ products = [] }) => {
   const [scale, setScale] = useState(false)
@@ -146,46 +147,16 @@ const Swiper = ({ products = [] }) => {
             ref={wrapperRef}
             className="cursor-[url('https://cdn.prod.website-files.com/683703490bc01e1b8c052e06/68384fb014875f192dfcef4b_cursor-drag.svg'),_grab] flex h-full items-center will-change-transform"
           >
-            {products.map((product, index) => {
-              const image = product.images.edges[0]?.node
-              const price =
-                product.priceRange?.minVariantPrice
-
-              return (
-                <div
-                  key={product.id}
-                  className={`bg-brand-white w-[54vw] md:w-[20em] lg:w-[20em] shrink-0 pointer-events-none overflow-hidden rounded-[.2vw] flex flex-col justify-between ${
-                    index < products.length - 1 ? 'mr-[1vw]' : ''
-                  }`}
-                >
-                  <div className="h-[40vh] md:h-[20em] w-full lg:h-[28em] rounded-sm">
-                    {image && (
-                      <Image
-                        src={image.url}
-                        alt={image.altText || product.title}
-                        width={800}
-                        height={800}
-                        className="object-cover h-full w-full"
-                      />
-                    )}
-                  </div>
-
-                  <div className="flex justify-between items-center mt-4">
-                    <h4 className="text-para text-brand-black font-body capitalize">
-                      {product.title}
-                    </h4>
-
-                    <h4 className="text-para text-brand-black font-bold font-body capitalize">
-                      <sup>{price?.currencyCode}</sup>
-
-                      <span>
-                        {Number(price?.amount).toFixed(2)}
-                      </span>
-                    </h4>
-                  </div>
-                </div>
-              )
-            })}
+           {products.map((product, index) => (
+  <div
+    key={product.id}
+    className={`w-[54vw] md:w-[20em] lg:w-[20em] shrink-0 ${
+      index < products.length - 1 ? "mr-[1vw]" : ""
+    }`}
+  >
+    <ProductCard node={product} />
+  </div>
+))}
           </div>
         </div>
       </GridColumn>

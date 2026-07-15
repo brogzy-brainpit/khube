@@ -53,7 +53,7 @@ export function ProductCard({ node, priority }) {
       onHoverEnd={() => controls.start("initial")}
       className="w-full h-full"
     >
-      <Link scroll={false} href={`/products/${node.handle}`}>
+      <Link draggable={false} scroll={false} href={`/products/${node.handle}`}>
         <div className="relative group w-full aspect-[5/7] overflow-hidden">
           {image && (
             <motion.div
@@ -68,6 +68,7 @@ export function ProductCard({ node, priority }) {
               }}
             >
               <Image
+              draggable={false}
                 src={image.url}
                 alt={image.altText || node.title}
                 fill
@@ -97,6 +98,7 @@ export function ProductCard({ node, priority }) {
               }}
             >
               <Image
+                draggable={false}
                 src={image2.url}
                 alt={image2.altText || node.title}
                 fill
