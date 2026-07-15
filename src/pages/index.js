@@ -10,12 +10,13 @@ import HeadBlend from "@/components/preloader/HeadBlend";
 import Cta from "@/components/Cta";
 import PaintRevealCanvas from "@/components/PaintRevealCanvas";
 import PaintReveal from "@/components/PaintReveal";
+import { storefront } from "@/utils/queries";
+import { PRODUCT_CARD_FRAGMENT } from "@/utils/fragments";
 
-export default function Home() {
+export default function Home({ featuredCollection }) {
   const [isLoading,setIsLoading]=useState(true)
    const [isLoading2,setIsLoading2]=useState(true)
    const [preLoaderOut,setPreLoaderOut]=useState(false)
-
   useEffect(()=>{
 
    const timer=  setTimeout(() => {
@@ -48,7 +49,7 @@ export default function Home() {
 </AnimatePresence> */}
 
       <Landing preLoaderOut={preLoaderOut}/>
-      <FeaturedProducts/>
+      <FeaturedProducts collection={featuredCollection}/>
         <PaintReveal/>
       <InfiniteCanvasDemo/>
       {/* <ProductCard/> */}
@@ -57,3 +58,42 @@ export default function Home() {
     </main>
   );
 }
+
+export async function getStaticProps() {
+  const response = await storefront(HOME_QUERY);
+
+  console.log(JSON.stringify(response, null, 2));
+
+  return {
+    props: {
+      featuredCollection: response.data.featured,
+    },
+    revalidate: 60,
+  };
+}
+
+
+const gql = String.raw;
+
+const HOME_QUERY = gql`
+  ${PRODUCT_CARD_FRAGMENT}
+
+  query HomeProducts(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+
+    featured: collection(handle: "jallabiya") {
+      id
+      handle
+      title
+      description
+
+      products(first: 10) {
+        nodes {
+          ...ProductCard
+        }
+      }
+    }
+  }
+`;
