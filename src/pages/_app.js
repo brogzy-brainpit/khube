@@ -18,7 +18,15 @@ import Header from '../components/Header/index';
 import { customEase1 } from '../../data';
 import PageTransition from '@/effects/PageTransition';
 import Footer from '@/components/Footer';
+import ShopifyPageAnalytics from '@/Analytics/ShopifyPageAnalytics';
+import { CartProvider, ShopifyProvider, useCart } from '@shopify/hydrogen-react';
+import CartDrawer from '@/components/CartDrawer';
+import { useShop } from "@shopify/hydrogen-react";
 
+function ShopDebug() {
+  console.log("SHOP", useShop());
+  return null;
+}
 const Sans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -77,8 +85,36 @@ const [pageName,setPageName]= useState(router.pathname)
     }
     // setPageName(router.pathname.replace('/',''))
   }, [router.events]);
-   
+  // Create a global toggle for the cart panel state
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Extend pageProps so pages can easily toggle the cart open
+  const extendedPageProps = {
+    ...pageProps,
+    openCart: () => setIsCartOpen(true),
+  };
+ function CartDebug() {
+  const { status } = useCart();
+  console.log('CartDebug status:', status); // Should NOT be uninitialized
+  return null;
+}
   return (
+    // ✅ Fix
+       <ShopifyProvider
+      storeDomain={process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}
+      storefrontToken={process.env.NEXT_PUBLIC_ACCESS_TOKEN}
+      storefrontApiVersion="2025-01"
+      countryIsoCode="US"
+      languageIsoCode="EN"
+    >
+<CartProvider
+  onCreate={() => console.log("Creating cart...")}
+  onCreateComplete={() => console.log("Cart created!")}
+  onLineAdd={() => console.log("Adding line...")}
+  onLineAddComplete={() => console.log("Line added!")}
+>
+<ShopDebug/>
+<CartDebug /> 
     <SmoothScroll>
     <AnimatePresence
      onExitComplete={() => {
@@ -95,14 +131,20 @@ const [pageName,setPageName]= useState(router.pathname)
 
       >
      {/* <PageTransition/> */}
-
-        <Header preLoaderOut={true}/>
-        <Component {...pageProps} />     
+<ShopifyPageAnalytics/>
+        <Header preLoaderOut={true} openCart={() => setIsCartOpen(true)} />
+        <Component {...extendedPageProps} />  
+        {/* Mount your cart drawer globally inside AnimatePresence for smooth slide transitions */}
+        <AnimatePresence>
+          {isCartOpen && <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
+        </AnimatePresence>   
         <Footer />
 
 
       </div>
     </AnimatePresence>
     </SmoothScroll>
+</CartProvider>
+    </ShopifyProvider>
   );
 }

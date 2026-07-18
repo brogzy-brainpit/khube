@@ -8,6 +8,7 @@ import Curve from './Curve';
 import Footer from './Footer';
 import Magnetic from '@/effects/Magnetic';
 import Link from 'next/link';
+import { useCart } from '@shopify/hydrogen-react';
 // import DarkModeToggle from '../../DarkModeToggle';
 
 const navItems = [
@@ -19,7 +20,7 @@ const navItems = [
 
 
 export default function Index({setIsActive,isActive}) {
-
+const { totalQuantity } = useCart();
   const pathname = usePathname();
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
 const animateLine = {
@@ -43,7 +44,15 @@ const animateLine = {
                         <h3 className='text-brand-white text-para leading-[.9] font-custom2'>Navigation</h3>
                             <Magnetic>
                               <div>
-                          <Link href={"/cart"} className='text-brand-white text-para leading-[.9] font-custom2'>cart(0)</Link>
+                          <Link href={"/cart"} className='text-brand-white text-para leading-[.9] font-custom2'>cart(0)
+                          
+                          {/* Only show the counter bubble if there are actual items in the cart */}
+        {totalQuantity > 0 && (
+          <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white animate-pop">
+            {totalQuantity}
+          </span>)}
+                          </Link>
+                          
                               </div>
                             </Magnetic>
                             <motion.div variants={animateLine} initial="initial" animate="enter" exit="exit" className='absolute -translate-y-1/2 -bottom-[0%] w-full bg-brand-white h-[.1em]'/>
