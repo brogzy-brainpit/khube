@@ -4,6 +4,7 @@ import {
 } from "@shopify/hydrogen-react";
 import Image from "next/image";
 import ScaleOnExit from "@/effects/ScaleOnExit";
+import Link from "next/link";
 
 export default function CartPage() {
   const {
@@ -37,12 +38,12 @@ export default function CartPage() {
                 Looks like you haven't added anything yet.
               </p>
 
-              <a
+              <Link
                 href="/collections"
                 className="bg-brand-black text-brand-white px-8 py-4 rounded"
               >
                 Continue Shopping
-              </a>
+              </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
