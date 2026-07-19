@@ -19,7 +19,7 @@ import { customEase1 } from '../../data';
 import PageTransition from '@/effects/PageTransition';
 import Footer from '@/components/Footer';
 import ShopifyPageAnalytics from '@/Analytics/ShopifyPageAnalytics';
-import { CartProvider, ShopifyProvider, useCart } from '@shopify/hydrogen-react';
+import { CartProvider, ShopifyProvider, useCart, useShopifyCookies } from '@shopify/hydrogen-react';
 import CartDrawer from '@/components/CartDrawer';
 import { useShop } from "@shopify/hydrogen-react";
 
@@ -53,6 +53,9 @@ const custom2 = localFont({
 });
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
+
+    useShopifyCookies({ hasUserConsent: true }); // ← global, runs on every page
+
 // console.log(router.pathname)
 const [pageName,setPageName]= useState(router.pathname)
    const [preLoaderOut,setPreLoaderOut]=useState(false)
@@ -114,7 +117,7 @@ const [pageName,setPageName]= useState(router.pathname)
   onLineAddComplete={() => console.log("Line added!")}
 >
 
-  <Script
+  {/* <Script
   id="shopify-privacy"
   strategy="beforeInteractive"
 >
@@ -145,7 +148,7 @@ const [pageName,setPageName]= useState(router.pathname)
       }
     );
   `}
-</Script>
+</Script> */}
 <ShopDebug/>
 <CartDebug /> 
     <SmoothScroll>
