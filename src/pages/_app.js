@@ -113,6 +113,39 @@ const [pageName,setPageName]= useState(router.pathname)
   onLineAdd={() => console.log("Adding line...")}
   onLineAddComplete={() => console.log("Line added!")}
 >
+
+  <Script
+  id="shopify-privacy"
+  strategy="beforeInteractive"
+>
+  {`
+    window.Shopify = window.Shopify || {};
+    window.Shopify.customerPrivacy = {
+      setTrackingConsent: function(consent, callback) {
+        window.Shopify.customerPrivacy.currentVisitorConsent = consent;
+        callback && callback();
+      },
+      currentVisitorConsent: {
+        analytics: true,
+        marketing: false,
+        preferences: true,
+        sale_of_data: false,
+      },
+    };
+
+    window.Shopify.customerPrivacy.setTrackingConsent(
+      {
+        analytics: true,
+        marketing: false,
+        preferences: true,
+        sale_of_data: false,
+      },
+      function() {
+        console.log('Shopify tracking consent granted');
+      }
+    );
+  `}
+</Script>
 <ShopDebug/>
 <CartDebug /> 
     <SmoothScroll>
