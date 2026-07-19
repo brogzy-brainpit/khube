@@ -4,7 +4,6 @@ import {
   AnalyticsEventName, 
   ShopifySalesChannel, 
   getClientBrowserParameters,
-  useShopifyCookies,          // ← add this
   AddToCartButton as ShopifyButton,
   useCart
 } from '@shopify/hydrogen-react';
@@ -12,9 +11,6 @@ import { useEffect } from 'react';
 
 export default function CustomAddToCartButton({ variant, productTitle, className, onComplete }) {
   const { status, lines, error } = useCart();
-
-  // ← This sets analytics_allowed, marketing_allowed, etc. in the cookie
-  useShopifyCookies({ hasUserConsent: true });
 
   useEffect(() => {
     console.log('Cart status:', status);
@@ -26,7 +22,7 @@ export default function CustomAddToCartButton({ variant, productTitle, className
     sendShopifyAnalytics({
       eventName: AnalyticsEventName.ADD_TO_CART,
       payload: {
-        ...getClientBrowserParameters(),   // ← now reads consent as true
+        ...getClientBrowserParameters(),
         shopId: process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID,
         currency: process.env.NEXT_PUBLIC_SHOPIFY_CURRENCY,
         acceptedLanguage: process.env.NEXT_PUBLIC_SHOPIFY_LANGUAGE,
