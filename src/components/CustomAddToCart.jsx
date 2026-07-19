@@ -28,6 +28,11 @@ export default function CustomAddToCartButton({ variant, productTitle, className
         acceptedLanguage: process.env.NEXT_PUBLIC_SHOPIFY_LANGUAGE,
         shopifySalesChannel: ShopifySalesChannel.headless,
         hasUserConsent: true,
+        analyticsAllowed: true,
+        // cartId: lines?.[0]?.cartId || null,
+        // navigationApi: 'custom',
+        // uniqueToken: lines?.[0]?.uniqueToken || null,
+
         products: [{
           variantGid: variant.id,
           name: productTitle,
