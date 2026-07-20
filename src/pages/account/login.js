@@ -13,15 +13,13 @@ function base64URLEncode(buffer) {
 }
 
 function createCookie(name, value, options = {}) {
-  let cookie = `${name}=${encodeURIComponent(value)}`;
+  let cookie = `${name}=${value}`;
 
   if (options.maxAge) cookie += `; Max-Age=${options.maxAge}`;
   if (options.path) cookie += `; Path=${options.path}`;
   if (options.httpOnly) cookie += '; HttpOnly';
   if (options.secure) cookie += '; Secure';
-
-  // This is the important fix
-  cookie += '; SameSite=None';
+  if (options.sameSite) cookie += `; SameSite=${options.sameSite}`;
 
   return cookie;
 }
