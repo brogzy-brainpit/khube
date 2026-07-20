@@ -1,3 +1,5 @@
+import { getCustomer } from '@/utils/customer';
+
 function parseCookies(cookieHeader = '') {
   return Object.fromEntries(
     cookieHeader
@@ -10,24 +12,59 @@ function parseCookies(cookieHeader = '') {
   );
 }
 
-export default function Account({ token, apiUrl }) {
+export default function Account({ customer, debug }) {
   return (
     <div style={{ padding: '2rem' }}>
       <h1>My Account</h1>
-      <p><strong>Token exists:</strong> {token ? 'Yes' : 'No'}</p>
-      <p><strong>API URL exists:</strong> {apiUrl ? 'Yes' : 'No'}</p>
-      <p>We are temporarily stopping redirects to debug the session.</p>
+
+      {customer ? (
+        <>
+          <p>
+            <strong>Name:</strong> {customer.firstName} {customer.lastName}
+          </p>
+          <p>
+            <strong>Email:</strong> {customer.emailAddress.emailAddress}
+          </p>
+        </>
+      ) : (
+        <p>Could not load customer data.</p>
+      )}
+
+      <hr />
+      <h3>Debug Response</h3>
+      <pre style={{ whiteSpace: 'pre-wrap' }}>{debug}</pre>
     </div>
   );
 }
 
 export async function getServerSideProps({ req }) {
   const cookies = parseCookies(req.headers.cookie || '');
+  const token = cookies.customer_access_token;
 
-  return {
-    props: {
-      token: cookies.customer_access_token || null,
-      apiUrl: cookies.customer_api_url || null,
-    },
-  };
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/account/login',
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const result = await getCustomer(token);
+
+    return {
+      props: {
+        customer: result.data?.customer || null,
+        debug: JSON.stringify(result, null, 2),
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        customer: null,
+        debug: error.message,
+      },
+    };
+  }
 }

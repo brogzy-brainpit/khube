@@ -69,8 +69,6 @@ export async function getServerSideProps({ query, req, res }) {
 
     const tokenData = await tokenRes.json();
 
-    console.log('Token response:', tokenData);
-
     if (!tokenData.access_token) {
       throw new Error(
         tokenData.error_description ||
@@ -102,8 +100,6 @@ export async function getServerSideProps({ query, req, res }) {
       },
     };
   } catch (error) {
-    console.error('Callback error:', error);
-
     return {
       props: {
         error: error.message,
