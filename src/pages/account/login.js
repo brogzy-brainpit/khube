@@ -13,7 +13,7 @@ function base64URLEncode(buffer) {
 }
 
 function createCookie(name, value, options = {}) {
-  let cookie = `${name}=${value}`;
+  let cookie = `${name}=${encodeURIComponent(value)}`;
 
   if (options.maxAge) cookie += `; Max-Age=${options.maxAge}`;
   if (options.path) cookie += `; Path=${options.path}`;
@@ -26,24 +26,27 @@ function createCookie(name, value, options = {}) {
 
 export async function getServerSideProps({ res }) {
   try {
+    // Generate PKCE verifier
     const verifier = base64URLEncode(crypto.randomBytes(32));
 
+    // Generate PKCE challenge
     const challenge = base64URLEncode(
       crypto.createHash('sha256').update(verifier).digest()
     );
 
-    // Set PKCE verifier cookie manually
-   res.setHeader(
-  'Set-Cookie',
-  createCookie('pkce_verifier', verifier, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'None',
-    path: '/',
-    maxAge: 60 * 10,
-  })
-);
+    // Store PKCE verifier in a secure cookie
+    res.setHeader(
+      'Set-Cookie',
+      createCookie('pkce_verifier', verifier, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'None',
+        path: '/',
+        maxAge: 60 * 10, // 10 minutes
+      })
+    );
 
+    // Build Shopify authorization URL
     const authUrl =
       process.env.SHOPIFY_CUSTOMER_AUTH_URL +
       '?' +
@@ -55,7 +58,7 @@ export async function getServerSideProps({ res }) {
         code_challenge: challenge,
         code_challenge_method: 'S256',
       }).toString();
-
+console.log('AUTH URL:', authUrl);
     return {
       redirect: {
         destination: authUrl,
