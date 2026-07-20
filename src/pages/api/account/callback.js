@@ -1,8 +1,8 @@
-import { serialize, parse } from 'cookie';
+import { serialize, parse, parseCookie, stringifySetCookie } from 'cookie';
 
 export default async function handler(req, res) {
   const { code, state } = req.query;
-  const cookies = parse(req.headers.cookie || '');
+  const cookies = parseCookie(req.headers.cookie || '');
 
   // Validate state to prevent CSRF
   if (state !== cookies.oauth_state) {
@@ -28,17 +28,17 @@ export default async function handler(req, res) {
     return res.redirect('/account/login?error=auth_failed');
   }
 
-  res.setHeader('Set-Cookie', [
-    serialize('customer_token', data.access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 60 * 24,
-    }),
-    // Clear the temp cookies
-    serialize('code_verifier', '', { maxAge: -1, path: '/' }),
-    serialize('oauth_state', '', { maxAge: -1, path: '/' }),
-  ]);
+
+res.setHeader('Set-Cookie', [
+  stringifySetCookie('customer_token', data.access_token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    maxAge: 60 * 60 * 24,
+  }),
+  stringifySetCookie('code_verifier', '', { maxAge: -1, path: '/' }),
+  stringifySetCookie('oauth_state', '', { maxAge: -1, path: '/' }),
+]);
 
   res.redirect('/account');
 }

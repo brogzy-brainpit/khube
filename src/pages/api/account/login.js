@@ -1,4 +1,4 @@
-import { serialize } from 'cookie';
+import { serialize, stringifySetCookie } from 'cookie';
 import crypto from 'crypto';
 
 function generateCodeVerifier() {
@@ -20,19 +20,19 @@ export default function handler(req, res) {
     const state = crypto.randomBytes(16).toString('hex');
 
     res.setHeader('Set-Cookie', [
-      serialize('code_verifier', codeVerifier, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        path: '/',
-        maxAge: 60 * 5,
-      }),
-      serialize('oauth_state', state, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        path: '/',
-        maxAge: 60 * 5,
-      }),
-    ]);
+  stringifySetCookie('code_verifier', codeVerifier, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    maxAge: 60 * 5,
+  }),
+  stringifySetCookie('oauth_state', state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    maxAge: 60 * 5,
+  }),
+]);
 
     const params = new URLSearchParams({
       client_id: process.env.SHOPIFY_CUSTOMER_CLIENT_ID,
