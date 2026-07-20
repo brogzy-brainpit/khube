@@ -77,20 +77,30 @@ export async function getServerSideProps({ query, req, res }) {
     }
 
     // Store access token in secure cookie
-    res.setHeader(
-      'Set-Cookie',
-      createCookie(
-        'customer_access_token',
-        tokenData.access_token,
-        {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'Lax',
-          path: '/',
-          maxAge: tokenData.expires_in || 60 * 60 * 24 * 30,
-        }
-      )
-    );
+    res.setHeader('Set-Cookie', [
+  createCookie(
+    'customer_access_token',
+    tokenData.access_token,
+    {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'None',
+      path: '/',
+      maxAge: tokenData.expires_in || 60 * 60 * 24 * 30,
+    }
+  ),
+  createCookie(
+    'customer_api_url',
+    tokenData.api_url,
+    {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'None',
+      path: '/',
+      maxAge: tokenData.expires_in || 60 * 60 * 24 * 30,
+    }
+  ),
+]);
 
     return {
       redirect: {

@@ -42,31 +42,36 @@ export default function Account({ customer }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const cookies = parseCookies(req.headers.cookie || '');
-  const token = cookies.customer_access_token;
+ const cookies = parseCookies(req.headers.cookie || '');
+const token = cookies.customer_access_token;
+const apiUrl = cookies.customer_api_url;
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/account/login',
-        permanent: false,
-      },
-    };
-  }
+if (!token || !apiUrl) {
+  return {
+    redirect: {
+      destination: '/account/login',
+      permanent: false,
+    },
+  };
+}
 
-  try {
-    const { data } = await getCustomer(token);
+try {
+  const { data, errors } = await getCustomer(token, apiUrl);
 
-    return {
-      props: {
-        customer: data.customer,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        customer: null,
-      },
-    };
-  }
+  console.log('Customer API response:', { data, errors });
+
+  return {
+    props: {
+      customer: data?.customer || null,
+    },
+  };
+} catch (error) {
+  console.error('Customer fetch error:', error);
+
+  return {
+    props: {
+      customer: null,
+    },
+  };
+}
 }
