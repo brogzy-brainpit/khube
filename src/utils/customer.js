@@ -1,34 +1,31 @@
 export async function getCustomer(accessToken) {
-  const response = await fetch(
-    'https://shopify.com/authentication/82887606529/account/customer/api/2025-01/graphql',
+  const res = await fetch(
+    `https://shopify.com/${process.env.SHOPIFY_STORE_ID}/account/customer/api/2024-10/graphql`,
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: accessToken,
       },
       body: JSON.stringify({
-        query: `
-          query {
-            customer {
-              id
-              firstName
-              lastName
-              emailAddress {
-                emailAddress
+        query: `{
+          customer {
+            id
+            firstName
+            lastName
+            emailAddress { emailAddress }
+            orders(first: 5) {
+              nodes {
+                id
+                name
+                totalPrice { amount currencyCode }
               }
             }
           }
-        `,
+        }`,
       }),
     }
   );
 
-  const text = await response.text();
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    return { error: text };
-  }
+  return res.json();
 }

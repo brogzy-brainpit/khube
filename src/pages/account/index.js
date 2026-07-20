@@ -1,70 +1,42 @@
+// pages/account/index.js
 import { getCustomer } from '@/utils/customer';
+import { parse } from 'cookie';
 
-function parseCookies(cookieHeader = '') {
-  return Object.fromEntries(
-    cookieHeader
-      .split('; ')
-      .filter(Boolean)
-      .map((c) => {
-        const [key, ...v] = c.split('=');
-        return [key, v.join('=')];
-      })
-  );
-}
-
-export default function Account({ customer, debug }) {
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>My Account</h1>
-
-      {customer ? (
-        <>
-          <p>
-            <strong>Name:</strong> {customer.firstName} {customer.lastName}
-          </p>
-          <p>
-            <strong>Email:</strong> {customer.emailAddress.emailAddress}
-          </p>
-        </>
-      ) : (
-        <p>Could not load customer data.</p>
-      )}
-
-      <hr />
-      <h3>Debug Response</h3>
-      <pre style={{ whiteSpace: 'pre-wrap' }}>{debug}</pre>
-    </div>
-  );
-}
-
-export async function getServerSideProps({ req }) {
-  const cookies = parseCookies(req.headers.cookie || '');
-  const token = cookies.customer_access_token;
+export async function getServerSideProps({ req, res }) {
+  const cookies = parse(req.headers.cookie || '');
+  const token = cookies.customer_token;
 
   if (!token) {
     return {
-      redirect: {
-        destination: '/account/login',
-        permanent: false,
-      },
+      redirect: { destination: '/api/account/login', permanent: false },
     };
   }
 
-  try {
-    const result = await getCustomer(token);
+  const { data, errors } = await getCustomer(token);
 
+  if (errors || !data?.customer) {
     return {
-      props: {
-        customer: result.data?.customer || null,
-        debug: JSON.stringify(result, null, 2),
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        customer: null,
-        debug: error.message,
-      },
+      redirect: { destination: '/api/account/login', permanent: false },
     };
   }
+
+  return { props: { customer: data.customer } };
+}
+
+export default function AccountPage({ customer }) {
+  return (
+    <div>
+      <h1>Welcome, {customer.firstName}!</h1>
+      <p>Email: {customer.emailAddress.emailAddress}</p>
+
+      <h2>Recent Orders</h2>
+      <ul>
+        {customer.orders.nodes.map((order) => (
+          <li key={order.id}>
+            {order.name} — {order.totalPrice.amount} {order.totalPrice.currencyCode}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
