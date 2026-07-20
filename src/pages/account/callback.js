@@ -15,15 +15,18 @@ export default function Callback({ error }) {
 
 function parseCookies(cookieHeader = '') {
   return Object.fromEntries(
-    cookieHeader.split('; ').map((c) => {
-      const [key, ...v] = c.split('=');
-      return [key, v.join('=')];
-    })
+    cookieHeader
+      .split('; ')
+      .filter(Boolean)
+      .map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, v.join('=')];
+      })
   );
 }
 
 function createCookie(name, value, options = {}) {
-  let cookie = `${name}=${value}`;
+  let cookie = `${name}=${encodeURIComponent(value)}`;
 
   if (options.maxAge) cookie += `; Max-Age=${options.maxAge}`;
   if (options.path) cookie += `; Path=${options.path}`;
@@ -76,31 +79,21 @@ export async function getServerSideProps({ query, req, res }) {
       );
     }
 
-    // Store access token in secure cookie
-    res.setHeader('Set-Cookie', [
-  createCookie(
-    'customer_access_token',
-    tokenData.access_token,
-    {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'None',
-      path: '/',
-      maxAge: tokenData.expires_in || 60 * 60 * 24 * 30,
-    }
-  ),
-  createCookie(
-    'customer_api_url',
-    tokenData.api_url,
-    {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'None',
-      path: '/',
-      maxAge: tokenData.expires_in || 60 * 60 * 24 * 30,
-    }
-  ),
-]);
+    // Store ONLY the access token in a secure cookie
+    res.setHeader(
+      'Set-Cookie',
+      createCookie(
+        'customer_access_token',
+        tokenData.access_token,
+        {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'None',
+          path: '/',
+          maxAge: tokenData.expires_in || 60 * 60 * 24 * 30,
+        }
+      )
+    );
 
     return {
       redirect: {

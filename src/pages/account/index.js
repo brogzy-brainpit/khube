@@ -1,3 +1,17 @@
+import { getCustomer } from "@/utils/customer";
+
+function parseCookies(cookieHeader = '') {
+  return Object.fromEntries(
+    cookieHeader
+      .split('; ')
+      .filter(Boolean)
+      .map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key, v.join('=')];
+      })
+  );
+}
+
 export default function Account({ customer, debug }) {
   return (
     <div style={{ padding: '2rem' }}>
@@ -23,56 +37,21 @@ export default function Account({ customer, debug }) {
   );
 }
 
-function parseCookies(cookieHeader = '') {
-  return Object.fromEntries(
-    cookieHeader
-      .split('; ')
-      .filter(Boolean)
-      .map((c) => {
-        const [key, ...v] = c.split('=');
-        return [key, v.join('=')];
-      })
-  );
-}
-
 export async function getServerSideProps({ req }) {
   const cookies = parseCookies(req.headers.cookie || '');
   const token = cookies.customer_access_token;
-  const apiUrl = cookies.customer_api_url;
 
-  if (!token || !apiUrl) {
+  if (!token) {
     return {
-      props: {
-        customer: null,
-        debug: 'Missing token or apiUrl cookie',
+      redirect: {
+        destination: '/account/login',
+        permanent: false,
       },
     };
   }
 
   try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        query: `
-          query {
-            customer {
-              id
-              firstName
-              lastName
-              emailAddress {
-                emailAddress
-              }
-            }
-          }
-        `,
-      }),
-    });
-
-    const result = await response.json();
+    const result = await getCustomer(token);
 
     return {
       props: {
