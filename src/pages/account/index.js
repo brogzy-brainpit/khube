@@ -1,4 +1,4 @@
-import { getCustomer } from "@/utils/customer";
+import { getCustomer } from '@/utils/customer';
 
 function parseCookies(cookieHeader = '') {
   return Object.fromEntries(
@@ -40,8 +40,9 @@ export default function Account({ customer, debug }) {
 export async function getServerSideProps({ req }) {
   const cookies = parseCookies(req.headers.cookie || '');
   const token = cookies.customer_access_token;
+  const apiUrl = cookies.customer_api_url;
 
-  if (!token) {
+  if (!token || !apiUrl || apiUrl === 'undefined') {
     return {
       redirect: {
         destination: '/account/login',
@@ -51,7 +52,7 @@ export async function getServerSideProps({ req }) {
   }
 
   try {
-    const result = await getCustomer(token);
+    const result = await getCustomer(token, apiUrl);
 
     return {
       props: {
