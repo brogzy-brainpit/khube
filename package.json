@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@react-three/drei": "^9.105.4",
