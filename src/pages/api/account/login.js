@@ -10,35 +10,43 @@ function generateCodeChallenge(verifier) {
 }
 
 export default function handler(req, res) {
-  const codeVerifier = generateCodeVerifier();
-  const codeChallenge = generateCodeChallenge(codeVerifier);
-  const state = crypto.randomBytes(16).toString('hex');
+  try {
+    console.log('CLIENT_ID:', process.env.SHOPIFY_CUSTOMER_CLIENT_ID);
+    console.log('AUTH_URL:', process.env.SHOPIFY_CUSTOMER_AUTH_URL);
+    console.log('APP_URL:', process.env.APP_URL);
 
-  // Store verifier + state in a short-lived cookie
-  res.setHeader('Set-Cookie', [
-    serialize('code_verifier', codeVerifier, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 5, // 5 minutes
-    }),
-    serialize('oauth_state', state, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 5,
-    }),
-  ]);
+    const codeVerifier = generateCodeVerifier();
+    const codeChallenge = generateCodeChallenge(codeVerifier);
+    const state = crypto.randomBytes(16).toString('hex');
 
-  const params = new URLSearchParams({
-    client_id: process.env.SHOPIFY_CUSTOMER_CLIENT_ID,
-    response_type: 'code',
-    redirect_uri: `${process.env.APP_URL}/api/account/callback`,
-    scope: 'openid email https://api.customers.com/auth/customer.graphql',
-    code_challenge: codeChallenge,
-    code_challenge_method: 'S256',
-    state,
-  });
+    res.setHeader('Set-Cookie', [
+      serialize('code_verifier', codeVerifier, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 60 * 5,
+      }),
+      serialize('oauth_state', state, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 60 * 5,
+      }),
+    ]);
 
-  res.redirect(`${process.env.SHOPIFY_CUSTOMER_AUTH_URL}?${params}`);
+    const params = new URLSearchParams({
+      client_id: process.env.SHOPIFY_CUSTOMER_CLIENT_ID,
+      response_type: 'code',
+      redirect_uri: `${process.env.APP_URL}/api/account/callback`,
+      scope: 'openid email https://api.customers.com/auth/customer.graphql',
+      code_challenge: codeChallenge,
+      code_challenge_method: 'S256',
+      state,
+    });
+
+    res.redirect(`${process.env.SHOPIFY_CUSTOMER_AUTH_URL}?${params}`);
+  } catch (err) {
+    console.error('LOGIN ERROR:', err);
+    res.status(500).json({ error: err.message });
+  }
 }
