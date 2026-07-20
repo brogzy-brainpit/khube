@@ -5,12 +5,14 @@ import {
   ShopifySalesChannel, 
   getClientBrowserParameters,
   AddToCartButton as ShopifyButton,
-  useCart
+  useCart,
+  useShopifyCookies
 } from '@shopify/hydrogen-react';
 import { useEffect } from 'react';
 
 export default function CustomAddToCartButton({ variant, productTitle, className, onComplete }) {
   const { status, lines, error } = useCart();
+   const {}=useShopifyCookies({ hasUserConsent: true });
 
   useEffect(() => {
     console.log('Cart status:', status);
@@ -29,10 +31,7 @@ export default function CustomAddToCartButton({ variant, productTitle, className
         shopifySalesChannel: ShopifySalesChannel.headless,
         hasUserConsent: true,
         analyticsAllowed: true,
-        // cartId: lines?.[0]?.cartId || null,
-        // navigationApi: 'custom',
-        // uniqueToken: lines?.[0]?.uniqueToken || null,
-
+        marketingAllowed: true,
         products: [{
           variantGid: variant.id,
           name: productTitle,

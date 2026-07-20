@@ -15,6 +15,8 @@ export default function ShopifyProductView({ data }) {
         acceptedLanguage: process.env.NEXT_PUBLIC_SHOPIFY_LANGUAGE,
         shopifySalesChannel: ShopifySalesChannel.headless,
         hasUserConsent: true, // Tie this value to your global privacy banner
+        analyticsAllowed: true, // Tie this value to your global privacy banner
+        marketingAllowed: true, // Tie this value to your global privacy banner
         products: data.products.map(p => ({
           variantGid: p.variantId,
           name: p.title,
