@@ -1,19 +1,7 @@
 import crypto from 'crypto';
-import { serialize } from 'cookie';
 
-export default function Login({ error }) {
-  return (
-    <div style={{ padding: '2rem' }}>
-      {error ? (
-        <>
-          <h1>Login Error</h1>
-          <p>{error}</p>
-        </>
-      ) : (
-        <p>Redirecting to Shopify login...</p>
-      )}
-    </div>
-  );
+export default function Login() {
+  return null;
 }
 
 function base64URLEncode(buffer) {
@@ -24,6 +12,18 @@ function base64URLEncode(buffer) {
     .replace(/=+$/, '');
 }
 
+function createCookie(name, value, options = {}) {
+  let cookie = `${name}=${value}`;
+
+  if (options.maxAge) cookie += `; Max-Age=${options.maxAge}`;
+  if (options.path) cookie += `; Path=${options.path}`;
+  if (options.httpOnly) cookie += '; HttpOnly';
+  if (options.secure) cookie += '; Secure';
+  if (options.sameSite) cookie += `; SameSite=${options.sameSite}`;
+
+  return cookie;
+}
+
 export async function getServerSideProps({ res }) {
   try {
     const verifier = base64URLEncode(crypto.randomBytes(32));
@@ -32,12 +32,13 @@ export async function getServerSideProps({ res }) {
       crypto.createHash('sha256').update(verifier).digest()
     );
 
+    // Set PKCE verifier cookie manually
     res.setHeader(
       'Set-Cookie',
-      serialize('pkce_verifier', verifier, {
+      createCookie('pkce_verifier', verifier, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: 'Lax',
         path: '/',
         maxAge: 60 * 10,
       })
