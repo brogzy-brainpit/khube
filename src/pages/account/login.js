@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import cookie from 'cookie';
+import { serialize } from 'cookie';
 
 export default function Login({ error }) {
   return (
@@ -26,15 +26,6 @@ function base64URLEncode(buffer) {
 
 export async function getServerSideProps({ res }) {
   try {
-    // Check env variables first
-    if (
-      !process.env.SHOPIFY_CUSTOMER_CLIENT_ID ||
-      !process.env.SHOPIFY_CUSTOMER_AUTH_URL ||
-      !process.env.APP_URL
-    ) {
-      throw new Error('Missing required environment variables');
-    }
-
     const verifier = base64URLEncode(crypto.randomBytes(32));
 
     const challenge = base64URLEncode(
@@ -43,7 +34,7 @@ export async function getServerSideProps({ res }) {
 
     res.setHeader(
       'Set-Cookie',
-      cookie.serialize('pkce_verifier', verifier, {
+      serialize('pkce_verifier', verifier, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
@@ -64,8 +55,6 @@ export async function getServerSideProps({ res }) {
         code_challenge_method: 'S256',
       }).toString();
 
-    console.log('Redirecting to:', authUrl);
-
     return {
       redirect: {
         destination: authUrl,
@@ -73,8 +62,6 @@ export async function getServerSideProps({ res }) {
       },
     };
   } catch (error) {
-    console.error('Login route error:', error);
-
     return {
       props: {
         error: error.message,
