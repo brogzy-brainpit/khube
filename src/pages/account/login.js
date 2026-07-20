@@ -1,8 +1,19 @@
 import crypto from 'crypto';
 import cookie from 'cookie';
 
-export default function Login() {
-  return null;
+export default function Login({ error }) {
+  return (
+    <div style={{ padding: '2rem' }}>
+      {error ? (
+        <>
+          <h1>Login Error</h1>
+          <p>{error}</p>
+        </>
+      ) : (
+        <p>Redirecting to Shopify login...</p>
+      )}
+    </div>
+  );
 }
 
 function base64URLEncode(buffer) {
@@ -15,15 +26,21 @@ function base64URLEncode(buffer) {
 
 export async function getServerSideProps({ res }) {
   try {
-    // Generate PKCE verifier
+    // Check env variables first
+    if (
+      !process.env.SHOPIFY_CUSTOMER_CLIENT_ID ||
+      !process.env.SHOPIFY_CUSTOMER_AUTH_URL ||
+      !process.env.APP_URL
+    ) {
+      throw new Error('Missing required environment variables');
+    }
+
     const verifier = base64URLEncode(crypto.randomBytes(32));
 
-    // Generate PKCE challenge
     const challenge = base64URLEncode(
       crypto.createHash('sha256').update(verifier).digest()
     );
 
-    // Store verifier in secure HTTP-only cookie
     res.setHeader(
       'Set-Cookie',
       cookie.serialize('pkce_verifier', verifier, {
@@ -35,7 +52,6 @@ export async function getServerSideProps({ res }) {
       })
     );
 
-    // Build Shopify authorization URL
     const authUrl =
       process.env.SHOPIFY_CUSTOMER_AUTH_URL +
       '?' +
@@ -47,6 +63,8 @@ export async function getServerSideProps({ res }) {
         code_challenge: challenge,
         code_challenge_method: 'S256',
       }).toString();
+
+    console.log('Redirecting to:', authUrl);
 
     return {
       redirect: {
