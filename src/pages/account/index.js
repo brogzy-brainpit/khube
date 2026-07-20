@@ -46,8 +46,9 @@ export async function getServerSideProps({ req }) {
 
 export default function AccountPage({ customer }) {
   return (
-    <div>
-      <h1>Welcome, {customer.firstName}!</h1>
+    <div><h1>
+  Welcome, {customer.firstName || customer.emailAddress.emailAddress}!
+</h1>
       <p>Email: {customer.emailAddress.emailAddress}</p>
 
       <h2>Recent Orders</h2>
