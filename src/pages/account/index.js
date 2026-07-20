@@ -1,26 +1,47 @@
 // pages/account/index.js
 import { getCustomer } from '@/utils/customer';
-import { parse } from 'cookie';
+import { parseCookie } from 'cookie';
 
-export async function getServerSideProps({ req, res }) {
-  const cookies = parse(req.headers.cookie || '');
-  const token = cookies.customer_token;
+export async function getServerSideProps({ req }) {
+  try {
+    const cookies = parseCookie(req.headers.cookie || '');
+    const token = cookies.customer_token;
 
-  if (!token) {
+    if (!token) {
+      return {
+        redirect: {
+          destination: '/api/account/login',
+          permanent: false,
+        },
+      };
+    }
+
+    const { data, errors } = await getCustomer(token);
+
+    if (errors || !data?.customer) {
+      return {
+        redirect: {
+          destination: '/api/account/login',
+          permanent: false,
+        },
+      };
+    }
+
     return {
-      redirect: { destination: '/api/account/login', permanent: false },
+      props: {
+        customer: data.customer,
+      },
+    };
+  } catch (err) {
+    console.error('Account page error:', err);
+
+    return {
+      redirect: {
+        destination: '/api/account/login',
+        permanent: false,
+      },
     };
   }
-
-  const { data, errors } = await getCustomer(token);
-
-  if (errors || !data?.customer) {
-    return {
-      redirect: { destination: '/api/account/login', permanent: false },
-    };
-  }
-
-  return { props: { customer: data.customer } };
 }
 
 export default function AccountPage({ customer }) {
@@ -33,7 +54,8 @@ export default function AccountPage({ customer }) {
       <ul>
         {customer.orders.nodes.map((order) => (
           <li key={order.id}>
-            {order.name} — {order.totalPrice.amount} {order.totalPrice.currencyCode}
+            {order.name} — {order.totalPrice.amount}{' '}
+            {order.totalPrice.currencyCode}
           </li>
         ))}
       </ul>
