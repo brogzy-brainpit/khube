@@ -8,6 +8,8 @@ export default async function handler(req, res) {
   if (state !== cookies.oauth_state) {
     return res.status(400).send('Invalid state');
   }
+  console.log('URL state:', state);
+console.log('Cookie state:', cookies.oauth_state);
 
   const tokenRes = await fetch(process.env.SHOPIFY_CUSTOMER_TOKEN_URL, {
     method: 'POST',

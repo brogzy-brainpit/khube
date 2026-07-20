@@ -19,16 +19,18 @@ export default function handler(req, res) {
     const codeChallenge = generateCodeChallenge(codeVerifier);
     const state = crypto.randomBytes(16).toString('hex');
 
-    res.setHeader('Set-Cookie', [
+  res.setHeader('Set-Cookie', [
   stringifySetCookie('code_verifier', codeVerifier, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
     path: '/',
     maxAge: 60 * 5,
   }),
   stringifySetCookie('oauth_state', state, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
     path: '/',
     maxAge: 60 * 5,
   }),
