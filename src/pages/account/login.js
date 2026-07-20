@@ -33,16 +33,16 @@ export async function getServerSideProps({ res }) {
     );
 
     // Set PKCE verifier cookie manually
-    res.setHeader(
-      'Set-Cookie',
-      createCookie('pkce_verifier', verifier, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Lax',
-        path: '/',
-        maxAge: 60 * 10,
-      })
-    );
+   res.setHeader(
+  'Set-Cookie',
+  createCookie('pkce_verifier', verifier, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'None',
+    path: '/',
+    maxAge: 60 * 10,
+  })
+);
 
     const authUrl =
       process.env.SHOPIFY_CUSTOMER_AUTH_URL +
