@@ -14,9 +14,9 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-    const { id, address } = req.body;
+   const { id, address } = req.body;
 
-    const result = await updateAddress(token, id, address);
+const result = await updateAddress(token, id, address);
 
     return res.status(200).json(result);
   } catch (err) {

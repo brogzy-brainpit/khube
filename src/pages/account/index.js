@@ -46,6 +46,8 @@ export async function getServerSideProps({ req }) {
 }
 
 export default function AccountPage({ customer }) {
+  const [editingId, setEditingId] = useState(null);
+const [editForm, setEditForm] = useState({});
  const [form, setForm] = useState({
   firstName: '',
   lastName: '',
@@ -58,6 +60,48 @@ export default function AccountPage({ customer }) {
   phoneNumber: '',
 });
 
+const handleEditClick = (address) => {
+  setEditingId(address.id);
+  setEditForm({
+    firstName: address.firstName || '',
+    lastName: address.lastName || '',
+    address1: address.address1 || '',
+    address2: address.address2 || '',
+    city: address.city || '',
+   zoneCode: address.zoneCode || '',
+   territoryCode: address.territoryCode || '',
+    zip: address.zip || '',
+    phoneNumber: address.phoneNumber || '',
+  });
+};
+const handleUpdateAddress = async (e) => {
+  e.preventDefault();
+
+  const res = await fetch('/api/account/address/update', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: editingId,
+      address: editForm,
+    }),
+  });
+
+  const data = await res.json();
+
+  if (
+    data.errors ||
+    data.data?.customerAddressUpdate?.userErrors?.length
+  ) {
+    alert(
+      data.data?.customerAddressUpdate?.userErrors?.[0]?.message ||
+        'Failed to update address'
+    );
+    return;
+  }
+
+  setEditingId(null);
+  window.location.reload();
+};
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -133,54 +177,168 @@ export default function AccountPage({ customer }) {
 
       {/* Existing addresses */}
       <div className="space-y-4 mb-8">
-        {customer.addresses.nodes.length === 0 ? (
-          <p>No saved addresses yet.</p>
-        ) : (
-          customer.addresses.nodes.map((address) => (
-            <div key={address.id} className="border p-4 rounded">
-              <div className="flex items-center justify-between">
-  <p className="font-semibold">
-    {address.firstName} {address.lastName}
-  </p>
+       {customer.addresses.nodes.map((address) => (
+  editingId === address.id ? (
+    <form
+      key={address.id}
+      onSubmit={handleUpdateAddress}
+      className="grid grid-cols-1 md:grid-cols-2 gap-3 border p-4 rounded"
+    >
+      <input
+        name="firstName"
+        value={editForm.firstName}
+        onChange={(e) =>
+          setEditForm({ ...editForm, firstName: e.target.value })
+        }
+        className="border p-2 rounded"
+      />
 
-  {customer.defaultAddress?.id === address.id && (
-    <span className="bg-black text-white text-xs px-2 py-1 rounded-full">
-      Default
-    </span>
-  )}
-</div>
-              <p>{address.address1}</p>
-              {address.address2 && <p>{address.address2}</p>}
-              <p>
-                {address.city}, {address.province} {address.zip}
-              </p>
-              <p>{address.country}</p>
-              {address.phoneNumber && <p>{address.phoneNumber}</p>}
-{customer.defaultAddress?.id !== address.id && (
-  <button
-    onClick={async () => {
-      await fetch('/api/account/address/set-default', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ addressId: address.id }),
-      });
+      <input
+        name="lastName"
+        value={editForm.lastName}
+        onChange={(e) =>
+          setEditForm({ ...editForm, lastName: e.target.value })
+        }
+        className="border p-2 rounded"
+      />
 
-      window.location.reload();
-    }}
-    className="mt-3 mr-4 text-blue-600 hover:underline"
-  >
-    Set as Default
-  </button>
-)}
-              <button
-                onClick={() => handleDeleteAddress(address.id)}
-                className="mt-3 text-red-600 hover:underline"
-              >
-                Delete
-              </button>
-            </div>
-          ))
+      <input
+        name="address1"
+        value={editForm.address1}
+        onChange={(e) =>
+          setEditForm({ ...editForm, address1: e.target.value })
+        }
+        className="border p-2 rounded md:col-span-2"
+      />
+
+      <input
+        name="address2"
+        value={editForm.address2}
+        onChange={(e) =>
+          setEditForm({ ...editForm, address2: e.target.value })
+        }
+        className="border p-2 rounded md:col-span-2"
+      />
+
+      <input
+        name="city"
+        value={editForm.city}
+        onChange={(e) =>
+          setEditForm({ ...editForm, city: e.target.value })
+        }
+        className="border p-2 rounded"
+      />
+
+      <input
+        name="zoneCode"
+        value={editForm.zoneCode}
+        onChange={(e) =>
+          setEditForm({ ...editForm, zoneCode: e.target.value })
+        }
+        className="border p-2 rounded"
+      />
+
+      <input
+        name="zip"
+        value={editForm.zip}
+        onChange={(e) =>
+          setEditForm({ ...editForm, zip: e.target.value })
+        }
+        className="border p-2 rounded"
+      />
+
+      <input
+        name="territoryCode"
+        value={editForm.territoryCode}
+        onChange={(e) =>
+          setEditForm({ ...editForm, territoryCode: e.target.value })
+        }
+        className="border p-2 rounded"
+      />
+
+      <input
+        name="phoneNumber"
+        value={editForm.phoneNumber}
+        onChange={(e) =>
+          setEditForm({ ...editForm, phoneNumber: e.target.value })
+        }
+        className="border p-2 rounded md:col-span-2"
+      />
+
+      <div className="md:col-span-2 flex gap-3">
+        <button
+          type="submit"
+          className="bg-black text-white px-4 py-2 rounded"
+        >
+          Save
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setEditingId(null)}
+          className="border px-4 py-2 rounded"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  ) : (
+    <div key={address.id} className="border p-4 rounded">
+      <div className="flex items-center justify-between">
+        <p className="font-semibold">
+          {address.firstName} {address.lastName}
+        </p>
+
+        {customer.defaultAddress?.id === address.id && (
+          <span className="bg-black text-white text-xs px-2 py-1 rounded-full">
+            Default
+          </span>
         )}
+      </div>
+
+      <p>{address.address1}</p>
+      {address.address2 && <p>{address.address2}</p>}
+      <p>
+        {address.city}, {address.province} {address.zip}
+      </p>
+      <p>{address.country}</p>
+      {address.phoneNumber && <p>{address.phoneNumber}</p>}
+
+      <div className="mt-3 flex gap-4">
+        <button
+          onClick={() => handleEditClick(address)}
+          className="text-blue-600 hover:underline"
+        >
+          Edit
+        </button>
+
+        {customer.defaultAddress?.id !== address.id && (
+          <button
+            onClick={async () => {
+              await fetch('/api/account/address/set-default', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ addressId: address.id }),
+              });
+
+              window.location.reload();
+            }}
+            className="text-blue-600 hover:underline"
+          >
+            Set as Default
+          </button>
+        )}
+
+        <button
+          onClick={() => handleDeleteAddress(address.id)}
+          className="text-red-600 hover:underline"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  )
+))}
       </div>
 
       {/* Add address form */}
