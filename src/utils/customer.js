@@ -124,6 +124,8 @@ export async function updateAddress(
   );
 }
 
+
+// Delete address
 // Delete address
 export async function deleteAddress(accessToken, addressId) {
   return customerFetch(
@@ -141,5 +143,39 @@ export async function deleteAddress(accessToken, addressId) {
       }
     `,
     { addressId }
+  );
+}
+
+// Set default address
+export async function setDefaultAddress(accessToken, addressId) {
+  return customerFetch(
+    accessToken,
+    `
+      mutation customerAddressUpdate(
+        $address: CustomerAddressInput!
+        $addressId: ID!
+        $defaultAddress: Boolean
+      ) {
+        customerAddressUpdate(
+          address: $address
+          addressId: $addressId
+          defaultAddress: $defaultAddress
+        ) {
+          customerAddress {
+            id
+          }
+          userErrors {
+            code
+            field
+            message
+          }
+        }
+      }
+    `,
+    {
+      address: {}, // no fields need to change
+      addressId,
+      defaultAddress: true,
+    }
   );
 }

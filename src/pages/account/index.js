@@ -148,7 +148,20 @@ export default function AccountPage({ customer }) {
               </p>
               <p>{address.country}</p>
               {address.phoneNumber && <p>{address.phoneNumber}</p>}
+<button
+  onClick={async () => {
+    await fetch('/api/account/address/set-default', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ addressId: address.id }),
+    });
 
+    window.location.reload();
+  }}
+  className="mt-3 mr-4 text-blue-600 hover:underline"
+>
+  Set as Default
+</button>
               <button
                 onClick={() => handleDeleteAddress(address.id)}
                 className="mt-3 text-red-600 hover:underline"
