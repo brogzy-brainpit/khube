@@ -61,74 +61,85 @@ export async function getCustomer(accessToken) {
     `
   );
 }
-
 // Add new address
-export async function addAddress(accessToken, address) {
+export async function addAddress(accessToken, address, defaultAddress = false) {
   return customerFetch(
     accessToken,
     `
-      mutation AddAddress($address: MailingAddressInput!) {
-        customerAddressCreate(address: $address) {
+      mutation customerAddressCreate(
+        $address: CustomerAddressInput!
+        $defaultAddress: Boolean
+      ) {
+        customerAddressCreate(
+          address: $address
+          defaultAddress: $defaultAddress
+        ) {
           customerAddress {
             id
-            firstName
-            lastName
-            address1
-            city
-            country
           }
           userErrors {
+            code
             field
             message
           }
         }
       }
     `,
-    { address }
+    { address, defaultAddress }
   );
 }
 
 // Update existing address
-export async function updateAddress(accessToken, id, address) {
+export async function updateAddress(
+  accessToken,
+  addressId,
+  address,
+  defaultAddress = false
+) {
   return customerFetch(
     accessToken,
     `
-      mutation UpdateAddress($id: ID!, $address: MailingAddressInput!) {
-        customerAddressUpdate(id: $id, address: $address) {
+      mutation customerAddressUpdate(
+        $address: CustomerAddressInput!
+        $addressId: ID!
+        $defaultAddress: Boolean
+      ) {
+        customerAddressUpdate(
+          address: $address
+          addressId: $addressId
+          defaultAddress: $defaultAddress
+        ) {
           customerAddress {
             id
-            firstName
-            lastName
-            address1
-            city
-            country
           }
           userErrors {
+            code
             field
             message
           }
         }
       }
     `,
-    { id, address }
+    { address, addressId, defaultAddress }
   );
 }
 
 // Delete address
-export async function deleteAddress(accessToken, id) {
+export async function deleteAddress(accessToken, addressId) {
   return customerFetch(
     accessToken,
     `
-      mutation DeleteAddress($id: ID!) {
-        customerAddressDelete(addressId: $id) {
+      mutation customerAddressDelete($addressId: ID!) {
+        customerAddressDelete(addressId: $addressId) {
           deletedAddressId
           userErrors {
+            code
             field
             message
           }
         }
       }
     `,
-    { id }
+    { addressId }
   );
 }
