@@ -258,13 +258,13 @@ export default function AccountPage({ customer }) {
 
               <CountrySelect
                 value={editForm.territoryCode}
-                onChange={(country) =>
-                  setEditForm({
-                    ...editForm,
-                    territoryCode: country.isoCode,
-                    zoneCode: '',
-                  })
-                }
+               onChange={(country) =>
+  setEditForm({
+    ...editForm,
+    territoryCode: country.iso2, // use iso2, not isoCode
+    zoneCode: '',
+  })
+}
                 placeHolder="Select Country"
                 inputClassName="border p-2 rounded w-full"
               />
