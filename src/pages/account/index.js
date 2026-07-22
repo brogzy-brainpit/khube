@@ -88,7 +88,7 @@ export default function AccountPage({ customer }) {
     const res = await fetch('/api/account/address/delete', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ addressId: id }),
     });
 
     const data = await res.json();
