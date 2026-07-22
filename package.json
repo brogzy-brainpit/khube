@@ -27,6 +27,7 @@
     "react": "^18",
     "react-country-state-city": "^1.1.13",
     "react-dom": "^18",
+    "react-phone-input-2": "^2.15.1",
     "react-responsive": "^10.0.1",
     "sass": "^1.93.2",
     "smooothy": "^0.0.35",

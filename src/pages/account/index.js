@@ -7,6 +7,10 @@ import {
   StateSelect,
 } from 'react-country-state-city';
 import 'react-country-state-city/dist/react-country-state-city.css';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+
+
 
 export async function getServerSideProps({ req }) {
   try {
@@ -287,15 +291,20 @@ export default function AccountPage({ customer }) {
                 className="border p-2 rounded"
               />
 
-              <input
-                name="phoneNumber"
-                value={editForm.phoneNumber}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, phoneNumber: e.target.value })
-                }
-                className="border p-2 rounded md:col-span-2"
-              />
-
+             <div className="md:col-span-2">
+  <PhoneInput
+    country={editForm.territoryCode?.toLowerCase() || 'ng'}
+    value={editForm.phoneNumber?.replace('+', '') || ''}
+    onChange={(phone) =>
+      setEditForm({
+        ...editForm,
+        phoneNumber: `+${phone}`,
+      })
+    }
+    inputClass="!w-full !h-10 !rounded !border !border-gray-300"
+    enableSearch
+  />
+</div>
               <div className="md:col-span-2 flex gap-3">
                 <button
                   type="submit"
@@ -444,12 +453,20 @@ export default function AccountPage({ customer }) {
           required
         />
 
-        <input
-          name="phoneNumber"
-          placeholder="Phone Number"
-          onChange={handleChange}
-          className="border p-3 rounded md:col-span-2"
-        />
+       <div className="md:col-span-2">
+  <PhoneInput
+    country={form.territoryCode?.toLowerCase() || 'ng'}
+    value={form.phoneNumber}
+    onChange={(phone) =>
+      setForm({
+        ...form,
+        phoneNumber: `+${phone}`,
+      })
+    }
+    inputClass="!w-full !h-12 !rounded !border !border-gray-300"
+    enableSearch
+  />
+</div>
 
         <button
           type="submit"
