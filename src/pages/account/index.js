@@ -2,6 +2,11 @@
 import { useState } from 'react';
 import { getCustomer } from '@/utils/customer';
 import { parseCookie } from 'cookie';
+import {
+  CountrySelect,
+  StateSelect,
+} from 'react-country-state-city';
+import 'react-country-state-city/dist/react-country-state-city.css';
 
 export async function getServerSideProps({ req }) {
   try {
@@ -47,61 +52,64 @@ export async function getServerSideProps({ req }) {
 
 export default function AccountPage({ customer }) {
   const [editingId, setEditingId] = useState(null);
-const [editForm, setEditForm] = useState({});
- const [form, setForm] = useState({
-  firstName: '',
-  lastName: '',
-  address1: '',
-  address2: '',
-  city: '',
-  zoneCode: '',
-  zip: '',
-  territoryCode: '',
-  phoneNumber: '',
-});
+  const [editForm, setEditForm] = useState({});
 
-const handleEditClick = (address) => {
-  setEditingId(address.id);
-  setEditForm({
-    firstName: address.firstName || '',
-    lastName: address.lastName || '',
-    address1: address.address1 || '',
-    address2: address.address2 || '',
-    city: address.city || '',
-   zoneCode: address.zoneCode || '',
-   territoryCode: address.territoryCode || '',
-    zip: address.zip || '',
-    phoneNumber: address.phoneNumber || '',
-  });
-};
-const handleUpdateAddress = async (e) => {
-  e.preventDefault();
-
-  const res = await fetch('/api/account/address/update', {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: editingId,
-      address: editForm,
-    }),
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    address1: '',
+    address2: '',
+    city: '',
+    zoneCode: '',
+    zip: '',
+    territoryCode: '',
+    phoneNumber: '',
   });
 
-  const data = await res.json();
+  const handleEditClick = (address) => {
+    setEditingId(address.id);
+    setEditForm({
+      firstName: address.firstName || '',
+      lastName: address.lastName || '',
+      address1: address.address1 || '',
+      address2: address.address2 || '',
+      city: address.city || '',
+      zoneCode: address.zoneCode || '',
+      zip: address.zip || '',
+      territoryCode: address.territoryCode || '',
+      phoneNumber: address.phoneNumber || '',
+    });
+  };
 
-  if (
-    data.errors ||
-    data.data?.customerAddressUpdate?.userErrors?.length
-  ) {
-    alert(
-      data.data?.customerAddressUpdate?.userErrors?.[0]?.message ||
-        'Failed to update address'
-    );
-    return;
-  }
+  const handleUpdateAddress = async (e) => {
+    e.preventDefault();
 
-  setEditingId(null);
-  window.location.reload();
-};
+    const res = await fetch('/api/account/address/update', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: editingId,
+        address: editForm,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (
+      data.errors ||
+      data.data?.customerAddressUpdate?.userErrors?.length
+    ) {
+      alert(
+        data.data?.customerAddressUpdate?.userErrors?.[0]?.message ||
+          'Failed to update address'
+      );
+      return;
+    }
+
+    setEditingId(null);
+    window.location.reload();
+  };
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -117,8 +125,14 @@ const handleUpdateAddress = async (e) => {
 
     const data = await res.json();
 
-    if (data.errors || data.data?.customerAddressCreate?.userErrors?.length) {
-      alert('Failed to add address');
+    if (
+      data.errors ||
+      data.data?.customerAddressCreate?.userErrors?.length
+    ) {
+      alert(
+        data.data?.customerAddressCreate?.userErrors?.[0]?.message ||
+          'Failed to add address'
+      );
       console.error(data);
       return;
     }
@@ -137,17 +151,27 @@ const handleUpdateAddress = async (e) => {
 
     const data = await res.json();
 
-   if (
-  data.errors ||
-  data.data?.customerAddressDelete?.userErrors?.length
-) {
-  console.error(data);
-  alert(
-    data.data?.customerAddressDelete?.userErrors?.[0]?.message ||
-      'Failed to delete address'
-  );
-  return;
-}
+    if (
+      data.errors ||
+      data.data?.customerAddressDelete?.userErrors?.length
+    ) {
+      console.error(data);
+      alert(
+        data.data?.customerAddressDelete?.userErrors?.[0]?.message ||
+          'Failed to delete address'
+      );
+      return;
+    }
+
+    window.location.reload();
+  };
+
+  const handleSetDefault = async (addressId) => {
+    await fetch('/api/account/address/set-default', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ addressId }),
+    });
 
     window.location.reload();
   };
@@ -175,199 +199,262 @@ const handleUpdateAddress = async (e) => {
       {/* Address Book */}
       <h2 className="text-2xl font-semibold mb-4">Address Book</h2>
 
-      {/* Existing addresses */}
       <div className="space-y-4 mb-8">
-       {customer.addresses.nodes.map((address) => (
-  editingId === address.id ? (
-    <form
-      key={address.id}
-      onSubmit={handleUpdateAddress}
-      className="grid grid-cols-1 md:grid-cols-2 gap-3 border p-4 rounded"
-    >
-      <input
-        name="firstName"
-        value={editForm.firstName}
-        onChange={(e) =>
-          setEditForm({ ...editForm, firstName: e.target.value })
-        }
-        className="border p-2 rounded"
-      />
+        {customer.addresses.nodes.map((address) =>
+          editingId === address.id ? (
+            <form
+              key={address.id}
+              onSubmit={handleUpdateAddress}
+              className="grid grid-cols-1 md:grid-cols-2 gap-3 border p-4 rounded"
+            >
+              <input
+                name="firstName"
+                value={editForm.firstName}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, firstName: e.target.value })
+                }
+                className="border p-2 rounded"
+              />
 
-      <input
-        name="lastName"
-        value={editForm.lastName}
-        onChange={(e) =>
-          setEditForm({ ...editForm, lastName: e.target.value })
-        }
-        className="border p-2 rounded"
-      />
+              <input
+                name="lastName"
+                value={editForm.lastName}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, lastName: e.target.value })
+                }
+                className="border p-2 rounded"
+              />
 
-      <input
-        name="address1"
-        value={editForm.address1}
-        onChange={(e) =>
-          setEditForm({ ...editForm, address1: e.target.value })
-        }
-        className="border p-2 rounded md:col-span-2"
-      />
+              <input
+                name="address1"
+                value={editForm.address1}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, address1: e.target.value })
+                }
+                className="border p-2 rounded md:col-span-2"
+              />
 
-      <input
-        name="address2"
-        value={editForm.address2}
-        onChange={(e) =>
-          setEditForm({ ...editForm, address2: e.target.value })
-        }
-        className="border p-2 rounded md:col-span-2"
-      />
+              <input
+                name="address2"
+                value={editForm.address2}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, address2: e.target.value })
+                }
+                className="border p-2 rounded md:col-span-2"
+              />
 
-      <input
-        name="city"
-        value={editForm.city}
-        onChange={(e) =>
-          setEditForm({ ...editForm, city: e.target.value })
-        }
-        className="border p-2 rounded"
-      />
+              <input
+                name="city"
+                value={editForm.city}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, city: e.target.value })
+                }
+                className="border p-2 rounded"
+              />
 
-      <input
-        name="zoneCode"
-        value={editForm.zoneCode}
-        onChange={(e) =>
-          setEditForm({ ...editForm, zoneCode: e.target.value })
-        }
-        className="border p-2 rounded"
-      />
+              <CountrySelect
+                value={editForm.territoryCode}
+                onChange={(country) =>
+                  setEditForm({
+                    ...editForm,
+                    territoryCode: country.isoCode,
+                    zoneCode: '',
+                  })
+                }
+                placeHolder="Select Country"
+                inputClassName="border p-2 rounded w-full"
+              />
 
-      <input
-        name="zip"
-        value={editForm.zip}
-        onChange={(e) =>
-          setEditForm({ ...editForm, zip: e.target.value })
-        }
-        className="border p-2 rounded"
-      />
+              <StateSelect
+                countryid={editForm.territoryCode}
+                value={editForm.zoneCode}
+                onChange={(state) =>
+                  setEditForm({
+                    ...editForm,
+                    zoneCode: state.isoCode,
+                  })
+                }
+                placeHolder="Select State / Province"
+                inputClassName="border p-2 rounded w-full"
+              />
 
-      <input
-        name="territoryCode"
-        value={editForm.territoryCode}
-        onChange={(e) =>
-          setEditForm({ ...editForm, territoryCode: e.target.value })
-        }
-        className="border p-2 rounded"
-      />
+              <input
+                name="zip"
+                value={editForm.zip}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, zip: e.target.value })
+                }
+                className="border p-2 rounded"
+              />
 
-      <input
-        name="phoneNumber"
-        value={editForm.phoneNumber}
-        onChange={(e) =>
-          setEditForm({ ...editForm, phoneNumber: e.target.value })
-        }
-        className="border p-2 rounded md:col-span-2"
-      />
+              <input
+                name="phoneNumber"
+                value={editForm.phoneNumber}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, phoneNumber: e.target.value })
+                }
+                className="border p-2 rounded md:col-span-2"
+              />
 
-      <div className="md:col-span-2 flex gap-3">
-        <button
-          type="submit"
-          className="bg-black text-white px-4 py-2 rounded"
-        >
-          Save
-        </button>
+              <div className="md:col-span-2 flex gap-3">
+                <button
+                  type="submit"
+                  className="bg-black text-white px-4 py-2 rounded"
+                >
+                  Save
+                </button>
 
-        <button
-          type="button"
-          onClick={() => setEditingId(null)}
-          className="border px-4 py-2 rounded"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  ) : (
-    <div key={address.id} className="border p-4 rounded">
-      <div className="flex items-center justify-between">
-        <p className="font-semibold">
-          {address.firstName} {address.lastName}
-        </p>
+                <button
+                  type="button"
+                  onClick={() => setEditingId(null)}
+                  className="border px-4 py-2 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div key={address.id} className="border p-4 rounded">
+              <div className="flex items-center justify-between">
+                <p className="font-semibold">
+                  {address.firstName} {address.lastName}
+                </p>
 
-        {customer.defaultAddress?.id === address.id && (
-          <span className="bg-black text-white text-xs px-2 py-1 rounded-full">
-            Default
-          </span>
+                {customer.defaultAddress?.id === address.id && (
+                  <span className="bg-black text-white text-xs px-2 py-1 rounded-full">
+                    Default
+                  </span>
+                )}
+              </div>
+
+              <p>{address.address1}</p>
+              {address.address2 && <p>{address.address2}</p>}
+              <p>
+                {address.city}, {address.province} {address.zip}
+              </p>
+              <p>{address.country}</p>
+              {address.phoneNumber && <p>{address.phoneNumber}</p>}
+
+              <div className="mt-3 flex gap-4">
+                <button
+                  onClick={() => handleEditClick(address)}
+                  className="text-blue-600 hover:underline"
+                >
+                  Edit
+                </button>
+
+                {customer.defaultAddress?.id !== address.id && (
+                  <button
+                    onClick={() => handleSetDefault(address.id)}
+                    className="text-blue-600 hover:underline"
+                  >
+                    Set as Default
+                  </button>
+                )}
+
+                <button
+                  onClick={() => handleDeleteAddress(address.id)}
+                  className="text-red-600 hover:underline"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          )
         )}
       </div>
 
-      <p>{address.address1}</p>
-      {address.address2 && <p>{address.address2}</p>}
-      <p>
-        {address.city}, {address.province} {address.zip}
-      </p>
-      <p>{address.country}</p>
-      {address.phoneNumber && <p>{address.phoneNumber}</p>}
-
-      <div className="mt-3 flex gap-4">
-        <button
-          onClick={() => handleEditClick(address)}
-          className="text-blue-600 hover:underline"
-        >
-          Edit
-        </button>
-
-        {customer.defaultAddress?.id !== address.id && (
-          <button
-            onClick={async () => {
-              await fetch('/api/account/address/set-default', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ addressId: address.id }),
-              });
-
-              window.location.reload();
-            }}
-            className="text-blue-600 hover:underline"
-          >
-            Set as Default
-          </button>
-        )}
-
-        <button
-          onClick={() => handleDeleteAddress(address.id)}
-          className="text-red-600 hover:underline"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  )
-))}
-      </div>
-
-      {/* Add address form */}
+      {/* Add Address Form */}
       <h3 className="text-xl font-semibold mb-4">Add New Address</h3>
 
-      <form onSubmit={handleAddAddress} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input name="firstName" placeholder="First Name" onChange={handleChange} className="border p-3 rounded" required />
-        <input name="lastName" placeholder="Last Name" onChange={handleChange} className="border p-3 rounded" required />
-        <input name="address1" placeholder="Address Line 1" onChange={handleChange} className="border p-3 rounded md:col-span-2" required />
-        <input name="address2" placeholder="Address Line 2 (optional)" onChange={handleChange} className="border p-3 rounded md:col-span-2" />
-        <input name="city" placeholder="City" onChange={handleChange} className="border p-3 rounded" required />
+      <form
+        onSubmit={handleAddAddress}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
         <input
-  name="zoneCode"
-  placeholder="State / Province Code (e.g. AZ)"
-  onChange={handleChange}
-  className="border p-3 rounded"
-  required
-/>
-        <input name="zip" placeholder="ZIP / Postal Code" onChange={handleChange} className="border p-3 rounded" required />
-        <input
-  name="territoryCode"
-  placeholder="Country Code (e.g. US)"
-  onChange={handleChange}
-  className="border p-3 rounded"
-  required
-/>
-        <input name="phoneNumber" placeholder="Phone Number" onChange={handleChange} className="border p-3 rounded md:col-span-2" />
+          name="firstName"
+          placeholder="First Name"
+          onChange={handleChange}
+          className="border p-3 rounded"
+          required
+        />
 
-        <button type="submit" className="bg-black text-white py-3 rounded md:col-span-2">
+        <input
+          name="lastName"
+          placeholder="Last Name"
+          onChange={handleChange}
+          className="border p-3 rounded"
+          required
+        />
+
+        <input
+          name="address1"
+          placeholder="Address Line 1"
+          onChange={handleChange}
+          className="border p-3 rounded md:col-span-2"
+          required
+        />
+
+        <input
+          name="address2"
+          placeholder="Address Line 2 (optional)"
+          onChange={handleChange}
+          className="border p-3 rounded md:col-span-2"
+        />
+
+        <input
+          name="city"
+          placeholder="City"
+          onChange={handleChange}
+          className="border p-3 rounded"
+          required
+        />
+
+        <CountrySelect
+          value={form.territoryCode}
+          onChange={(country) =>
+            setForm({
+              ...form,
+              territoryCode: country.isoCode,
+              zoneCode: '',
+            })
+          }
+          placeHolder="Select Country"
+          inputClassName="border p-3 rounded w-full"
+        />
+
+        <StateSelect
+          countryid={form.territoryCode}
+          value={form.zoneCode}
+          onChange={(state) =>
+            setForm({
+              ...form,
+              zoneCode: state.isoCode,
+            })
+          }
+          placeHolder="Select State / Province"
+          inputClassName="border p-3 rounded w-full"
+        />
+
+        <input
+          name="zip"
+          placeholder="ZIP / Postal Code"
+          onChange={handleChange}
+          className="border p-3 rounded"
+          required
+        />
+
+        <input
+          name="phoneNumber"
+          placeholder="Phone Number"
+          onChange={handleChange}
+          className="border p-3 rounded md:col-span-2"
+        />
+
+        <button
+          type="submit"
+          className="bg-black text-white py-3 rounded md:col-span-2"
+        >
           Add Address
         </button>
       </form>

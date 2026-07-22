@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@react-three/drei": "^9.105.4",
@@ -26,6 +25,7 @@
     "matter-js": "^0.20.0",
     "next": "14.2.33",
     "react": "^18",
+    "react-country-state-city": "^1.1.13",
     "react-dom": "^18",
     "react-responsive": "^10.0.1",
     "sass": "^1.93.2",

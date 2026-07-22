@@ -45,21 +45,24 @@ export async function getCustomer(accessToken) {
       }
     }
 
-    addresses(first: 10) {
-      nodes {
-        id
-        firstName
-        lastName
-        address1
-        address2
-        city
-        province
-        zip
-        country
-        phoneNumber
-        formatted
-      }
-    }
+    
+     addresses(first: 10) {
+  nodes {
+    id
+    firstName
+    lastName
+    address1
+    address2
+    city
+    province
+    zoneCode
+    zip
+    country
+    territoryCode
+    phoneNumber
+    formatted
+  }
+}
   }
 }
     `
