@@ -305,6 +305,7 @@ export default function AccountPage({ customer }) {
     enableSearch
   />
 </div>
+            
               <div className="md:col-span-2 flex gap-3">
                 <button
                   type="submit"
@@ -421,13 +422,14 @@ export default function AccountPage({ customer }) {
 
         <CountrySelect
           value={form.territoryCode}
+          
           onChange={(country) =>
-            setForm({
-              ...form,
-              territoryCode: country.isoCode,
-              zoneCode: '',
-            })
-          }
+  setForm({
+    ...form,
+    territoryCode: country.iso2, // use iso2, not isoCode
+    zoneCode: '',
+  })
+}
           placeHolder="Select Country"
           inputClassName="border p-3 rounded w-full"
         />
