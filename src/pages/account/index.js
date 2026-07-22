@@ -46,17 +46,17 @@ export async function getServerSideProps({ req }) {
 }
 
 export default function AccountPage({ customer }) {
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    address1: '',
-    address2: '',
-    city: '',
-    province: '',
-    zip: '',
-    country: '',
-    phoneNumber: '',
-  });
+ const [form, setForm] = useState({
+  firstName: '',
+  lastName: '',
+  address1: '',
+  address2: '',
+  city: '',
+  zoneCode: '',
+  zip: '',
+  territoryCode: '',
+  phoneNumber: '',
+});
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -169,9 +169,21 @@ export default function AccountPage({ customer }) {
         <input name="address1" placeholder="Address Line 1" onChange={handleChange} className="border p-3 rounded md:col-span-2" required />
         <input name="address2" placeholder="Address Line 2 (optional)" onChange={handleChange} className="border p-3 rounded md:col-span-2" />
         <input name="city" placeholder="City" onChange={handleChange} className="border p-3 rounded" required />
-        <input name="province" placeholder="State / Province" onChange={handleChange} className="border p-3 rounded" required />
+        <input
+  name="zoneCode"
+  placeholder="State / Province Code (e.g. AZ)"
+  onChange={handleChange}
+  className="border p-3 rounded"
+  required
+/>
         <input name="zip" placeholder="ZIP / Postal Code" onChange={handleChange} className="border p-3 rounded" required />
-        <input name="country" placeholder="Country" onChange={handleChange} className="border p-3 rounded" required />
+        <input
+  name="territoryCode"
+  placeholder="Country Code (e.g. US)"
+  onChange={handleChange}
+  className="border p-3 rounded"
+  required
+/>
         <input name="phoneNumber" placeholder="Phone Number" onChange={handleChange} className="border p-3 rounded md:col-span-2" />
 
         <button type="submit" className="bg-black text-white py-3 rounded md:col-span-2">
