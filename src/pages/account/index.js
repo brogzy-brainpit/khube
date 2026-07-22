@@ -138,9 +138,17 @@ export default function AccountPage({ customer }) {
         ) : (
           customer.addresses.nodes.map((address) => (
             <div key={address.id} className="border p-4 rounded">
-              <p className="font-semibold">
-                {address.firstName} {address.lastName}
-              </p>
+              <div className="flex items-center justify-between">
+  <p className="font-semibold">
+    {address.firstName} {address.lastName}
+  </p>
+
+  {customer.defaultAddress?.id === address.id && (
+    <span className="bg-black text-white text-xs px-2 py-1 rounded-full">
+      Default
+    </span>
+  )}
+</div>
               <p>{address.address1}</p>
               {address.address2 && <p>{address.address2}</p>}
               <p>
@@ -148,20 +156,22 @@ export default function AccountPage({ customer }) {
               </p>
               <p>{address.country}</p>
               {address.phoneNumber && <p>{address.phoneNumber}</p>}
-<button
-  onClick={async () => {
-    await fetch('/api/account/address/set-default', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ addressId: address.id }),
-    });
+{customer.defaultAddress?.id !== address.id && (
+  <button
+    onClick={async () => {
+      await fetch('/api/account/address/set-default', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ addressId: address.id }),
+      });
 
-    window.location.reload();
-  }}
-  className="mt-3 mr-4 text-blue-600 hover:underline"
->
-  Set as Default
-</button>
+      window.location.reload();
+    }}
+    className="mt-3 mr-4 text-blue-600 hover:underline"
+  >
+    Set as Default
+  </button>
+)}
               <button
                 onClick={() => handleDeleteAddress(address.id)}
                 className="mt-3 text-red-600 hover:underline"

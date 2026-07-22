@@ -22,42 +22,46 @@ export async function getCustomer(accessToken) {
     accessToken,
     `
       query GetCustomer {
-        customer {
-          id
-          firstName
-          lastName
-          emailAddress {
-            emailAddress
-          }
+  customer {
+    id
+    firstName
+    lastName
+    emailAddress {
+      emailAddress
+    }
 
-          orders(first: 5) {
-            nodes {
-              id
-              name
-              totalPrice {
-                amount
-                currencyCode
-              }
-            }
-          }
+    defaultAddress {
+      id
+    }
 
-          addresses(first: 10) {
-            nodes {
-              id
-              firstName
-              lastName
-              address1
-              address2
-              city
-              province
-              zip
-              country
-              phoneNumber
-              formatted
-            }
-          }
+    orders(first: 5) {
+      nodes {
+        id
+        name
+        totalPrice {
+          amount
+          currencyCode
         }
       }
+    }
+
+    addresses(first: 10) {
+      nodes {
+        id
+        firstName
+        lastName
+        address1
+        address2
+        city
+        province
+        zip
+        country
+        phoneNumber
+        formatted
+      }
+    }
+  }
+}
     `
   );
 }
