@@ -120,8 +120,8 @@ export async function deleteAddress(accessToken, id) {
     accessToken,
     `
       mutation DeleteAddress($id: ID!) {
-        customerAddressDelete(id: $id) {
-          deletedCustomerAddressId
+        customerAddressDelete(addressId: $id) {
+          deletedAddressId
           userErrors {
             field
             message

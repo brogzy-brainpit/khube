@@ -93,11 +93,17 @@ export default function AccountPage({ customer }) {
 
     const data = await res.json();
 
-    if (data.errors || data.data?.customerAddressDelete?.userErrors?.length) {
-      alert('Failed to delete address');
-      console.error(data);
-      return;
-    }
+   if (
+  data.errors ||
+  data.data?.customerAddressDelete?.userErrors?.length
+) {
+  console.error(data);
+  alert(
+    data.data?.customerAddressDelete?.userErrors?.[0]?.message ||
+      'Failed to delete address'
+  );
+  return;
+}
 
     window.location.reload();
   };
