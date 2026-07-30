@@ -22,9 +22,10 @@ import ShopifyPageAnalytics from '@/Analytics/ShopifyPageAnalytics';
 import { CartProvider, ShopifyProvider, useCart, useShopifyCookies } from '@shopify/hydrogen-react';
 import CartDrawer from '@/components/CartDrawer';
 import { useShop } from "@shopify/hydrogen-react";
+import Preloader2 from '@/components/preloader/Preloader2';
 
 function ShopDebug() {
-  console.log("SHOP", useShop());
+  // console.log("SHOP", useShop());
   return null;
 }
 const Sans = DM_Sans({
@@ -58,7 +59,6 @@ export default function MyApp({ Component, pageProps }) {
 
 // console.log(router.pathname)
 const [pageName,setPageName]= useState(router.pathname)
-   const [preLoaderOut,setPreLoaderOut]=useState(false)
 
    const routeTitles= {
     '/':'welcome',
@@ -73,7 +73,7 @@ const [pageName,setPageName]= useState(router.pathname)
     return routeTitles[route] || 'page'
    }
   useEffect(() => {
-    setPreLoaderOut(true)
+    // setPreLoaderOut(true)
 
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
@@ -90,12 +90,25 @@ const [pageName,setPageName]= useState(router.pathname)
   }, [router.events]);
   // Create a global toggle for the cart panel state
   const [isCartOpen, setIsCartOpen] = useState(false);
+const [preLoaderOut, setPreLoaderOut] = useState(false);
+const [isLoading, setIsLoading] = useState(true);
 
+useEffect(() => {
+    const timer = setTimeout(() => {
+        setIsLoading(false);
+        setPreLoaderOut(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+}, []);
+  
   // Extend pageProps so pages can easily toggle the cart open
   const extendedPageProps = {
     ...pageProps,
     openCart: () => setIsCartOpen(true),
-  };
+    isLoading,
+    preLoaderOut,
+};
  function CartDebug() {
   const { status } = useCart();
   console.log('CartDebug status:', status); // Should NOT be uninitialized
@@ -166,9 +179,16 @@ const [pageName,setPageName]= useState(router.pathname)
         className={`overflow-hidden ${Sans.variable} ${custom.variable} ${custom2.variable}`}
 
       >
-     {/* <PageTransition/> */}
+         <AnimatePresence  mode="wait" >
+    {isLoading &&  <Preloader2 key={'preloader'}/>}
+     {/* <Preloader key={'preloader'}/> */}
+    </AnimatePresence>
+     <PageTransition
+    title={pageName.replaceAll('/','') || 'welcome'}
+    // title={getTitle(pageName)}
+/>
 <ShopifyPageAnalytics/>
-        <Header preLoaderOut={true} openCart={() => setIsCartOpen(true)} />
+        <Header preLoaderOut={preLoaderOut} openCart={() => setIsCartOpen(true)} />
         <Component {...extendedPageProps} />  
         {/* Mount your cart drawer globally inside AnimatePresence for smooth slide transitions */}
         <AnimatePresence>

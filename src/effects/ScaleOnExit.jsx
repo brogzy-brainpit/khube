@@ -13,7 +13,7 @@ function ScaleOnExit({children,className,preLoaderOut=false}) {
              scale:1,
              opacity:1,
              transition: {
-              // delay:0.45,
+              delay:preLoaderOut?0.3:0,
                duration:2,
               //  ease:"easeOut",
                    ease:customEase1,

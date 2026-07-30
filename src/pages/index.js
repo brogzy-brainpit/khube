@@ -2,7 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import FeaturedProducts from "../components/FeaturedProducts";
 import InfiniteCanvasDemo from "../components/InfiniteCanvas";
 import Landing from "../components/Landing";
-import ProductCard from "../components/TestStore";
+// import ProductCard from "../components/TestStore";
 import Preloader2 from "@/components/preloader/Preloader2";
 import Preloader from "@/components/preloader/Preloader";
 import { useEffect, useState } from "react";
@@ -13,17 +13,13 @@ import PaintReveal from "@/components/PaintReveal";
 import { storefront } from "@/utils/queries";
 import { PRODUCT_CARD_FRAGMENT } from "@/utils/fragments";
 
-export default function Home({ SingleCollection }) {
-  const [isLoading,setIsLoading]=useState(true)
-   const [isLoading2,setIsLoading2]=useState(true)
-   const [preLoaderOut,setPreLoaderOut]=useState(false)
+export default function Home({ SingleCollection,preLoaderOut,isLoading }) {
   useEffect(()=>{
-
    const timer=  setTimeout(() => {
-    setIsLoading(false)
+    // setIsLoading(false)
     document.body.style.cursor="default"
     // window.scrollTo({top:0})
-    setPreLoaderOut(true)
+    // setPreLoaderOut(true)
     // setTimeout(() => {
     //   setIsLoading2(false)
     // }, 1000);
@@ -36,10 +32,10 @@ export default function Home({ SingleCollection }) {
       className={`h-full w-full text-black bg-brand-white `}
     >
        {/* <AnimatePresence  mode="wait" onExitComplete={()=>{setPreLoaderOut(true)}}> */}
-       <AnimatePresence  mode="wait" >
+       {/* <AnimatePresence  mode="wait" >
     {isLoading &&  <Preloader2 key={'preloader'}/>}
+    </AnimatePresence> */}
      {/* <Preloader key={'preloader'}/> */}
-    </AnimatePresence>
     {/* <AnimatePresence mode="wait">
   {isLoading2 ? (
     <Preloader key="pre" />

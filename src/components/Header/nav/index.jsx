@@ -41,20 +41,15 @@ const animateLine = {
             <div onMouseLeave={() => {setSelectedIndicator(pathname)}} className={styles.nav}>
                
                     <div className='relative flex justify-between items-center uppercase text-[13px] font-custom-condensed mb-[30px] pb-[10px]  text-brand-white dark:text-brand-white-dark duration-500 transition-colors'>
-                        <h3 className='text-brand-white text-para leading-[.9] font-custom2'>Navigation</h3>
-                            <Magnetic>
-                              <div>
-                          <Link href={"/cart"} className='text-brand-white text-para leading-[.9] font-custom2'>cart(0)
-                          
-                          {/* Only show the counter bubble if there are actual items in the cart */}
-        {totalQuantity > 0 && (
-          <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white animate-pop">
-            {totalQuantity}
-          </span>)}
+                        <h3 className='text-brand-white text-heading4 leading-[.9] font-custom2'>Navigation</h3>
+                            {/* <Magnetic> */}
+                          <Link href={"/cart"} className='text-brand-white bg-red600 text-heading4 leading-[.9] font-custom2'>
+                          cart({totalQuantity})
                           </Link>
                           
-                              </div>
-                            </Magnetic>
+                        
+                          
+                            {/* </Magnetic> */}
                             <motion.div variants={animateLine} initial="initial" animate="enter" exit="exit" className='absolute -translate-y-1/2 -bottom-[0%] w-full bg-brand-white h-[.1em]'/>
                     </div>
                     {
