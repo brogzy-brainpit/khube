@@ -1,9 +1,17 @@
-import React from 'react'
-import {motion} from 'framer-motion'
+import React, { useEffect } from 'react'
+import {motion, useAnimation} from 'framer-motion'
 import clsx from 'clsx'
 import { customEase1 } from '../../data'
 
 function ScaleOnExit({children,className,preLoaderOut=false}) {
+  const controls = useAnimation();
+  useEffect(() => {
+
+    if (phase === "revealing") {
+        controls.start("enter");
+    }
+
+}, [phase]);
      const scaleParentDiv={
          initial:{
           scale:1.30,
@@ -13,7 +21,7 @@ function ScaleOnExit({children,className,preLoaderOut=false}) {
              scale:1,
              opacity:1,
              transition: {
-              delay:preLoaderOut?0.3:0,
+              delay:2,
                duration:2,
               //  ease:"easeOut",
                    ease:customEase1,
@@ -40,9 +48,9 @@ function ScaleOnExit({children,className,preLoaderOut=false}) {
      <motion.div
              className={clsx(`${className} overflow-hidden`)}
              variants={scaleParentDiv} 
+               animate={controls}
              initial='initial'
               exit='exit' 
-              animate={preLoaderOut?'enter':'initial'}
               >
                 {children}
               </motion.div>
