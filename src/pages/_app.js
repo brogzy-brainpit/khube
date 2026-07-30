@@ -73,29 +73,24 @@ const [pageName,setPageName]= useState(router.pathname)
     return routeTitles[route] || 'page'
    }
   useEffect(() => {
-    // setPreLoaderOut(true)
 
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-    const handleRouteChange=(url)=>{
-      setPageName(url)
-     
-    }
-    router.events.on("routeChangeComplete", () => {
-    setTransitionKey(prev => prev + 1);
-});
-    router.events.on('routeChangeStart',handleRouteChange)
-    
-    return ()=>{
-      router.events.off("routeChangeComplete", () => {
-    setTransitionKey(prev => prev + 1);
-});
-    router.events.off('routeChangeStart',handleRouteChange)
+    const handleRouteStart = (url) => {
+        setPageName(url);
+    };
 
-    }
-    // setPageName(router.pathname.replace('/',''))
-  }, [router.events]);
+    const handleRouteComplete = () => {
+        setTransitionKey(prev => prev + 1);
+    };
+
+    router.events.on("routeChangeStart", handleRouteStart);
+    router.events.on("routeChangeComplete", handleRouteComplete);
+
+    return () => {
+        router.events.off("routeChangeStart", handleRouteStart);
+        router.events.off("routeChangeComplete", handleRouteComplete);
+    };
+
+}, [router.events]);
   // Create a global toggle for the cart panel state
   const [isCartOpen, setIsCartOpen] = useState(false);
 const [preLoaderOut, setPreLoaderOut] = useState(false);
@@ -105,10 +100,8 @@ const [isLoading, setIsLoading] = useState(true);
 useEffect(() => {
     const timer = setTimeout(() => {
         setIsLoading(false);
-        (true);
         setPreLoaderOut(true);
     }, 3000);
-
     return () => clearTimeout(timer);
 }, []);
   

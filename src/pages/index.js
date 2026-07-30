@@ -13,7 +13,7 @@ import PaintReveal from "@/components/PaintReveal";
 import { storefront } from "@/utils/queries";
 import { PRODUCT_CARD_FRAGMENT } from "@/utils/fragments";
 
-export default function Home({ SingleCollection,preLoaderOut,isLoading }) {
+export default function Home({ SingleCollection,preLoaderOut,isLoading,transitionKey }) {
   useEffect(()=>{
    const timer=  setTimeout(() => {
     // setIsLoading(false)
@@ -44,7 +44,7 @@ export default function Home({ SingleCollection,preLoaderOut,isLoading }) {
   )}
 </AnimatePresence> */}
 
-      <Landing preLoaderOut={preLoaderOut}/>
+      <Landing preLoaderOut={preLoaderOut} transitionKey={transitionKey}/>
       {SingleCollection && (
   <FeaturedProducts collection={SingleCollection} />
 )}

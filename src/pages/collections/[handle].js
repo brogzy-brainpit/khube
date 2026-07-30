@@ -15,12 +15,13 @@ import { ProductCard } from "@/components/ProductCard";
 import NotFound from "@/components/NotFound";
 
 
-function Collection({ collection }) {
+function Collection({ collection,transitionKey }) {
   if (!collection) return <NotFound backto="collections" title='collection'/>;
 
   return (
     <div className="bg-brand-white text-brand-black">
-      <ScaleOnExit
+      <ScaleOnExit 
+      transitionKey={transitionKey}
         preLoaderOut
         className="h-full w-full flex items-center justify-center"
       >

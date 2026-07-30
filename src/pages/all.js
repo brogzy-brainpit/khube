@@ -55,7 +55,7 @@ const revealImage2Variants = {
 
 
 
-export default function Products({ products }) {
+export default function Products({ products,transitionKey }) {
     if (products.nodes.length === 0) {
   return (
     <IsEmpty
@@ -70,6 +70,7 @@ export default function Products({ products }) {
       <ScaleOnExit
         preLoaderOut
         className="h-full w-full flex items-center justify-center"
+        transitionKey={transitionKey}
       >
         <Section>
           <LayoutGroup>

@@ -12,7 +12,7 @@ import { ProductProvider } from '@shopify/hydrogen-react';
 import Image from 'next/image';
 import React from 'react'
 
-function ProductContent({ product,openCart }) {
+function ProductContent({ product,openCart,transitionKey }) {
  const {
   selectedVariant,
   selectedOptions,
@@ -33,7 +33,7 @@ const image = selectedVariant.image || product.images.edges[0]?.node;
  return (
 
     <div className='bg-brand-white text-brand-black'>
-       <ScaleOnExit preLoaderOut className={"h-full w-full flex items-center justify-center"}>
+       <ScaleOnExit preLoaderOut className={"h-full w-full flex items-center justify-center"} transitionKey={transitionKey}>
           <ShopifyProductView
           data={{
             products: [
@@ -281,13 +281,13 @@ const singleProductQuery = gql`
 `;
 // export default Product
 
-export default function ProductPage({ product,openCart }) {
+export default function ProductPage({ product,openCart,transitionKey }) {
   // 2. Wrap your entire rendering logic inside ProductProvider
   console.log('openCart received:', typeof openCart); // should log "function"
   // ...
   return (
     <ProductProvider data={product}>
-      <ProductContent product={product} openCart={openCart} />
+      <ProductContent product={product} openCart={openCart} transitionKey={transitionKey} />
     </ProductProvider>
   );
 }

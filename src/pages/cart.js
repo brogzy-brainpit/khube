@@ -6,7 +6,7 @@ import Image from "next/image";
 import ScaleOnExit from "@/effects/ScaleOnExit";
 import Link from "next/link";
 
-export default function CartPage() {
+export default function CartPage({ transitionKey }) {
   const {
     lines,
     cost,
@@ -17,7 +17,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-brand-white text-brand-black">
-      {/* <ScaleOnExit> */}
+      <ScaleOnExit transitionKey={transitionKey}>
         <div className="mx-auto max-w-7xl px-6 py-24">
 
           <h1 className="font-custom text-display mb-2">
@@ -215,7 +215,7 @@ export default function CartPage() {
           )}
 
         </div>
-      {/* </ScaleOnExit> */}
+      </ScaleOnExit>
     </div>
   );
 }

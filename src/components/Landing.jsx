@@ -10,10 +10,10 @@ import React from 'react'
 const Scene = dynamic(() => import("@/3D/Scene"), {
   ssr: false,
 });
-function Landing({preLoaderOut}) {
+function Landing({preLoaderOut,transitionKey}) {
   return (
     <div className='h-svh w-full relative  bg-emerald-100 fle items-center justify-center'>
-      <ScaleOnExit preLoaderOut={preLoaderOut} className={"relative h-full w-full"}>
+      <ScaleOnExit preLoaderOut={preLoaderOut} transitionKey={transitionKey} className={"relative h-full w-full"}>
 
         {/* <img src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' /> */}
         {/* <Image fill src="/images/red1.jpg" alt="Landing" className='h-full w-full absolute object-cover scale-[1] object-[center_18%]' /> */}
@@ -30,7 +30,7 @@ function Landing({preLoaderOut}) {
  <h1 className=' flex flex-col leading-[1] relative text-left uppercase'>
               <ScrambleText
               addWidth={false}
-              delay={2}
+              delay={4}
 
               tet='No NOISE'
                text='No NOISE'
@@ -38,7 +38,7 @@ function Landing({preLoaderOut}) {
         className={' text-green-50 text-heading3 mb-6  font-custom tracking-[.012em]'}/> 
          <ScrambleTextPara
               addWidth={false}
-              delay={2}
+              delay={4}
               tex='MORE STYLE'
               text='just vibes'
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 

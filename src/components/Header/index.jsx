@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { motion,AnimatePresence } from 'framer-motion';
 import Nav from './nav';
 import Rounded from '@/effects/RoundedButton';
+import { customEase2 } from '../../../data';
 
 export default function Index({ preLoaderOut, isLoading }) {
   const [isActive, setIsActive] = useState(false);
@@ -19,7 +20,7 @@ export default function Index({ preLoaderOut, isLoading }) {
         className="fixed right-0 z-[4] scale-100"
         initial={{ scale: 0 }}
         animate={{ scale: preLoaderOut?1:0 }}
-        transition={{ delay:1.4,duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ delay:1.4,duration: 1, ease:customEase2 }}
       >
         <Rounded
           onClick={() => setIsActive(!isActive)}

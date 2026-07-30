@@ -1,11 +1,11 @@
 import ScaleOnExit from '@/effects/ScaleOnExit'
 import React from 'react'
 
-function newArrival() {
+function newArrival({transitionKey}) {
   return (
 
     <div className='text-display min-h-svh flex items-center justify-center bg-brand-accent text-brand-black'>
-       <ScaleOnExit preLoaderOut className={"h-full w-full flex items-center justify-center"}>
+       <ScaleOnExit preLoaderOut className={"h-full w-full flex items-center justify-center"} transitionKey={transitionKey}>
         <h1>new-arrival page</h1>
        </ScaleOnExit>
       </div>

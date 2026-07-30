@@ -1,46 +1,40 @@
 import React, { useEffect } from 'react'
 import {motion, useAnimation} from 'framer-motion'
 import clsx from 'clsx'
-import { customEase1 } from '../../data'
+import { customEase2 } from '../../data'
 
-function ScaleOnExit({children,className,preLoaderOut=false}) {
+function ScaleOnExit({children,className,preLoaderOut=false,transitionKey}) {
   const controls = useAnimation();
-  useEffect(() => {
+useEffect(() => {
+  controls.set("initial");
+  controls.start("enter");
+  //   controls.start("enter", {
+  //   delay: transitionKey === 0 ? 3.8 : 2.2,
+  //   duration: 2,
+  //   ease: customEase2,
+  // });
+}, [transitionKey, controls]);
 
-    if (phase === "revealing") {
-        controls.start("enter");
-    }
-
-}, [phase]);
      const scaleParentDiv={
          initial:{
-          scale:1.30,
-             opacity:0.5,
+          scale:1.20,
+             opacity:0.70,
          },
            enter:{
              scale:1,
              opacity:1,
              transition: {
-              delay:2,
-               duration:2,
-              //  ease:"easeOut",
-                   ease:customEase1,
+              delay:transitionKey === 0 ? 3.85 : 2.25, // same duration as your preloader
+               duration:2.6,
+               ease:customEase2,
             },
           },
           exit:{
-             scale:1.30,
-             opacity:0.4,
+             scale:1.20,
+             opacity:0,
              transition: {
-              delay:.3,
-               duration:.5,
-               ease:"easeInOut",
-              //  ease:customEase1,
-               scale:{
-                delay:0,
-                duration:.8 ,
-              ease:"easeInOut",
-              // ease:customEase1,
-             }
+               duration:2.6,
+               ease:customEase2,
             },
           },
         }
