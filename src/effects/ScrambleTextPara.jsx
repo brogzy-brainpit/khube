@@ -86,10 +86,17 @@ const ScrambleTextPara = ({
  <span className="relative inline-block">
       
       {/* 🔒 LOCK LAYOUT (ghost text reserves space) */}
-      <span className="invisible font-custom  text-orange-400 tracking-tight whitespace-pre-wrap break-words">
+      {/* <span className="invisible font-custom  text-orange-400 tracking-tight whitespace-pre-wrap break-words">
         {text}
-      </span>
-
+      </span> */}
+  <span
+  className={`
+    invisible
+    ${className}
+  `}
+>
+  {text}
+</span>
     <motion.span
       ref={ref}
       className={`

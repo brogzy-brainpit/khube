@@ -25,7 +25,7 @@ function Landing({preLoaderOut,transitionKey}) {
 {/* <Scene image="/images/red1.jpg" className='absolute top-0 left-0 w-full h-full' /> */}
       <Section className={"relative h-full w-full"}>
 
-<div className='h-full flex items-end pb-[12em] lg:pb-[4em]'>
+<div className='h-full flex items-end '>
 
  <h1 className=' flex flex-col leading-[1] relative text-left uppercase'>
               <ScrambleText
@@ -42,7 +42,7 @@ function Landing({preLoaderOut,transitionKey}) {
               tex='MORE STYLE'
               text='just vibes'
          letter='▚ ▜ ▞ ▃ ▄ ▛ ▟ ▘▅ ▖▙ ▄ ▞ ▚ ▆ ▜ ▘▖ ' 
-        className={' text-green-50 text-display  font-custom tracking-[.012em]'}/> 
+        className={' text-green-50 text-display leading-none  font-custom tracking-[.012em]'}/> 
         </h1>
 </div>
       </Section>
